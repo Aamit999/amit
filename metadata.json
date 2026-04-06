@@ -1,0 +1,5 @@
+{
+  "name": "יומן משימות - Task Calendar",
+  "description": "יומן משימות מעוצב עם תמיכה בחגי ישראל, תצוגות יום, שבוע, חודש ושנה, וצ'אטבוט חכם מבוסס Gemini.",
+  "requestFramePermissions": []
+}

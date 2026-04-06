@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Frank+Ruhl+Libre:wght@300;400;500;700;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-heebo: "Heebo", sans-serif;
+  --font-frank: "Frank Ruhl Libre", serif;
+
+  --color-bg-void: #f0ede8;
+  --color-bg-deep: #f7f5f2;
+  --color-bg-card: #ffffff;
+  --color-bg-hover: #f5f2ee;
+  --color-border: rgba(0,0,0,0.09);
+  --color-border-strong: rgba(0,0,0,0.18);
+  --color-gold: #a07828;
+  --color-gold-dim: rgba(160,120,40,0.1);
+  --color-gold-glow: rgba(160,120,40,0.25);
+  --color-ember: #c0392b;
+  --color-ember-dim: rgba(192,57,43,0.1);
+  --color-sapphire: #2563b0;
+  --color-sapphire-dim: rgba(37,99,176,0.1);
+  --color-jade: #1a8a5a;
+  --color-jade-dim: rgba(26,138,90,0.1);
+  --color-text-prime: #1a1714;
+  --color-text-sec: #6b6560;
+  --color-text-mute: #a09890;
+}
+
+@layer base {
+  body {
+    @apply bg-bg-void text-text-prime font-heebo min-h-screen overflow-x-hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+.shadow-deep { box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+.shadow-card { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+
+.markdown-body {
+  @apply text-sm leading-relaxed;
+}
+.markdown-body p { @apply mb-2; }
+.markdown-body ul { @apply list-disc list-inside mb-2; }
+
