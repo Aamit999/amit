@@ -1468,6 +1468,85 @@
     }
   }
 
+  /* =============================================
+     TASK ALARM TOAST
+     ============================================= */
+  .task-toast {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background: #fff;
+    border: 1px solid var(--border);
+    border-right: 4px solid var(--gold);
+    border-radius: 12px;
+    padding: 14px 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 9999;
+    min-width: 260px;
+    max-width: 340px;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    direction: rtl;
+  }
+
+  .task-toast.toast-show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .toast-icon { font-size: 22px; flex-shrink: 0; }
+
+  .toast-body { flex: 1; min-width: 0; }
+
+  .toast-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-prime);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .toast-time {
+    font-size: 11px;
+    color: var(--text-mute);
+    margin-top: 2px;
+  }
+
+  .toast-close {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: none;
+    background: var(--bg-hover);
+    color: var(--text-mute);
+    font-size: 12px;
+    cursor: pointer;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+  }
+
+  .toast-close:hover { background: var(--border); }
+
+  @media (max-width: 600px) {
+    .task-toast {
+      top: auto;
+      bottom: 90px;
+      left: 16px;
+      right: 16px;
+      transform: translateY(20px);
+      max-width: none;
+    }
+    .task-toast.toast-show { transform: translateY(0); }
+  }
+
   .empty-state .icon { font-size: 32px; margin-bottom: 10px; opacity: 0.4; }
 </style>
 </head>
@@ -2830,6 +2909,105 @@ document.addEventListener('keydown', e => {
     else navigate(-1);          // swipe right → prev
   }, { passive: true });
 })();
+
+// ============================================================
+// TASK ALARM SYSTEM
+// ============================================================
+const notifiedTasks = new Set(JSON.parse(sessionStorage.getItem('notifiedTasks') || '[]'));
+
+function playAlarmSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+    const playTone = (freq, startTime, duration, vol = 0.5) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, startTime);
+      gain.gain.setValueAtTime(0, startTime);
+      gain.gain.linearRampToValueAtTime(vol, startTime + 0.02);
+      gain.gain.linearRampToValueAtTime(0, startTime + duration);
+      osc.start(startTime);
+      osc.stop(startTime + duration + 0.05);
+    };
+
+    const t = ctx.currentTime;
+    // Three ascending tones — friendly notification sound
+    playTone(523, t,        0.18); // C5
+    playTone(659, t + 0.2,  0.18); // E5
+    playTone(784, t + 0.4,  0.28); // G5
+    playTone(784, t + 0.72, 0.28); // G5 repeat
+  } catch(e) {
+    console.warn('Audio not available:', e);
+  }
+}
+
+function showTaskAlert(task) {
+  // Toast notification
+  const toast = document.createElement('div');
+  toast.className = 'task-toast';
+  toast.innerHTML = `
+    <div class="toast-icon">⏰</div>
+    <div class="toast-body">
+      <div class="toast-title">${task.title}</div>
+      <div class="toast-time">${task.time} · עכשיו</div>
+    </div>
+    <button class="toast-close" onclick="this.parentElement.remove()">✕</button>
+  `;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.classList.add('toast-show'), 50);
+  setTimeout(() => {
+    toast.classList.remove('toast-show');
+    setTimeout(() => toast.remove(), 400);
+  }, 8000);
+}
+
+function checkTaskAlarms() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2, '0');
+  const m = String(now.getMinutes()).padStart(2, '0');
+  const currentTime = `${h}:${m}`;
+  const todayStr = dateStr(now);
+
+  tasks.forEach(task => {
+    if (task.done) return;
+    if (!task.time || !task.date) return;
+    if (task.date !== todayStr) return;
+    if (task.time !== currentTime) return;
+
+    const alarmKey = `${task.id}-${task.date}-${task.time}`;
+    if (notifiedTasks.has(alarmKey)) return;
+
+    notifiedTasks.add(alarmKey);
+    sessionStorage.setItem('notifiedTasks', JSON.stringify([...notifiedTasks]));
+
+    playAlarmSound();
+    showTaskAlert(task);
+
+    // Browser notification if permission granted
+    if (Notification.permission === 'granted') {
+      new Notification('⏰ ' + task.title, {
+        body: `${task.time} — הגיע הזמן!`,
+        icon: '',
+        tag: alarmKey
+      });
+    }
+  });
+}
+
+// Request notification permission
+function requestNotificationPermission() {
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
+  }
+}
+
+// Check every 30 seconds
+setInterval(checkTaskAlarms, 30000);
+checkTaskAlarms(); // run immediately on load
+requestNotificationPermission();
 
 // ============================================================
 // INIT
