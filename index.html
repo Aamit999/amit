@@ -611,7 +611,11 @@
     font-size: 10px;
     color: var(--text-mute);
     flex-shrink: 0;
-    margin-right: 4px;
+    background: var(--bg-void);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
   }
 
   .wn-del {
@@ -706,7 +710,7 @@
       height: 4px;
     }
 
-    .wn-task-time { display: none; }
+    .wn-task-time { display: flex; }
     .wn-del { display: none; }
 
     /* Keep border logic correct for 2-col layout */
@@ -1230,6 +1234,7 @@
   }
   .fab:hover { transform: scale(1.08); box-shadow: 0 10px 30px rgba(160,120,40,0.45); }
   .fab:active { transform: scale(0.95); }
+  .fab:focus { outline: none; }
 
   /* =============================================
      QUICK-ADD SHEET
@@ -1688,18 +1693,19 @@
 
 <script>
 // ============================================================
-// JEWISH HOLIDAYS DATA (תשפ"ה - תשפ"ו)
+// JEWISH HOLIDAYS DATA (תשפ"ה - תש"צ / 2025-2030)
 // ============================================================
 const HOLIDAYS = [
-  // תשפ"ה
+  // ===== תשפ"ה / 2025 =====
   { name: 'ראש השנה', date: '2025-09-22', duration: 2, icon: '🍎' },
   { name: 'צום גדליה', date: '2025-09-25', duration: 1, icon: '✡️', fast: true },
-  { name: 'יום כיפור', date: '2025-10-01', duration: 1, icon: '✡️', fast: true },
+  { name: 'יום כיפור', date: '2025-10-01', duration: 1, icon: '🕍', fast: true },
   { name: 'סוכות', date: '2025-10-06', duration: 7, icon: '🌿' },
   { name: 'שמחת תורה', date: '2025-10-13', duration: 1, icon: '📖' },
   { name: 'חנוכה', date: '2025-12-14', duration: 8, icon: '🕎' },
   { name: 'צום עשרה בטבת', date: '2025-12-30', duration: 1, icon: '✡️', fast: true },
-  // תשפ"ו
+
+  // ===== תשפ"ו / 2026 =====
   { name: 'ט"ו בשבט', date: '2026-02-02', duration: 1, icon: '🌳' },
   { name: 'תענית אסתר', date: '2026-03-02', duration: 1, icon: '✡️', fast: true },
   { name: 'פורים', date: '2026-03-03', duration: 1, icon: '🎭' },
@@ -1715,7 +1721,108 @@ const HOLIDAYS = [
   { name: 'שבועות', date: '2026-05-22', duration: 1, icon: '📜' },
   { name: 'צום י"ז בתמוז', date: '2026-07-02', duration: 1, icon: '✡️', fast: true },
   { name: 'תשעה באב', date: '2026-07-23', duration: 1, icon: '✡️', fast: true },
-  // ראשי חודשים 2025-2026
+  { name: 'ראש השנה', date: '2026-09-11', duration: 2, icon: '🍎' },
+  { name: 'צום גדליה', date: '2026-09-14', duration: 1, icon: '✡️', fast: true },
+  { name: 'יום כיפור', date: '2026-09-20', duration: 1, icon: '🕍', fast: true },
+  { name: 'סוכות', date: '2026-09-25', duration: 7, icon: '🌿' },
+  { name: 'שמחת תורה', date: '2026-10-02', duration: 1, icon: '📖' },
+  { name: 'חנוכה', date: '2026-12-04', duration: 8, icon: '🕎' },
+  { name: 'צום עשרה בטבת', date: '2026-12-20', duration: 1, icon: '✡️', fast: true },
+
+  // ===== תשפ"ז / 2027 =====
+  { name: 'ט"ו בשבט', date: '2027-02-01', duration: 1, icon: '🌳' },
+  { name: 'תענית אסתר', date: '2027-03-22', duration: 1, icon: '✡️', fast: true },
+  { name: 'פורים', date: '2027-03-23', duration: 1, icon: '🎭' },
+  { name: 'שושן פורים', date: '2027-03-24', duration: 1, icon: '🎭' },
+  { name: 'ערב פסח', date: '2027-04-21', duration: 1, icon: '🍷' },
+  { name: 'פסח', date: '2027-04-22', duration: 7, icon: '🍷' },
+  { name: 'שביעי של פסח', date: '2027-04-28', duration: 1, icon: '🌊' },
+  { name: 'יום הזכרון לשואה', date: '2027-05-05', duration: 1, icon: '🕯️' },
+  { name: 'יום הזכרון', date: '2027-05-11', duration: 1, icon: '🕯️' },
+  { name: 'יום העצמאות', date: '2027-05-12', duration: 1, icon: '🇮🇱' },
+  { name: 'ל"ג בעומר', date: '2027-05-25', duration: 1, icon: '🔥' },
+  { name: 'יום ירושלים', date: '2027-06-02', duration: 1, icon: '🏛️' },
+  { name: 'שבועות', date: '2027-06-11', duration: 1, icon: '📜' },
+  { name: 'צום י"ז בתמוז', date: '2027-07-04', duration: 1, icon: '✡️', fast: true },
+  { name: 'תשעה באב', date: '2027-07-25', duration: 1, icon: '✡️', fast: true },
+  { name: 'ראש השנה', date: '2027-10-02', duration: 2, icon: '🍎' },
+  { name: 'צום גדליה', date: '2027-10-05', duration: 1, icon: '✡️', fast: true },
+  { name: 'יום כיפור', date: '2027-10-11', duration: 1, icon: '🕍', fast: true },
+  { name: 'סוכות', date: '2027-10-16', duration: 7, icon: '🌿' },
+  { name: 'שמחת תורה', date: '2027-10-23', duration: 1, icon: '📖' },
+  { name: 'חנוכה', date: '2027-12-25', duration: 8, icon: '🕎' },
+
+  // ===== תשפ"ח / 2028 =====
+  { name: 'צום עשרה בטבת', date: '2028-01-09', duration: 1, icon: '✡️', fast: true },
+  { name: 'ט"ו בשבט', date: '2028-02-12', duration: 1, icon: '🌳' },
+  { name: 'תענית אסתר', date: '2028-03-09', duration: 1, icon: '✡️', fast: true },
+  { name: 'פורים', date: '2028-03-12', duration: 1, icon: '🎭' },
+  { name: 'שושן פורים', date: '2028-03-13', duration: 1, icon: '🎭' },
+  { name: 'ערב פסח', date: '2028-04-10', duration: 1, icon: '🍷' },
+  { name: 'פסח', date: '2028-04-11', duration: 7, icon: '🍷' },
+  { name: 'שביעי של פסח', date: '2028-04-17', duration: 1, icon: '🌊' },
+  { name: 'יום הזכרון לשואה', date: '2028-04-23', duration: 1, icon: '🕯️' },
+  { name: 'יום הזכרון', date: '2028-04-30', duration: 1, icon: '🕯️' },
+  { name: 'יום העצמאות', date: '2028-05-01', duration: 1, icon: '🇮🇱' },
+  { name: 'ל"ג בעומר', date: '2028-05-14', duration: 1, icon: '🔥' },
+  { name: 'יום ירושלים', date: '2028-05-23', duration: 1, icon: '🏛️' },
+  { name: 'שבועות', date: '2028-05-31', duration: 1, icon: '📜' },
+  { name: 'צום י"ז בתמוז', date: '2028-07-11', duration: 1, icon: '✡️', fast: true },
+  { name: 'תשעה באב', date: '2028-08-01', duration: 1, icon: '✡️', fast: true },
+  { name: 'ראש השנה', date: '2028-09-21', duration: 2, icon: '🍎' },
+  { name: 'צום גדליה', date: '2028-09-25', duration: 1, icon: '✡️', fast: true },
+  { name: 'יום כיפור', date: '2028-09-30', duration: 1, icon: '🕍', fast: true },
+  { name: 'סוכות', date: '2028-10-05', duration: 7, icon: '🌿' },
+  { name: 'שמחת תורה', date: '2028-10-12', duration: 1, icon: '📖' },
+  { name: 'חנוכה', date: '2028-12-13', duration: 8, icon: '🕎' },
+
+  // ===== תשפ"ט / 2029 =====
+  { name: 'ט"ו בשבט', date: '2029-02-01', duration: 1, icon: '🌳' },
+  { name: 'תענית אסתר', date: '2029-03-01', duration: 1, icon: '✡️', fast: true },
+  { name: 'פורים', date: '2029-03-02', duration: 1, icon: '🎭' },
+  { name: 'שושן פורים', date: '2029-03-03', duration: 1, icon: '🎭' },
+  { name: 'ערב פסח', date: '2029-03-31', duration: 1, icon: '🍷' },
+  { name: 'פסח', date: '2029-04-01', duration: 7, icon: '🍷' },
+  { name: 'שביעי של פסח', date: '2029-04-07', duration: 1, icon: '🌊' },
+  { name: 'יום הזכרון לשואה', date: '2029-04-16', duration: 1, icon: '🕯️' },
+  { name: 'יום הזכרון', date: '2029-04-22', duration: 1, icon: '🕯️' },
+  { name: 'יום העצמאות', date: '2029-04-23', duration: 1, icon: '🇮🇱' },
+  { name: 'ל"ג בעומר', date: '2029-05-06', duration: 1, icon: '🔥' },
+  { name: 'יום ירושלים', date: '2029-05-13', duration: 1, icon: '🏛️' },
+  { name: 'שבועות', date: '2029-05-20', duration: 1, icon: '📜' },
+  { name: 'צום י"ז בתמוז', date: '2029-07-01', duration: 1, icon: '✡️', fast: true },
+  { name: 'תשעה באב', date: '2029-07-22', duration: 1, icon: '✡️', fast: true },
+  { name: 'ראש השנה', date: '2029-09-08', duration: 2, icon: '🍎' },
+  { name: 'צום גדליה', date: '2029-09-12', duration: 1, icon: '✡️', fast: true },
+  { name: 'יום כיפור', date: '2029-09-17', duration: 1, icon: '🕍', fast: true },
+  { name: 'סוכות', date: '2029-09-22', duration: 7, icon: '🌿' },
+  { name: 'שמחת תורה', date: '2029-09-29', duration: 1, icon: '📖' },
+  { name: 'חנוכה', date: '2029-12-01', duration: 8, icon: '🕎' },
+  { name: 'צום עשרה בטבת', date: '2029-12-16', duration: 1, icon: '✡️', fast: true },
+
+  // ===== תש"צ / 2030 =====
+  { name: 'ט"ו בשבט', date: '2030-01-21', duration: 1, icon: '🌳' },
+  { name: 'תענית אסתר', date: '2030-03-18', duration: 1, icon: '✡️', fast: true },
+  { name: 'פורים', date: '2030-03-19', duration: 1, icon: '🎭' },
+  { name: 'שושן פורים', date: '2030-03-20', duration: 1, icon: '🎭' },
+  { name: 'ערב פסח', date: '2030-04-17', duration: 1, icon: '🍷' },
+  { name: 'פסח', date: '2030-04-18', duration: 7, icon: '🍷' },
+  { name: 'שביעי של פסח', date: '2030-04-24', duration: 1, icon: '🌊' },
+  { name: 'יום הזכרון לשואה', date: '2030-05-05', duration: 1, icon: '🕯️' },
+  { name: 'יום הזכרון', date: '2030-05-08', duration: 1, icon: '🕯️' },
+  { name: 'יום העצמאות', date: '2030-05-09', duration: 1, icon: '🇮🇱' },
+  { name: 'ל"ג בעומר', date: '2030-05-23', duration: 1, icon: '🔥' },
+  { name: 'יום ירושלים', date: '2030-05-30', duration: 1, icon: '🏛️' },
+  { name: 'שבועות', date: '2030-06-07', duration: 1, icon: '📜' },
+  { name: 'צום י"ז בתמוז', date: '2030-07-18', duration: 1, icon: '✡️', fast: true },
+  { name: 'תשעה באב', date: '2030-08-07', duration: 1, icon: '✡️', fast: true },
+  { name: 'ראש השנה', date: '2030-09-27', duration: 2, icon: '🍎' },
+  { name: 'יום כיפור', date: '2030-10-07', duration: 1, icon: '🕍', fast: true },
+  { name: 'סוכות', date: '2030-10-11', duration: 7, icon: '🌿' },
+  { name: 'שמחת תורה', date: '2030-10-18', duration: 1, icon: '📖' },
+  { name: 'חנוכה', date: '2030-12-20', duration: 8, icon: '🕎' },
+
+  // ===== ראשי חודשים 2025–2030 =====
   { name: 'ראש חודש', date: '2025-09-22', duration: 1, icon: '🌙', minor: true },
   { name: 'ראש חודש', date: '2025-10-22', duration: 1, icon: '🌙', minor: true },
   { name: 'ראש חודש', date: '2025-11-20', duration: 1, icon: '🌙', minor: true },
@@ -1728,6 +1835,60 @@ const HOLIDAYS = [
   { name: 'ראש חודש', date: '2026-06-15', duration: 1, icon: '🌙', minor: true },
   { name: 'ראש חודש', date: '2026-07-15', duration: 1, icon: '🌙', minor: true },
   { name: 'ראש חודש', date: '2026-08-13', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2026-09-11', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2026-10-11', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2026-11-09', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2026-12-09', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2027-01-07', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2027-02-06', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2027-03-08', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2027-04-06', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2027-05-06', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2027-06-04', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2027-07-04', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2027-08-02', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2027-09-01', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2027-10-01', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2027-10-31', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2027-11-29', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2027-12-29', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2028-01-27', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2028-02-26', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2028-03-27', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2028-04-25', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2028-05-25', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2028-06-23', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2028-07-23', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2028-08-21', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2028-09-20', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2028-10-19', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2028-11-18', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2028-12-17', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2029-01-16', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2029-02-14', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2029-03-16', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2029-04-14', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2029-05-14', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2029-06-12', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2029-07-12', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2029-08-10', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2029-09-08', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2029-10-08', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2029-11-06', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2029-12-06', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2030-01-04', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2030-02-03', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2030-03-04', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2030-04-03', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2030-05-02', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2030-06-01', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2030-07-01', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2030-07-30', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2030-08-29', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2030-09-27', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2030-10-27', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2030-11-25', duration: 1, icon: '🌙', minor: true },
+  { name: 'ראש חודש', date: '2030-12-25', duration: 1, icon: '🌙', minor: true },
 ];
 
 // Hebrew months approximate mapping
@@ -1736,6 +1897,24 @@ const HEBREW_MONTHS = {
   '2025-12': 'כסלו / טבת', '2026-01': 'טבת / שבט', '2026-02': 'שבט / אדר',
   '2026-03': 'אדר / ניסן', '2026-04': 'ניסן / אייר', '2026-05': 'אייר / סיוון',
   '2026-06': 'סיוון / תמוז', '2026-07': 'תמוז / אב', '2026-08': 'אב / אלול',
+  '2026-09': 'אלול / תשרי', '2026-10': 'תשרי / חשוון', '2026-11': 'חשוון / כסלו',
+  '2026-12': 'כסלו / טבת', '2027-01': 'טבת / שבט', '2027-02': 'שבט / אדר',
+  '2027-03': 'אדר / ניסן', '2027-04': 'ניסן / אייר', '2027-05': 'אייר / סיוון',
+  '2027-06': 'סיוון / תמוז', '2027-07': 'תמוז / אב', '2027-08': 'אב / אלול',
+  '2027-09': 'אלול / תשרי', '2027-10': 'תשרי / חשוון', '2027-11': 'חשוון / כסלו',
+  '2027-12': 'כסלו / טבת', '2028-01': 'טבת / שבט', '2028-02': 'שבט / אדר',
+  '2028-03': 'אדר / ניסן', '2028-04': 'ניסן / אייר', '2028-05': 'אייר / סיוון',
+  '2028-06': 'סיוון / תמוז', '2028-07': 'תמוז / אב', '2028-08': 'אב / אלול',
+  '2028-09': 'אלול / תשרי', '2028-10': 'תשרי / חשוון', '2028-11': 'חשוון / כסלו',
+  '2028-12': 'כסלו / טבת', '2029-01': 'טבת / שבט', '2029-02': 'שבט / אדר',
+  '2029-03': 'אדר / ניסן', '2029-04': 'ניסן / אייר', '2029-05': 'אייר / סיוון',
+  '2029-06': 'סיוון / תמוז', '2029-07': 'תמוז / אב', '2029-08': 'אב / אלול',
+  '2029-09': 'אלול / תשרי', '2029-10': 'תשרי / חשוון', '2029-11': 'חשוון / כסלו',
+  '2029-12': 'כסלו / טבת', '2030-01': 'טבת / שבט', '2030-02': 'שבט / אדר',
+  '2030-03': 'אדר / ניסן', '2030-04': 'ניסן / אייר', '2030-05': 'אייר / סיוון',
+  '2030-06': 'סיוון / תמוז', '2030-07': 'תמוז / אב', '2030-08': 'אב / אלול',
+  '2030-09': 'אלול / תשרי', '2030-10': 'תשרי / חשוון', '2030-11': 'חשוון / כסלו',
+  '2030-12': 'כסלו / טבת',
 };
 
 const HEBREW_DATES = {
@@ -2518,6 +2697,7 @@ function updateTimeDisplay() {
   if (val) {
     el.textContent = val;
     el.classList.remove('empty');
+    el.style.color = ''; // reset error color
   } else {
     el.textContent = 'הוסף שעה';
     el.classList.add('empty');
@@ -2569,6 +2749,17 @@ function saveQuickTask() {
     document.getElementById('qaTitleInput').focus();
     return;
   }
+  const time = document.getElementById('qaTimeInput').value;
+  if (!time) {
+    // Highlight time row and open picker
+    const timeRow = document.getElementById('qaTimeInput').closest
+      ? document.getElementById('qaTimeInput').parentElement
+      : null;
+    document.getElementById('qaTimeDisplay').style.color = 'var(--ember)';
+    document.getElementById('qaTimeInput').showPicker?.();
+    document.getElementById('qaTimeInput').click();
+    return;
+  }
   const task = {
     id: Date.now().toString(),
     title,
@@ -2606,6 +2797,39 @@ document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight') navigate(-1);
   }
 });
+
+// ============================================================
+// SWIPE GESTURES
+// ============================================================
+(function() {
+  let startX = 0, startY = 0, startT = 0;
+
+  document.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    startT = Date.now();
+  }, { passive: true });
+
+  document.addEventListener('touchend', e => {
+    // Ignore if quick-add sheet is open
+    if (document.getElementById('qaOverlay').classList.contains('open')) return;
+    // Only handle day / week / month views
+    if (!['day','week','month'].includes(currentView)) return;
+
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    const dt = Date.now() - startT;
+
+    // Must be fast enough, mostly horizontal, and long enough
+    if (dt > 400) return;
+    if (Math.abs(dx) < 50) return;
+    if (Math.abs(dy) > Math.abs(dx) * 0.8) return; // too vertical
+
+    // RTL layout: swipe LEFT (finger moves left) = forward/next, swipe RIGHT = back/prev
+    if (dx < 0) navigate(1);   // swipe left → next
+    else navigate(-1);          // swipe right → prev
+  }, { passive: true });
+})();
 
 // ============================================================
 // INIT
