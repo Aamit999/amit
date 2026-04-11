@@ -1103,6 +1103,78 @@
       border-right: none;
     }
 
+    /* === MOBILE DAY VIEW — compact, no scroll needed === */
+
+    /* Hide the sidebar (date card + task count) — show as slim top strip */
+    #view-day .layout-with-sidebar { display: block; }
+    #view-day .sidebar-panel { display: none; }
+
+    .day-view {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* Sidebar becomes a horizontal strip */
+    .day-sidebar {
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: nowrap;
+    }
+
+    .day-date-card {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      flex: 1;
+      text-align: right;
+    }
+
+    .day-number {
+      font-size: 36px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .day-name { font-size: 14px; margin-top: 0; }
+    .day-month { font-size: 11px; }
+    .day-hebrew { font-size: 10px; margin-top: 2px; }
+
+    .day-tasks-count {
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .count-num { font-size: 22px; }
+    .count-label { font-size: 11px; }
+
+    /* Timeline takes full width, compact rows */
+    .day-timeline {
+      border-radius: var(--radius);
+    }
+
+    .timeline-header { padding: 10px 14px; font-size: 11px; }
+
+    .time-slot { min-height: 42px; }
+
+    .time-label {
+      width: 48px;
+      padding: 6px 8px;
+      font-size: 10px;
+    }
+
+    .time-content { padding: 4px 8px; }
+
+    .task-chip { font-size: 12px; padding: 4px 8px; }
+
     /* === MOBILE HEADER — 2 compact rows === */
     .app-header { padding: 0 12px; }
 
@@ -1188,7 +1260,27 @@
     }
   }
 
-  /* Hide mobile row on desktop, hide desktop nav on mobile */
+  /* Mobile settings button — only shown on mobile, in logo row */
+  .mobile-settings-btn {
+    display: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    font-size: 16px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-right: auto;
+    transition: border-color 0.15s;
+  }
+  .mobile-settings-btn:focus { outline: none; }
+
+  @media (max-width: 600px) {
+    .mobile-settings-btn { display: flex; }
+  }
   .mobile-row2 { display: none; }
 
   @media (max-width: 600px) {
@@ -1469,6 +1561,264 @@
   }
 
   /* =============================================
+     SELECTION ACTION BAR
+     ============================================= */
+  .sel-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0; right: 0;
+    background: var(--text-prime);
+    color: #fff;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    z-index: 500;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+    animation: slideUp 0.2s ease;
+    direction: rtl;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0); }
+  }
+
+  .sel-count {
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .sel-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .sel-btn {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: none;
+    font-family: 'Heebo', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    white-space: nowrap;
+  }
+  .sel-btn:hover { opacity: 0.85; }
+
+  .sel-move   { background: var(--gold); color: #fff; }
+  .sel-delete { background: var(--ember); color: #fff; }
+  .sel-cancel { background: rgba(255,255,255,0.15); color: #fff; }
+
+  /* Selected line highlight */
+  .wn-line.wn-selected {
+    background: rgba(160,120,40,0.12) !important;
+    border-right: 3px solid var(--gold);
+  }
+
+  /* Move sheet */
+  .move-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(4px);
+    z-index: 1200;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s;
+  }
+  .move-overlay.open { opacity: 1; pointer-events: all; }
+
+  .move-sheet {
+    background: #fff;
+    width: 100%;
+    max-width: 480px;
+    border-radius: 20px 20px 0 0;
+    overflow: hidden;
+    transform: translateY(100%);
+    transition: transform 0.28s cubic-bezier(0.32,0.72,0,1);
+    direction: rtl;
+  }
+  .move-overlay.open .move-sheet { transform: translateY(0); }
+
+  .move-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .move-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-prime);
+  }
+  .move-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  .move-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  @media (min-width: 600px) {
+    .move-overlay { align-items: center; }
+    .move-sheet { border-radius: 16px; max-width: 360px; }
+  }
+
+  /* =============================================
+     SETTINGS PANEL
+     ============================================= */
+  .settings-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(4px);
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s;
+  }
+  .settings-overlay.open { opacity: 1; pointer-events: all; }
+
+  .settings-panel {
+    background: #fff;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 360px;
+    box-shadow: var(--shadow-deep);
+    direction: rtl;
+    transform: scale(0.95);
+    transition: transform 0.22s;
+    overflow: hidden;
+  }
+  .settings-overlay.open .settings-panel { transform: scale(1); }
+
+  .settings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .settings-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-prime);
+  }
+
+  .settings-section {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .settings-section:last-child { border-bottom: none; }
+
+  .settings-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+  }
+
+  .settings-vol-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .vol-icon { font-size: 16px; flex-shrink: 0; }
+
+  .vol-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 5px;
+    border-radius: 3px;
+    background: linear-gradient(to left, var(--gold) var(--pct, 50%), var(--border) var(--pct, 50%));
+    outline: none;
+    cursor: pointer;
+  }
+  .vol-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 2px 6px var(--gold-glow);
+    cursor: pointer;
+    border: 2px solid #fff;
+  }
+  .vol-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--gold);
+    cursor: pointer;
+    border: 2px solid #fff;
+  }
+
+  .vol-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold);
+    min-width: 36px;
+    text-align: center;
+  }
+
+  .vol-test-btn {
+    width: 100%;
+    padding: 9px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg-hover);
+    color: var(--text-sec);
+    font-family: 'Heebo', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .vol-test-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  .settings-notif-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--text-sec);
+  }
+  .notif-btn {
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: none;
+    background: linear-gradient(135deg, var(--gold), #7a5010);
+    color: #fff;
+    font-family: 'Heebo', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* =============================================
      TASK ALARM TOAST
      ============================================= */
   .task-toast {
@@ -1554,7 +1904,7 @@
 
 <header class="app-header">
   <div class="header-inner">
-    <!-- Row 1: logo + add button -->
+    <!-- Row 1: logo + settings + add button -->
     <div class="logo">
       <div class="logo-icon">✦</div>
       <div>
@@ -1562,6 +1912,7 @@
         <span class="logo-sub">Task Calendar</span>
       </div>
     </div>
+    <button class="mobile-settings-btn" onclick="openSettings()">⚙️</button>
 
     <div class="header-nav">
       <button class="nav-btn" onclick="switchView('day')">יום</button>
@@ -1577,6 +1928,7 @@
         <button class="arrow-btn" onclick="navigate(1)">‹</button>
       </div>
       <button class="today-btn" onclick="goToToday()">היום</button>
+      <button class="today-btn settings-btn" onclick="openSettings()" title="הגדרות">⚙️</button>
       <button class="add-task-btn" onclick="openModal()">+ הוסף משימה</button>
     </div>
 
@@ -1644,6 +1996,31 @@
   <!-- YEAR VIEW -->
   <div id="view-year" class="view">
     <div class="year-grid" id="yearGrid"></div>
+  </div>
+</div>
+
+<!-- SELECTION ACTION BAR -->
+<div class="sel-bar" id="selBar" style="display:none">
+  <div class="sel-count" id="selCount">0 נבחרו</div>
+  <div class="sel-actions">
+    <button class="sel-btn sel-move" onclick="openMoveSheet()">📅 העבר ליום</button>
+    <button class="sel-btn sel-delete" onclick="deleteSelected()">🗑️ מחק</button>
+    <button class="sel-btn sel-cancel" onclick="clearSelection()">ביטול</button>
+  </div>
+</div>
+
+<!-- MOVE TO DATE SHEET -->
+<div class="move-overlay" id="moveOverlay" onclick="closeMoveOutside(event)">
+  <div class="move-sheet">
+    <div class="move-header">
+      <span class="move-title">העבר משימות ליום</span>
+      <button class="qa-close" onclick="closeMoveSheet()">✕</button>
+    </div>
+    <div class="move-body">
+      <label class="move-label">בחר תאריך יעד</label>
+      <input type="date" id="moveTargetDate" class="form-input" style="margin-bottom:16px" />
+      <button class="btn-save" onclick="confirmMove()" style="width:100%">העבר משימות</button>
+    </div>
   </div>
 </div>
 
@@ -1735,7 +2112,39 @@
   </div>
 </div>
 
-<!-- Keep old modal for backward compat (hidden, used internally) -->
+<!-- SETTINGS PANEL -->
+<div class="settings-overlay" id="settingsOverlay" onclick="closeSettingsOutside(event)">
+  <div class="settings-panel">
+    <div class="settings-header">
+      <span class="settings-title">⚙️ הגדרות</span>
+      <button class="qa-close" onclick="closeSettings()">✕</button>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-label">עוצמת קול התראה</div>
+      <div class="settings-vol-row">
+        <span class="vol-icon">🔇</span>
+        <input type="range" id="alarmVolume" class="vol-slider"
+          min="0" max="100" step="5" value="50"
+          oninput="updateVolumeDisplay(this.value)"
+          onchange="saveVolume(this.value)" />
+        <span class="vol-icon">🔊</span>
+        <span class="vol-value" id="volDisplay">50%</span>
+      </div>
+      <button class="vol-test-btn" onclick="testAlarmSound()">▶ בדוק צליל</button>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-label">התראות דפדפן</div>
+      <div class="settings-notif-row" id="notifStatus">
+        <span id="notifStatusText">בדיקה...</span>
+        <button class="notif-btn" id="notifBtn" onclick="requestNotificationPermission(true)" style="display:none">אפשר התראות</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)" style="display:none">
   <div class="modal">
     <div class="modal-title">משימה חדשה</div>
@@ -2057,7 +2466,68 @@ function dateStr(d) {
 }
 
 function getTasksForDate(ds) {
-  return tasks.filter(t => t.date === ds);
+  const target = parseDate(ds);
+  const targetDay = target.getDay(); // 0=Sun..6=Sat
+
+  return tasks.filter(t => {
+    if (!t.date) return false;
+    const origin = parseDate(t.date);
+
+    // Task hasn't started yet
+    if (target < origin) return false;
+
+    const repeat = t.repeat || 'none';
+
+    // Non-recurring: exact date match
+    if (repeat === 'none') return t.date === ds;
+
+    // Recurring: check pattern
+    const diffMs   = target - origin;
+    const diffDays = Math.round(diffMs / 86400000);
+    const diffMins = Math.round(diffMs / 60000);
+
+    switch (repeat) {
+      case 'hourly':
+        // Show on origin date and every day after (alarm logic handles per-hour)
+        return diffDays >= 0;
+
+      case 'daily':
+        return diffDays >= 0;
+
+      case 'weekly':
+        return diffDays >= 0 && diffDays % 7 === 0;
+
+      case 'monthly': {
+        if (target < origin) return false;
+        const sameDay = origin.getDate() === target.getDate();
+        const laterMonth =
+          target.getFullYear() > origin.getFullYear() ||
+          (target.getFullYear() === origin.getFullYear() &&
+           target.getMonth() >= origin.getMonth());
+        return sameDay && laterMonth;
+      }
+
+      case 'yearly': {
+        const sameMonthDay =
+          origin.getDate()  === target.getDate() &&
+          origin.getMonth() === target.getMonth();
+        return sameMonthDay && target.getFullYear() >= origin.getFullYear();
+      }
+
+      case 'weekdays': {
+        // repeatDays is an array of weekday numbers [0..6]
+        const days = t.repeatDays || [];
+        return diffDays >= 0 && days.includes(targetDay);
+      }
+
+      case 'custom':
+        // Fall back to exact date for custom (user manages manually)
+        return t.date === ds;
+
+      default:
+        return t.date === ds;
+    }
+  });
 }
 
 // ============================================================
@@ -2424,7 +2894,7 @@ function renderWeek() {
 
         const text = document.createElement('div');
         text.className = `wn-task-text${task.done ? ' done-text' : ''}`;
-        text.textContent = task.title;
+        text.textContent = task.title + (task.repeat && task.repeat !== 'none' ? ' 🔁' : '');
 
         const del = document.createElement('div');
         del.className = 'wn-del';
@@ -2443,8 +2913,31 @@ function renderWeek() {
         inner.appendChild(del);
         line.appendChild(inner);
 
-        // Click on text area → inline edit
-        text.onclick = (e) => { e.stopPropagation(); activateInlineEdit(line, task); };
+        // Click on text area → inline edit (only when not in selection mode)
+        text.onclick = (e) => {
+          e.stopPropagation();
+          if (selectedTaskIds.size > 0) {
+            toggleTaskSelection(task.id, line);
+          } else {
+            activateInlineEdit(line, task);
+          }
+        };
+
+        // Long-press to select
+        let longPressTimer = null;
+        const startLongPress = (e) => {
+          longPressTimer = setTimeout(() => {
+            e.preventDefault?.();
+            toggleTaskSelection(task.id, line);
+          }, 500);
+        };
+        const cancelLongPress = () => clearTimeout(longPressTimer);
+        line.addEventListener('mousedown', startLongPress);
+        line.addEventListener('touchstart', startLongPress, { passive: true });
+        line.addEventListener('mouseup', cancelLongPress);
+        line.addEventListener('mouseleave', cancelLongPress);
+        line.addEventListener('touchend', cancelLongPress);
+        line.addEventListener('touchcancel', cancelLongPress);
 
       } else {
         // Empty ruled line — tap to type inline
@@ -2729,7 +3222,7 @@ function openQuickAdd(ds) {
   const overlay = document.getElementById('qaOverlay');
   document.getElementById('qaTitleInput').value = '';
   document.getElementById('qaDescInput').value = '';
-  document.getElementById('qaDateInput').value = ds || dateStr(currentDate);
+  document.getElementById('qaDateInput').value = ds || dateStr(new Date());
   document.getElementById('qaTimeInput').value = '';
   document.getElementById('qaRepeatPanel').style.display = 'none';
   document.getElementById('qaPriorityPanel').style.display = 'none';
@@ -2878,6 +3371,82 @@ document.addEventListener('keydown', e => {
 });
 
 // ============================================================
+// TASK SELECTION (long-press multi-select)
+// ============================================================
+let selectedTaskIds = new Set();
+
+function toggleTaskSelection(id, lineEl) {
+  if (selectedTaskIds.has(id)) {
+    selectedTaskIds.delete(id);
+    lineEl?.classList.remove('wn-selected');
+  } else {
+    selectedTaskIds.add(id);
+    lineEl?.classList.add('wn-selected');
+    // Light haptic on mobile
+    navigator.vibrate?.(40);
+  }
+  updateSelBar();
+}
+
+function updateSelBar() {
+  const bar = document.getElementById('selBar');
+  const count = selectedTaskIds.size;
+  if (count === 0) {
+    bar.style.display = 'none';
+    // Show FAB again
+    document.getElementById('fabBtn').style.display = 'flex';
+  } else {
+    bar.style.display = 'flex';
+    // Hide FAB while selecting
+    document.getElementById('fabBtn').style.display = 'none';
+    document.getElementById('selCount').textContent =
+      count === 1 ? 'משימה אחת נבחרה' : `${count} משימות נבחרו`;
+  }
+}
+
+function clearSelection() {
+  selectedTaskIds.clear();
+  // Remove highlight from all lines
+  document.querySelectorAll('.wn-line.wn-selected').forEach(l => l.classList.remove('wn-selected'));
+  updateSelBar();
+}
+
+function deleteSelected() {
+  if (!selectedTaskIds.size) return;
+  const count = selectedTaskIds.size;
+  tasks = tasks.filter(t => !selectedTaskIds.has(t.id));
+  saveTasks();
+  clearSelection();
+  render();
+}
+
+function openMoveSheet() {
+  const overlay = document.getElementById('moveOverlay');
+  document.getElementById('moveTargetDate').value = dateStr(new Date());
+  overlay.classList.add('open');
+}
+
+function closeMoveSheet() {
+  document.getElementById('moveOverlay').classList.remove('open');
+}
+
+function closeMoveOutside(e) {
+  if (e.target === document.getElementById('moveOverlay')) closeMoveSheet();
+}
+
+function confirmMove() {
+  const newDate = document.getElementById('moveTargetDate').value;
+  if (!newDate) return;
+  tasks.forEach(t => {
+    if (selectedTaskIds.has(t.id)) t.date = newDate;
+  });
+  saveTasks();
+  closeMoveSheet();
+  clearSelection();
+  render();
+}
+
+// ============================================================
 // SWIPE GESTURES
 // ============================================================
 (function() {
@@ -2904,9 +3473,9 @@ document.addEventListener('keydown', e => {
     if (Math.abs(dx) < 50) return;
     if (Math.abs(dy) > Math.abs(dx) * 0.8) return; // too vertical
 
-    // RTL layout: swipe LEFT (finger moves left) = forward/next, swipe RIGHT = back/prev
-    if (dx < 0) navigate(1);   // swipe left → next
-    else navigate(-1);          // swipe right → prev
+    // RTL layout: swipe RIGHT = next/forward, swipe LEFT = back/prev
+    if (dx > 0) navigate(1);   // swipe right → next
+    else navigate(-1);          // swipe left → prev
   }, { passive: true });
 })();
 
@@ -2915,11 +3484,14 @@ document.addEventListener('keydown', e => {
 // ============================================================
 const notifiedTasks = new Set(JSON.parse(sessionStorage.getItem('notifiedTasks') || '[]'));
 
-function playAlarmSound() {
+let alarmVolume = parseFloat(localStorage.getItem('alarmVolume') || '0.5');
+
+function playAlarmSound(vol) {
+  const v = vol !== undefined ? vol : alarmVolume;
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
 
-    const playTone = (freq, startTime, duration, vol = 0.5) => {
+    const playTone = (freq, startTime, duration, volume) => {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.connect(gain);
@@ -2927,25 +3499,23 @@ function playAlarmSound() {
       osc.type = 'sine';
       osc.frequency.setValueAtTime(freq, startTime);
       gain.gain.setValueAtTime(0, startTime);
-      gain.gain.linearRampToValueAtTime(vol, startTime + 0.02);
+      gain.gain.linearRampToValueAtTime(volume, startTime + 0.02);
       gain.gain.linearRampToValueAtTime(0, startTime + duration);
       osc.start(startTime);
       osc.stop(startTime + duration + 0.05);
     };
 
     const t = ctx.currentTime;
-    // Three ascending tones — friendly notification sound
-    playTone(523, t,        0.18); // C5
-    playTone(659, t + 0.2,  0.18); // E5
-    playTone(784, t + 0.4,  0.28); // G5
-    playTone(784, t + 0.72, 0.28); // G5 repeat
+    playTone(523, t,        0.18, v);
+    playTone(659, t + 0.2,  0.18, v);
+    playTone(784, t + 0.4,  0.28, v);
+    playTone(784, t + 0.72, 0.28, v);
   } catch(e) {
     console.warn('Audio not available:', e);
   }
 }
 
 function showTaskAlert(task) {
-  // Toast notification
   const toast = document.createElement('div');
   toast.className = 'task-toast';
   toast.innerHTML = `
@@ -2971,13 +3541,14 @@ function checkTaskAlarms() {
   const currentTime = `${h}:${m}`;
   const todayStr = dateStr(now);
 
-  tasks.forEach(task => {
+  // Use getTasksForDate so recurring tasks are included
+  getTasksForDate(todayStr).forEach(task => {
     if (task.done) return;
-    if (!task.time || !task.date) return;
-    if (task.date !== todayStr) return;
+    if (!task.time) return;
     if (task.time !== currentTime) return;
 
-    const alarmKey = `${task.id}-${task.date}-${task.time}`;
+    // Use today's date in the key so recurring tasks fire every occurrence
+    const alarmKey = `${task.id}-${todayStr}-${task.time}`;
     if (notifiedTasks.has(alarmKey)) return;
 
     notifiedTasks.add(alarmKey);
@@ -2986,27 +3557,78 @@ function checkTaskAlarms() {
     playAlarmSound();
     showTaskAlert(task);
 
-    // Browser notification if permission granted
     if (Notification.permission === 'granted') {
       new Notification('⏰ ' + task.title, {
         body: `${task.time} — הגיע הזמן!`,
-        icon: '',
         tag: alarmKey
       });
     }
   });
 }
 
-// Request notification permission
-function requestNotificationPermission() {
-  if ('Notification' in window && Notification.permission === 'default') {
-    Notification.requestPermission();
+function requestNotificationPermission(manual) {
+  if (!('Notification' in window)) return;
+  if (Notification.permission === 'default' || manual) {
+    Notification.requestPermission().then(updateNotifStatus);
+  }
+  updateNotifStatus();
+}
+
+function updateNotifStatus() {
+  const text = document.getElementById('notifStatusText');
+  const btn = document.getElementById('notifBtn');
+  if (!text || !('Notification' in window)) return;
+  if (Notification.permission === 'granted') {
+    text.textContent = '✅ התראות מופעלות';
+    btn.style.display = 'none';
+  } else if (Notification.permission === 'denied') {
+    text.textContent = '❌ חסומות בדפדפן';
+    btn.style.display = 'none';
+  } else {
+    text.textContent = 'לא הופעלו עדיין';
+    btn.style.display = 'block';
   }
 }
 
-// Check every 30 seconds
+// ============================================================
+// SETTINGS
+// ============================================================
+function openSettings() {
+  document.getElementById('settingsOverlay').classList.add('open');
+  const saved = parseFloat(localStorage.getItem('alarmVolume') || '0.5');
+  const pct = Math.round(saved * 100);
+  const slider = document.getElementById('alarmVolume');
+  slider.value = pct;
+  updateVolumeDisplay(pct);
+  updateNotifStatus();
+}
+
+function closeSettings() {
+  document.getElementById('settingsOverlay').classList.remove('open');
+}
+
+function closeSettingsOutside(e) {
+  if (e.target === document.getElementById('settingsOverlay')) closeSettings();
+}
+
+function updateVolumeDisplay(val) {
+  document.getElementById('volDisplay').textContent = val + '%';
+  const slider = document.getElementById('alarmVolume');
+  slider.style.setProperty('--pct', val + '%');
+}
+
+function saveVolume(val) {
+  alarmVolume = val / 100;
+  localStorage.setItem('alarmVolume', alarmVolume);
+}
+
+function testAlarmSound() {
+  const val = parseInt(document.getElementById('alarmVolume').value);
+  playAlarmSound(val / 100);
+}
+
 setInterval(checkTaskAlarms, 30000);
-checkTaskAlarms(); // run immediately on load
+checkTaskAlarms();
 requestNotificationPermission();
 
 // ============================================================
