@@ -9,8 +9,6 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="יומן">
 <meta name="theme-color" content="#f0ede8">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23a07828'/><text y='72' x='50' text-anchor='middle' font-size='60'>✦</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Frank+Ruhl+Libre:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
@@ -43,7 +41,6 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  
   html { scroll-behavior: smooth; }
 
   body {
@@ -54,7 +51,6 @@
     overflow-x: hidden;
   }
 
-  /* Subtle grain texture */
   body::before {
     content: '';
     position: fixed;
@@ -64,7 +60,6 @@
     z-index: 0;
   }
 
-  /* === HEADER === */
   .app-header {
     position: sticky;
     top: 0;
@@ -85,45 +80,32 @@
     gap: 16px;
   }
 
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+  .logo { display: flex; align-items: center; gap: 10px; }
 
   .logo-icon {
-    width: 36px;
-    height: 36px;
+    width: 36px; height: 36px;
     background: linear-gradient(135deg, var(--gold), #6b4f10);
     border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     font-size: 18px;
     box-shadow: 0 0 20px var(--gold-glow);
   }
 
   .logo-text {
     font-family: 'Frank Ruhl Libre', serif;
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 20px; font-weight: 700;
     color: var(--text-prime);
     letter-spacing: -0.3px;
   }
 
   .logo-sub {
-    font-size: 10px;
-    color: var(--text-mute);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    display: block;
-    margin-top: -4px;
+    font-size: 10px; color: var(--text-mute);
+    letter-spacing: 2px; text-transform: uppercase;
+    display: block; margin-top: -4px;
   }
 
   .header-nav {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+    display: flex; align-items: center; gap: 4px;
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 10px;
@@ -132,15 +114,12 @@
 
   .nav-btn {
     padding: 7px 16px;
-    border-radius: 7px;
-    border: none;
+    border-radius: 7px; border: none;
     background: transparent;
     color: var(--text-sec);
     font-family: 'Heebo', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
+    font-size: 13px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s;
     white-space: nowrap;
   }
 
@@ -152,41 +131,26 @@
     border: 1px solid rgba(201,168,76,0.2);
   }
 
-  .header-controls {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .date-nav {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
+  .header-controls { display: flex; align-items: center; gap: 10px; }
+  .date-nav { display: flex; align-items: center; gap: 6px; }
 
   .arrow-btn {
-    width: 34px;
-    height: 34px;
+    width: 34px; height: 34px;
     border-radius: 8px;
     border: 1px solid var(--border);
     background: var(--bg-card);
     color: var(--text-sec);
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; transition: all 0.2s;
   }
 
   .arrow-btn:hover { border-color: var(--gold); color: var(--gold); }
 
   .current-label {
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 14px; font-weight: 600;
     color: var(--text-prime);
-    min-width: 130px;
-    text-align: center;
+    min-width: 130px; text-align: center;
     cursor: pointer;
   }
 
@@ -197,34 +161,26 @@
     background: var(--bg-card);
     color: var(--text-sec);
     font-family: 'Heebo', sans-serif;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.2s;
+    font-size: 13px; cursor: pointer; transition: all 0.2s;
   }
 
   .today-btn:hover { border-color: var(--gold); color: var(--gold); }
 
   .add-task-btn {
-    display: flex;
-    align-items: center;
-    gap: 7px;
+    display: flex; align-items: center; gap: 7px;
     padding: 8px 18px;
-    border-radius: 8px;
-    border: none;
+    border-radius: 8px; border: none;
     background: linear-gradient(135deg, var(--gold), #7a5010);
     color: #fff;
     font-family: 'Heebo', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
+    font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: all 0.2s;
     box-shadow: 0 4px 15px var(--gold-glow);
     white-space: nowrap;
   }
 
   .add-task-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px var(--gold-glow); }
 
-  /* === MAIN LAYOUT === */
   .app-body {
     max-width: 1400px;
     margin: 0 auto;
@@ -233,25 +189,19 @@
     z-index: 1;
   }
 
-  /* === HOLIDAY BANNER === */
   .holiday-banner {
     background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(201,168,76,0.02));
     border: 1px solid rgba(201,168,76,0.2);
     border-radius: var(--radius);
     padding: 12px 20px;
     margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    display: flex; align-items: center; gap: 12px;
     animation: fadeSlide 0.4s ease;
   }
 
   .holiday-banner:empty { display: none; }
-
   .holiday-star { font-size: 20px; }
-
   .holiday-text { font-size: 14px; color: var(--gold); font-weight: 600; }
-
   .holiday-date { font-size: 12px; color: var(--text-sec); margin-top: 2px; }
 
   @keyframes fadeSlide {
@@ -259,7 +209,6 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* === VIEWS === */
   .view { display: none; animation: fadeIn 0.3s ease; }
   .view.active { display: block; }
 
@@ -268,32 +217,24 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* === DAY VIEW === */
   .day-view {
     display: grid;
     grid-template-columns: 200px 1fr;
     gap: 16px;
   }
 
-  .day-sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
+  .day-sidebar { display: flex; flex-direction: column; gap: 12px; }
 
   .day-date-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 24px;
-    text-align: center;
+    padding: 24px; text-align: center;
   }
 
   .day-number {
-    font-size: 64px;
-    font-weight: 900;
-    color: var(--gold);
-    line-height: 1;
+    font-size: 64px; font-weight: 900;
+    color: var(--gold); line-height: 1;
     font-family: 'Frank Ruhl Libre', serif;
   }
 
@@ -305,8 +246,7 @@
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 16px;
-    text-align: center;
+    padding: 16px; text-align: center;
   }
 
   .count-num { font-size: 32px; font-weight: 800; color: var(--text-prime); }
@@ -322,97 +262,72 @@
   .timeline-header {
     padding: 16px 20px;
     border-bottom: 1px solid var(--border);
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 13px; font-weight: 600;
     color: var(--text-sec);
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    text-transform: uppercase; letter-spacing: 1px;
   }
 
   .timeline-body { padding: 0; }
 
   .time-slot {
-    display: flex;
-    align-items: flex-start;
+    display: flex; align-items: flex-start;
     border-bottom: 1px solid var(--border);
     min-height: 56px;
-    position: relative;
-    transition: background 0.2s;
+    position: relative; transition: background 0.2s;
   }
 
   .time-slot:hover { background: var(--bg-hover); }
-
   .time-slot:last-child { border-bottom: none; }
 
   .time-label {
     width: 60px;
     padding: 8px 12px;
-    font-size: 11px;
-    color: var(--text-mute);
-    font-weight: 500;
+    font-size: 11px; color: var(--text-mute); font-weight: 500;
     flex-shrink: 0;
     border-left: 1px solid var(--border);
   }
 
   .time-content {
-    flex: 1;
-    padding: 6px 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+    flex: 1; padding: 6px 12px;
+    display: flex; flex-direction: column; gap: 4px;
   }
 
   .task-chip {
     padding: 6px 12px;
     border-radius: 6px;
-    font-size: 13px;
-    font-weight: 500;
+    font-size: 13px; font-weight: 500;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    display: flex; align-items: center; gap: 8px;
     transition: all 0.2s;
     border-right: 3px solid;
     position: relative;
   }
 
   .task-chip:hover { filter: brightness(1.15); }
-
   .task-chip.priority-high { background: var(--ember-dim); border-color: var(--ember); color: #9a1c0a; }
   .task-chip.priority-medium { background: var(--gold-dim); border-color: var(--gold); color: #7a5010; }
   .task-chip.priority-low { background: var(--sapphire-dim); border-color: var(--sapphire); color: #1a4a90; }
   .task-chip.done { opacity: 0.4; text-decoration: line-through; }
 
   .task-check {
-    width: 16px;
-    height: 16px;
+    width: 16px; height: 16px;
     border-radius: 4px;
     border: 1.5px solid currentColor;
     flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 10px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 10px;
   }
 
   .task-delete {
     margin-right: auto;
-    opacity: 0;
-    cursor: pointer;
-    font-size: 14px;
-    color: var(--text-mute);
+    opacity: 0; cursor: pointer;
+    font-size: 14px; color: var(--text-mute);
     transition: opacity 0.2s;
   }
 
   .task-chip:hover .task-delete { opacity: 1; }
 
-  /* === WEEK VIEW — Notebook Style (matches reference image) === */
-
-  /* Full-width, no sidebar — override layout-with-sidebar for week */
-  #view-week .layout-with-sidebar {
-    display: block;
-  }
+  #view-week .layout-with-sidebar { display: block; }
 
   .week-notebook {
     display: grid;
@@ -424,76 +339,49 @@
     background: var(--bg-card);
   }
 
-  /* Each day card */
   .wn-day {
     border-left: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
+    display: flex; flex-direction: column;
     background: var(--bg-card);
   }
 
-  /* Right column cards have no left border (they're on the edge) */
   .wn-day:nth-child(odd) { border-left: none; }
-
-  /* Remove bottom border from last two cells */
-  .wn-day:nth-last-child(1),
-  .wn-day:nth-last-child(2) { border-bottom: none; }
-
-  /* Today highlight */
+  .wn-day:nth-last-child(1), .wn-day:nth-last-child(2) { border-bottom: none; }
   .wn-day.wn-today { background: #fdfaf3; }
 
-  /* Subtle holiday strip shown below day header */
   .wn-holiday-strip {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    display: flex; align-items: center; gap: 5px;
     padding: 4px 14px 5px;
     background: linear-gradient(135deg, rgba(160,120,40,0.07), rgba(160,120,40,0.02));
     border-bottom: 1px solid rgba(160,120,40,0.15);
-    font-size: 11px;
-    color: var(--gold);
-    font-weight: 600;
+    font-size: 11px; color: var(--gold); font-weight: 600;
     letter-spacing: 0.1px;
   }
 
   .wn-holiday-strip .hol-icon { font-size: 12px; }
   .wn-holiday-strip .hol-name { opacity: 0.9; }
 
-  @media (max-width: 640px) {
-    .wn-holiday-strip { font-size: 10px; padding: 3px 8px 4px; }
-    .wn-holiday-strip .hol-icon { font-size: 10px; }
-  }
-
-  /* Day header */
   .wn-header {
     padding: 10px 14px 8px;
     border-bottom: 1.5px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    transition: background 0.12s;
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer; transition: background 0.12s;
     background: inherit;
   }
 
   .wn-header:hover { background: var(--bg-hover); }
 
   .wn-day-label {
-    font-size: 15px;
-    font-weight: 800;
+    font-size: 15px; font-weight: 800;
     color: var(--text-prime);
     font-family: 'Frank Ruhl Libre', serif;
     letter-spacing: -0.2px;
   }
 
-  .wn-today .wn-day-label { color: var(--text-prime); }
-
-  /* Bold black square indicator like in image */
   .wn-today-dot {
     display: inline-block;
-    width: 8px;
-    height: 8px;
+    width: 8px; height: 8px;
     background: var(--text-prime);
     border-radius: 1px;
     margin-left: 5px;
@@ -501,233 +389,99 @@
     flex-shrink: 0;
   }
 
-  .wn-hol-badge {
-    font-size: 10px;
-    color: var(--gold);
-    font-weight: 700;
-    background: var(--gold-dim);
-    border-radius: 3px;
-    padding: 1px 5px;
-    margin-right: 6px;
-  }
-
   .wn-add-btn {
-    width: 22px;
-    height: 22px;
+    width: 22px; height: 22px;
     border-radius: 50%;
     border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text-mute);
-    font-size: 15px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-    transition: all 0.15s;
-    flex-shrink: 0;
+    background: transparent; color: var(--text-mute);
+    font-size: 15px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    line-height: 1; transition: all 0.15s; flex-shrink: 0;
   }
 
   .wn-add-btn:hover { border-color: var(--gold); color: var(--gold); }
 
-  /* Notebook lines area */
-  .wn-lines {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
+  .wn-lines { flex: 1; display: flex; flex-direction: column; }
 
-  /* Each line — either a task or an empty ruled line */
   .wn-line {
-    min-height: 36px;
-    height: auto;
+    min-height: 36px; height: auto;
     border-bottom: 1px solid #e8e4de;
-    display: flex;
-    align-items: flex-start;
+    display: flex; align-items: flex-start;
     padding: 7px 14px;
-    cursor: pointer;
-    position: relative;
-    transition: background 0.1s;
+    cursor: pointer; position: relative; transition: background 0.1s;
   }
 
   .wn-line:last-child { border-bottom: none; }
   .wn-line:hover { background: #faf8f4; }
   .wn-line.wn-line-empty:hover::after {
     content: '+ הוסף משימה';
-    font-size: 11px;
-    color: var(--text-mute);
-    position: absolute;
-    left: 14px;
+    font-size: 11px; color: var(--text-mute);
+    position: absolute; left: 14px;
   }
 
-  /* Task inside a line */
   .wn-task-inner {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-    min-width: 0;
+    display: flex; align-items: center; gap: 8px;
+    width: 100%; min-width: 0;
   }
 
   .wn-check {
-    width: 15px;
-    height: 15px;
+    width: 15px; height: 15px;
     border-radius: 50%;
     border: 1.5px solid #bbb;
     flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 9px;
-    cursor: pointer;
-    transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; cursor: pointer; transition: all 0.15s;
     color: transparent;
   }
 
   .wn-check.checked { background: var(--jade); border-color: var(--jade); color: #fff; }
   .wn-check:hover { border-color: var(--gold); }
 
-  .wn-dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
+  .wn-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
   .wn-dot.high { background: var(--ember); }
   .wn-dot.medium { background: var(--gold); }
   .wn-dot.low { background: var(--sapphire); }
 
   .wn-task-text {
-    flex: 1;
-    font-size: 13px;
-    color: var(--text-prime);
-    font-weight: 500;
-    white-space: normal;
-    overflow: visible;
+    flex: 1; font-size: 13px;
+    color: var(--text-prime); font-weight: 500;
+    white-space: normal; overflow: visible;
     word-break: break-word;
-    direction: rtl;
-    text-align: right;
+    direction: rtl; text-align: right;
   }
 
-  .wn-task-text.done-text {
-    text-decoration: line-through;
-    color: var(--text-mute);
-  }
+  .wn-task-text.done-text { text-decoration: line-through; color: var(--text-mute); }
 
   .wn-task-time {
-    font-size: 10px;
-    color: var(--text-mute);
+    font-size: 10px; color: var(--text-mute);
     flex-shrink: 0;
     background: var(--bg-void);
-    border-radius: 4px;
-    padding: 1px 5px;
-    font-weight: 600;
-    letter-spacing: 0.3px;
+    border-radius: 4px; padding: 1px 5px;
+    font-weight: 600; letter-spacing: 0.3px;
   }
 
   .wn-del {
-    opacity: 0;
-    font-size: 11px;
-    color: var(--text-mute);
-    cursor: pointer;
-    flex-shrink: 0;
-    padding: 2px 4px;
-    border-radius: 3px;
+    opacity: 0; font-size: 11px; color: var(--text-mute);
+    cursor: pointer; flex-shrink: 0;
+    padding: 2px 4px; border-radius: 3px;
     transition: opacity 0.12s;
   }
 
   .wn-line:hover .wn-del { opacity: 1; }
   .wn-del:hover { color: var(--ember); }
 
-  /* Inline quick-add input inside a ruled line */
   .wn-inline-input {
-    flex: 1;
-    border: none;
-    outline: none;
+    flex: 1; border: none; outline: none;
     background: transparent;
     font-family: 'Heebo', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
+    font-size: 13px; font-weight: 500;
     color: var(--text-prime);
-    direction: rtl;
-    text-align: right;
-    width: 100%;
-    caret-color: var(--gold);
+    direction: rtl; text-align: right;
+    width: 100%; caret-color: var(--gold);
   }
 
-  @media (max-width: 640px) {
-    .wn-inline-input { font-size: 11px; }
-  }
+  .wn-line.wn-editing { background: #fffdf5; border-bottom-color: var(--gold); }
 
-  .wn-line.wn-editing {
-    background: #fffdf5;
-    border-bottom-color: var(--gold);
-  }
-
-  /* Responsive — week always 2 columns, even on mobile */
-  @media (max-width: 640px) {
-    /* Force 2 columns on mobile — never collapse to 1 */
-    .week-notebook {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    /* Tighten header on small screens */
-    .wn-header {
-      padding: 7px 8px 6px;
-    }
-
-    .wn-day-label {
-      font-size: 11px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 100%;
-    }
-
-    .wn-add-btn {
-      width: 18px;
-      height: 18px;
-      font-size: 13px;
-      flex-shrink: 0;
-    }
-
-    .wn-hol-badge {
-      display: none; /* hide holiday badge on tiny screens to save space */
-    }
-
-    /* Shorter lines on mobile */
-    .wn-line {
-      min-height: 28px;
-      height: auto;
-      padding: 5px 7px;
-    }
-
-    .wn-task-text {
-      font-size: 11px;
-    }
-
-    .wn-check {
-      width: 13px;
-      height: 13px;
-      font-size: 8px;
-    }
-
-    .wn-dot {
-      width: 4px;
-      height: 4px;
-    }
-
-    .wn-task-time { display: flex; }
-    .wn-del { display: none; }
-
-    /* Keep border logic correct for 2-col layout */
-    .wn-day:nth-child(odd) { border-left: none; }
-    .wn-day:nth-child(even) { border-left: 1px solid var(--border); }
-    .wn-day:nth-last-child(1),
-    .wn-day:nth-last-child(2) { border-bottom: none; }
-  }
-
-  /* === MONTH VIEW === */
   .month-grid {
     background: var(--bg-card);
     border: 1px solid var(--border);
@@ -742,12 +496,9 @@
   }
 
   .month-day-name {
-    padding: 12px 8px;
-    text-align: center;
-    font-size: 11px;
-    color: var(--text-mute);
-    font-weight: 700;
-    text-transform: uppercase;
+    padding: 12px 8px; text-align: center;
+    font-size: 11px; color: var(--text-mute);
+    font-weight: 700; text-transform: uppercase;
     letter-spacing: 1px;
     border-right: 1px solid var(--border);
   }
@@ -766,13 +517,10 @@
   .month-row:last-child { border-bottom: none; }
 
   .month-cell {
-    min-height: 110px;
-    padding: 10px 8px;
+    min-height: 110px; padding: 10px 8px;
     border-right: 1px solid var(--border);
-    cursor: pointer;
-    transition: background 0.15s;
-    position: relative;
-    overflow: hidden;
+    cursor: pointer; transition: background 0.15s;
+    position: relative; overflow: hidden;
   }
 
   .month-cell:last-child { border-right: none; }
@@ -781,33 +529,25 @@
   .month-cell.today { background: linear-gradient(135deg, var(--gold-dim), transparent); }
   .month-cell.today::before {
     content: '';
-    position: absolute;
-    top: 0; right: 0;
-    width: 3px;
-    height: 100%;
+    position: absolute; top: 0; right: 0;
+    width: 3px; height: 100%;
     background: var(--gold);
   }
   .month-cell.has-holiday { background: linear-gradient(135deg, rgba(201,168,76,0.06), transparent); }
 
   .cell-num {
-    font-size: 13px;
-    font-weight: 700;
+    font-size: 13px; font-weight: 700;
     color: var(--text-prime);
-    display: flex;
-    align-items: center;
+    display: flex; align-items: center;
     justify-content: space-between;
     margin-bottom: 4px;
   }
 
-  .cell-num.today-num {
-    width: 24px;
-    height: 24px;
-    background: var(--gold);
-    color: #1a1000;
+  .cell-num .today-num {
+    width: 24px; height: 24px;
+    background: var(--gold); color: #1a1000;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     font-size: 12px;
   }
 
@@ -817,12 +557,9 @@
   .cell-tasks { margin-top: 6px; display: flex; flex-direction: column; gap: 2px; }
 
   .cell-task {
-    font-size: 11px;
-    padding: 2px 6px;
+    font-size: 11px; padding: 2px 6px;
     border-radius: 3px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     cursor: pointer;
   }
 
@@ -830,10 +567,8 @@
   .cell-task.priority-medium { background: var(--gold-dim); color: #7a5010; }
   .cell-task.priority-low { background: var(--sapphire-dim); color: #1a4a90; }
   .cell-task.done { opacity: 0.35; text-decoration: line-through; }
-
   .more-tasks { font-size: 10px; color: var(--text-mute); margin-top: 2px; }
 
-  /* === YEAR VIEW === */
   .year-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -844,9 +579,7 @@
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.2s;
+    overflow: hidden; cursor: pointer; transition: all 0.2s;
   }
 
   .year-month-card:hover { border-color: var(--border-strong); transform: translateY(-2px); box-shadow: var(--shadow-card); }
@@ -854,12 +587,9 @@
   .year-month-header {
     padding: 10px 14px;
     border-bottom: 1px solid var(--border);
-    font-size: 13px;
-    font-weight: 700;
+    font-size: 13px; font-weight: 700;
     color: var(--text-prime);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex; justify-content: space-between; align-items: center;
   }
 
   .year-month-header.current-month { background: var(--gold-dim); }
@@ -868,26 +598,19 @@
   .year-mini-days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    padding: 8px;
-    gap: 1px;
+    padding: 8px; gap: 1px;
   }
 
   .mini-day-name {
-    text-align: center;
-    font-size: 8px;
-    color: var(--text-mute);
-    font-weight: 700;
-    padding: 2px 0;
+    text-align: center; font-size: 8px;
+    color: var(--text-mute); font-weight: 700; padding: 2px 0;
   }
 
   .mini-day {
-    text-align: center;
-    font-size: 10px;
+    text-align: center; font-size: 10px;
     padding: 3px 2px;
-    border-radius: 4px;
-    color: var(--text-sec);
-    cursor: pointer;
-    transition: background 0.15s;
+    border-radius: 4px; color: var(--text-sec);
+    cursor: pointer; transition: background 0.15s;
     position: relative;
   }
 
@@ -899,28 +622,20 @@
   .mini-day.has-holiday.has-task::after { color: var(--gold); }
 
   .year-month-summary {
-    padding: 8px 14px;
-    font-size: 10px;
+    padding: 8px 14px; font-size: 10px;
     color: var(--text-mute);
     border-top: 1px solid var(--border);
-    display: flex;
-    gap: 10px;
+    display: flex; gap: 10px;
   }
 
-  /* === MODAL === */
   .modal-overlay {
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background: rgba(240,237,232,0.85);
     backdrop-filter: blur(8px);
     z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px; opacity: 0;
+    pointer-events: none; transition: opacity 0.3s;
   }
 
   .modal-overlay.open { opacity: 1; pointer-events: all; }
@@ -929,25 +644,20 @@
     background: #ffffff;
     border: 1px solid var(--border-strong);
     border-radius: 16px;
-    width: 100%;
-    max-width: 460px;
+    width: 100%; max-width: 460px;
     padding: 28px;
     box-shadow: var(--shadow-deep);
-    transform: translateY(20px);
-    transition: transform 0.3s;
+    transform: translateY(20px); transition: transform 0.3s;
   }
 
   .modal-overlay.open .modal { transform: translateY(0); }
 
   .modal-title {
     font-family: 'Frank Ruhl Libre', serif;
-    font-size: 22px;
-    font-weight: 700;
+    font-size: 22px; font-weight: 700;
     color: var(--text-prime);
     margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    display: flex; align-items: center; gap: 10px;
   }
 
   .modal-title::before { content: '✦'; color: var(--gold); font-size: 14px; }
@@ -955,48 +665,36 @@
   .form-group { margin-bottom: 16px; }
 
   .form-label {
-    display: block;
-    font-size: 12px;
-    color: var(--text-sec);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    display: block; font-size: 12px;
+    color: var(--text-sec); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1px;
     margin-bottom: 8px;
   }
 
   .form-input {
-    width: 100%;
-    padding: 11px 14px;
+    width: 100%; padding: 11px 14px;
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 8px;
     color: var(--text-prime);
     font-family: 'Heebo', sans-serif;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.2s;
+    font-size: 14px; outline: none; transition: border-color 0.2s;
   }
 
   .form-input:focus { border-color: var(--gold); }
   .form-input::placeholder { color: var(--text-mute); }
 
   .priority-picker {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
   }
 
   .priority-opt {
-    padding: 9px;
-    border-radius: 8px;
+    padding: 9px; border-radius: 8px;
     border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text-sec);
+    background: transparent; color: var(--text-sec);
     font-family: 'Heebo', sans-serif;
-    font-size: 13px;
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.2s;
+    font-size: 13px; cursor: pointer;
+    text-align: center; transition: all 0.2s;
   }
 
   .priority-opt.high.selected { background: var(--ember-dim); border-color: var(--ember); color: #a02010; }
@@ -1004,68 +702,50 @@
   .priority-opt.low.selected { background: var(--sapphire-dim); border-color: var(--sapphire); color: #1a50a0; }
   .priority-opt:hover { border-color: var(--border-strong); }
 
-  .modal-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 24px;
-  }
+  .modal-actions { display: flex; gap: 10px; margin-top: 24px; }
 
   .btn-cancel {
-    flex: 1;
-    padding: 12px;
+    flex: 1; padding: 12px;
     border-radius: 8px;
     border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text-sec);
+    background: transparent; color: var(--text-sec);
     font-family: 'Heebo', sans-serif;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s;
+    font-size: 14px; cursor: pointer; transition: all 0.2s;
   }
 
   .btn-cancel:hover { border-color: var(--border-strong); color: var(--text-prime); }
 
   .btn-save {
-    flex: 2;
-    padding: 12px;
-    border-radius: 8px;
-    border: none;
+    flex: 2; padding: 12px;
+    border-radius: 8px; border: none;
     background: linear-gradient(135deg, var(--gold), #7a5010);
     color: #fff;
     font-family: 'Heebo', sans-serif;
-    font-size: 14px;
-    font-weight: 800;
-    cursor: pointer;
-    transition: all 0.2s;
+    font-size: 14px; font-weight: 800;
+    cursor: pointer; transition: all 0.2s;
   }
 
   .btn-save:hover { opacity: 0.9; transform: translateY(-1px); }
 
-  /* === UPCOMING SIDEBAR === */
   .layout-with-sidebar {
     display: grid;
     grid-template-columns: 1fr 260px;
-    gap: 16px;
-    align-items: start;
+    gap: 16px; align-items: start;
   }
 
   .sidebar-panel {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    overflow: hidden;
-    position: sticky;
-    top: 84px;
+    overflow: hidden; position: sticky; top: 84px;
   }
 
   .sidebar-heading {
     padding: 16px 18px;
     border-bottom: 1px solid var(--border);
-    font-size: 12px;
-    font-weight: 700;
+    font-size: 12px; font-weight: 700;
     color: var(--text-mute);
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
+    text-transform: uppercase; letter-spacing: 1.5px;
   }
 
   .upcoming-holiday {
@@ -1081,7 +761,6 @@
   .uh-date { font-size: 11px; color: var(--text-sec); margin-top: 2px; }
   .uh-countdown { font-size: 10px; color: var(--text-mute); margin-top: 3px; }
 
-  /* === RESPONSIVE === */
   @media (max-width: 900px) {
     .layout-with-sidebar { grid-template-columns: 1fr; }
     .sidebar-panel { position: relative; top: 0; }
@@ -1095,6 +774,11 @@
     .header-nav .nav-btn { padding: 6px 10px; font-size: 12px; }
   }
 
+  @media (max-width: 640px) {
+    .wn-holiday-strip { font-size: 10px; padding: 3px 8px 4px; }
+    .wn-holiday-strip .hol-icon { font-size: 10px; }
+  }
+
   @media (max-width: 600px) {
     .app-body { padding: 8px; }
     .year-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1102,631 +786,418 @@
     .cell-tasks { display: none; }
     .cell-num { font-size: 12px; }
 
-    /* Week view: zero padding so grid fills edge-to-edge */
     #view-week .layout-with-sidebar { display: block; }
-    .week-notebook {
-      border-radius: 0;
-      border-left: none;
-      border-right: none;
-    }
+    .week-notebook { border-radius: 0; border-left: none; border-right: none; }
 
-    /* === MOBILE DAY VIEW — compact, no scroll needed === */
-
-    /* Hide the sidebar (date card + task count) — show as slim top strip */
     #view-day .layout-with-sidebar { display: block; }
     #view-day .sidebar-panel { display: none; }
 
-    .day-view {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
+    .day-view { display: flex; flex-direction: column; gap: 8px; }
 
-    /* Sidebar becomes a horizontal strip */
-    .day-sidebar {
-      flex-direction: row;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: nowrap;
-    }
+    .day-sidebar { flex-direction: row; align-items: center; gap: 8px; flex-wrap: nowrap; }
 
     .day-date-card {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 14px;
-      flex: 1;
-      text-align: right;
+      display: flex; flex-direction: row;
+      align-items: center; gap: 10px;
+      padding: 10px 14px; flex: 1; text-align: right;
     }
 
-    .day-number {
-      font-size: 36px;
-      line-height: 1;
-      flex-shrink: 0;
-    }
-
+    .day-number { font-size: 36px; line-height: 1; flex-shrink: 0; }
     .day-name { font-size: 14px; margin-top: 0; }
     .day-month { font-size: 11px; }
     .day-hebrew { font-size: 10px; margin-top: 2px; }
 
     .day-tasks-count {
       padding: 10px 14px;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 6px;
-      white-space: nowrap;
-      flex-shrink: 0;
+      display: flex; flex-direction: row;
+      align-items: center; gap: 6px;
+      white-space: nowrap; flex-shrink: 0;
     }
 
     .count-num { font-size: 22px; }
     .count-label { font-size: 11px; }
-
-    /* Timeline takes full width, compact rows */
-    .day-timeline {
-      border-radius: var(--radius);
-    }
-
+    .day-timeline { border-radius: var(--radius); }
     .timeline-header { padding: 10px 14px; font-size: 11px; }
-
     .time-slot { min-height: 42px; }
-
-    .time-label {
-      width: 48px;
-      padding: 6px 8px;
-      font-size: 10px;
-    }
-
+    .time-label { width: 48px; padding: 6px 8px; font-size: 10px; }
     .time-content { padding: 4px 8px; }
-
     .task-chip { font-size: 12px; padding: 4px 8px; }
 
-    /* === MOBILE HEADER — 2 compact rows === */
     .app-header { padding: 0 12px; }
-
-    .header-inner {
-      flex-wrap: wrap;
-      height: auto;
-      padding: 8px 0 0;
-      gap: 0;
-    }
-
-    /* Row 1: logo + add button */
+    .header-inner { flex-wrap: wrap; height: auto; padding: 8px 0 0; gap: 0; }
     .logo { flex: 1; }
     .logo-text { font-size: 17px; }
     .logo-sub { display: none; }
     .logo-icon { width: 28px; height: 28px; font-size: 14px; }
+    .add-task-btn { padding: 6px 13px; font-size: 12px; border-radius: 7px; }
 
-    .add-task-btn {
-      padding: 6px 13px;
-      font-size: 12px;
-      border-radius: 7px;
-    }
-
-    /* Row 2: view switcher + nav arrows + today — all in one line */
     .mobile-row2 {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      width: 100%; display: flex; align-items: center; gap: 6px;
       padding: 6px 0 8px;
       border-top: 1px solid var(--border);
       margin-top: 8px;
     }
 
-    .mobile-row2 .header-nav {
-      flex: 1;
-      min-width: 0;
-      padding: 3px;
-      gap: 1px;
-    }
-
-    .nav-btn {
-      padding: 5px 6px;
-      font-size: 11px;
-      border-radius: 5px;
-    }
-
-    /* Hide desktop controls, show mobile row */
+    .mobile-row2 .header-nav { flex: 1; min-width: 0; padding: 3px; gap: 1px; }
+    .nav-btn { padding: 5px 6px; font-size: 11px; border-radius: 5px; }
     .header-controls { display: none; }
 
-    /* Mobile nav controls — shifted slightly left to not crowd view buttons */
     .mobile-nav-controls {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      flex-shrink: 0;
-      margin-left: -12px;
+      display: flex; align-items: center; gap: 4px;
+      flex-shrink: 0; margin-left: -12px;
     }
 
-    .mobile-nav-controls .arrow-btn {
-      width: 28px;
-      height: 28px;
-      font-size: 14px;
-      border-radius: 7px;
-    }
-
-    .mobile-nav-controls .today-btn {
-      padding: 4px 9px;
-      font-size: 11px;
-      border-radius: 7px;
-      white-space: nowrap;
-    }
+    .mobile-nav-controls .arrow-btn { width: 28px; height: 28px; font-size: 14px; border-radius: 7px; }
+    .mobile-nav-controls .today-btn { padding: 4px 9px; font-size: 11px; border-radius: 7px; white-space: nowrap; }
 
     .mobile-current-label {
-      font-size: 11px;
-      font-weight: 600;
+      font-size: 11px; font-weight: 600;
       color: var(--text-prime);
-      white-space: nowrap;
-      text-align: center;
-      min-width: 0;
-      max-width: 72px;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      white-space: nowrap; text-align: center;
+      min-width: 0; max-width: 72px;
+      overflow: hidden; text-overflow: ellipsis;
     }
+
+    .week-notebook { grid-template-columns: 1fr 1fr; }
+    .wn-header { padding: 7px 8px 6px; }
+    .wn-day-label { font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+    .wn-add-btn { width: 18px; height: 18px; font-size: 13px; flex-shrink: 0; }
+    .wn-hol-badge { display: none; }
+    .wn-line { min-height: 28px; height: auto; padding: 5px 7px; }
+    .wn-task-text { font-size: 11px; }
+    .wn-check { width: 13px; height: 13px; font-size: 8px; }
+    .wn-dot { width: 4px; height: 4px; }
+    .wn-task-time { display: flex; }
+    .wn-del { display: none; }
+    .wn-day:nth-child(odd) { border-left: none; }
+    .wn-day:nth-child(even) { border-left: 1px solid var(--border); }
+    .wn-day:nth-last-child(1), .wn-day:nth-last-child(2) { border-bottom: none; }
+
+    .wn-inline-input { font-size: 11px; }
   }
 
-  /* Mobile settings button — only shown on mobile, in logo row */
   .mobile-settings-btn {
-    display: none;
-    width: 32px;
-    height: 32px;
+    display: none; width: 32px; height: 32px;
     border-radius: 8px;
     border: 1px solid var(--border);
     background: var(--bg-card);
-    font-size: 16px;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    margin-right: auto;
-    transition: border-color 0.15s;
+    font-size: 16px; cursor: pointer;
+    align-items: center; justify-content: center;
+    flex-shrink: 0; margin-right: auto; transition: border-color 0.15s;
   }
   .mobile-settings-btn:focus { outline: none; }
 
   @media (max-width: 600px) {
     .mobile-settings-btn { display: flex; }
   }
+
   .mobile-row2 { display: none; }
 
   @media (max-width: 600px) {
-    /* Show mobile row, hide desktop duplicates */
     .mobile-row2 { display: flex; }
-    /* Hide the desktop header-nav (the one between logo and controls) */
     .header-inner > .header-nav { display: none; }
   }
+
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg-void); }
   ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
 
-  /* Empty state */
-  .empty-state {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--text-mute);
-    font-size: 13px;
-  }
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--text-mute); font-size: 13px; }
 
-  /* PWA Install Banner */
   .install-banner {
     position: fixed;
-    bottom: 80px;
-    left: 12px; right: 12px;
-    background: var(--text-prime);
-    color: #fff;
-    border-radius: 14px;
-    padding: 14px 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    z-index: 800;
-    box-shadow: var(--shadow-deep);
-    direction: rtl;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.3s, transform 0.3s;
+    bottom: 80px; left: 12px; right: 12px;
+    background: var(--text-prime); color: #fff;
+    border-radius: 14px; padding: 14px 16px;
+    display: flex; align-items: center; gap: 10px;
+    z-index: 800; box-shadow: var(--shadow-deep);
+    direction: rtl; opacity: 0;
+    transform: translateY(20px); transition: opacity 0.3s, transform 0.3s;
   }
+
   .install-banner.show { opacity: 1; transform: translateY(0); }
   .install-icon { font-size: 24px; flex-shrink: 0; }
   .install-text { flex: 1; }
   .install-text strong { display: block; font-size: 14px; }
   .install-text span { font-size: 11px; opacity: 0.7; }
+
   .install-yes {
-    padding: 7px 14px;
-    border-radius: 8px;
-    border: none;
-    background: var(--gold);
-    color: #fff;
-    font-family: 'Heebo', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-  .install-no {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    border: none;
-    background: rgba(255,255,255,0.15);
-    color: #fff;
-    font-size: 14px;
-    cursor: pointer;
-    flex-shrink: 0;
+    padding: 7px 14px; border-radius: 8px; border: none;
+    background: var(--gold); color: #fff;
+    font-family: 'Heebo', sans-serif; font-size: 13px; font-weight: 700;
+    cursor: pointer; white-space: nowrap;
   }
 
-  /* =============================================
-     FAB — Floating Action Button
-     ============================================= */
+  .install-no {
+    width: 28px; height: 28px; border-radius: 50%; border: none;
+    background: rgba(255,255,255,0.15); color: #fff;
+    font-size: 14px; cursor: pointer; flex-shrink: 0;
+  }
+
   .fab {
-    position: fixed;
-    bottom: 28px;
-    left: 28px;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
+    position: fixed; bottom: 28px; left: 28px;
+    width: 56px; height: 56px; border-radius: 50%;
     background: linear-gradient(135deg, var(--gold), #7a5010);
-    color: #fff;
-    font-size: 28px;
-    line-height: 1;
-    border: none;
-    cursor: pointer;
+    color: #fff; font-size: 28px; line-height: 1;
+    border: none; cursor: pointer;
     box-shadow: 0 6px 24px rgba(160,120,40,0.35);
     z-index: 200;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     transition: transform 0.2s, box-shadow 0.2s;
   }
+
   .fab:hover { transform: scale(1.08); box-shadow: 0 10px 30px rgba(160,120,40,0.45); }
   .fab:active { transform: scale(0.95); }
   .fab:focus { outline: none; }
 
-  /* =============================================
-     QUICK-ADD SHEET
-     ============================================= */
   .qa-overlay {
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background: rgba(0,0,0,0.45);
     backdrop-filter: blur(4px);
     z-index: 1000;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s;
-  }
-  .qa-overlay.open {
-    opacity: 1;
-    pointer-events: all;
+    display: flex; align-items: flex-end; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.25s;
   }
 
+  .qa-overlay.open { opacity: 1; pointer-events: all; }
+
   .qa-sheet {
-    background: #fff;
-    width: 100%;
-    max-width: 520px;
+    background: #fff; width: 100%; max-width: 520px;
     border-radius: 20px 20px 0 0;
     overflow: hidden;
     transform: translateY(100%);
     transition: transform 0.32s cubic-bezier(0.32,0.72,0,1);
-    max-height: 92vh;
-    overflow-y: auto;
+    max-height: 92vh; overflow-y: auto;
     direction: rtl;
   }
+
   .qa-overlay.open .qa-sheet { transform: translateY(0); }
 
-  /* Header */
   .qa-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: flex; align-items: center; justify-content: space-between;
     padding: 16px 20px 12px;
     border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    background: #fff;
-    z-index: 2;
+    position: sticky; top: 0; background: #fff; z-index: 2;
   }
+
   .qa-header-title {
     font-family: 'Frank Ruhl Libre', serif;
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 18px; font-weight: 700;
     color: var(--text-prime);
   }
+
   .qa-close {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    border: none;
-    background: var(--bg-hover);
-    color: var(--text-sec);
-    font-size: 18px;
-    cursor: pointer;
+    width: 36px; height: 36px; border-radius: 50%; border: none;
+    background: var(--bg-hover); color: var(--text-sec);
+    font-size: 18px; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     transition: background 0.15s;
   }
+
   .qa-close:hover { background: var(--border); }
+
   .qa-save-btn {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    border: none;
+    width: 36px; height: 36px; border-radius: 50%; border: none;
     background: linear-gradient(135deg, var(--gold), #7a5010);
-    color: #fff;
-    font-size: 18px;
-    cursor: pointer;
+    color: #fff; font-size: 18px; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 3px 10px var(--gold-glow);
     transition: transform 0.15s;
   }
+
   .qa-save-btn:active { transform: scale(0.92); }
 
-  /* Title input */
   .qa-title-row { padding: 16px 20px 8px; }
+
   .qa-title-input {
-    width: 100%;
-    border: none;
-    outline: none;
+    width: 100%; border: none; outline: none;
     font-family: 'Frank Ruhl Libre', serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--text-prime);
-    background: transparent;
-    direction: rtl;
-    caret-color: var(--gold);
+    font-size: 22px; font-weight: 700;
+    color: var(--text-prime); background: transparent;
+    direction: rtl; caret-color: var(--gold);
   }
+
   .qa-title-input::placeholder { color: var(--text-mute); }
 
-  /* Description */
   .qa-desc-row { padding: 0 20px 12px; }
+
   .qa-desc-input {
-    width: 100%;
-    border: none;
-    outline: none;
+    width: 100%; border: none; outline: none;
     font-family: 'Heebo', sans-serif;
-    font-size: 14px;
-    color: var(--text-sec);
-    background: transparent;
-    resize: none;
-    direction: rtl;
-    caret-color: var(--gold);
+    font-size: 14px; color: var(--text-sec);
+    background: transparent; resize: none;
+    direction: rtl; caret-color: var(--gold);
     line-height: 1.6;
   }
+
   .qa-desc-input::placeholder { color: #ccc; }
 
   .qa-divider {
-    height: 8px;
-    background: var(--bg-void);
+    height: 8px; background: var(--bg-void);
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
   }
 
-  /* Field rows */
   .qa-field-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    display: flex; align-items: center; gap: 12px;
     padding: 15px 20px;
     border-bottom: 1px solid var(--border);
   }
+
   .qa-row-clickable { cursor: pointer; transition: background 0.12s; }
   .qa-row-clickable:hover { background: var(--bg-hover); }
 
   .qa-row-icon { font-size: 18px; flex-shrink: 0; }
   .qa-row-label { font-size: 14px; color: var(--text-sec); flex-shrink: 0; }
+
   .qa-row-value {
-    flex: 1;
-    text-align: left;
-    font-size: 14px;
-    color: var(--gold);
-    font-weight: 600;
+    flex: 1; text-align: left;
+    font-size: 14px; color: var(--gold); font-weight: 600;
   }
+
   .qa-row-value.empty { color: var(--text-mute); font-weight: 400; }
 
   .qa-hidden-input {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-    width: 0; height: 0;
+    position: absolute; opacity: 0;
+    pointer-events: none; width: 0; height: 0;
   }
 
-  /* Repeat panel */
   .qa-repeat-panel {
     background: var(--bg-void);
     padding: 14px 20px;
     border-bottom: 1px solid var(--border);
   }
+
   .qa-repeat-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-  }
-  .qa-repeat-opt {
-    padding: 8px 4px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: #fff;
-    color: var(--text-sec);
-    font-family: 'Heebo', sans-serif;
-    font-size: 12px;
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.15s;
-  }
-  .qa-repeat-opt.selected {
-    background: var(--gold-dim);
-    border-color: var(--gold);
-    color: var(--gold);
-    font-weight: 700;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
   }
 
-  /* Weekday picker */
-  .qa-weekday-picker {
-    display: flex;
-    gap: 6px;
-    margin-top: 10px;
-    justify-content: center;
-  }
-  .qa-wd {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    border: 1.5px solid var(--border);
-    background: #fff;
-    font-size: 12px;
+  .qa-repeat-opt {
+    padding: 8px 4px; border-radius: 8px;
+    border: 1px solid var(--border);
+    background: #fff; color: var(--text-sec);
     font-family: 'Heebo', sans-serif;
-    font-weight: 600;
-    color: var(--text-sec);
-    cursor: pointer;
-    transition: all 0.15s;
+    font-size: 12px; cursor: pointer; text-align: center; transition: all 0.15s;
+  }
+
+  .qa-repeat-opt.selected {
+    background: var(--gold-dim); border-color: var(--gold);
+    color: var(--gold); font-weight: 700;
+  }
+
+  .qa-weekday-picker {
+    display: flex; gap: 6px; margin-top: 10px; justify-content: center;
+  }
+
+  .qa-wd {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: #fff; font-size: 12px;
+    font-family: 'Heebo', sans-serif; font-weight: 600;
+    color: var(--text-sec); cursor: pointer; transition: all 0.15s;
     display: flex; align-items: center; justify-content: center;
   }
+
   .qa-wd.on { background: var(--gold); border-color: var(--gold); color: #fff; }
 
-  /* Priority panel */
   .qa-priority-panel {
-    display: flex;
-    gap: 8px;
+    display: flex; gap: 8px;
     padding: 12px 20px;
     background: var(--bg-void);
     border-bottom: 1px solid var(--border);
   }
+
   .qa-pri-opt {
-    flex: 1;
-    padding: 9px 4px;
+    flex: 1; padding: 9px 4px;
     border-radius: 8px;
     border: 1px solid var(--border);
     background: #fff;
-    font-family: 'Heebo', sans-serif;
-    font-size: 12px;
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.15s;
+    font-family: 'Heebo', sans-serif; font-size: 12px;
+    cursor: pointer; text-align: center; transition: all 0.15s;
     color: var(--text-sec);
   }
-  .qa-pri-opt.selected { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); font-weight: 700; }
+
+  .qa-pri-opt.selected {
+    background: var(--gold-dim); border-color: var(--gold);
+    color: var(--gold); font-weight: 700;
+  }
 
   @media (min-width: 600px) {
     .qa-overlay { align-items: center; }
-    .qa-sheet {
-      border-radius: 16px;
-      max-height: 85vh;
-      margin-bottom: 0;
-    }
+    .qa-sheet { border-radius: 16px; max-height: 85vh; margin-bottom: 0; }
   }
 
-  /* =============================================
-     SELECTION ACTION BAR
-     ============================================= */
   .sel-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0; right: 0;
-    background: var(--text-prime);
-    color: #fff;
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--text-prime); color: #fff;
     padding: 14px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 12px;
     z-index: 500;
     box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
-    animation: slideUp 0.2s ease;
-    direction: rtl;
+    animation: slideUp 0.2s ease; direction: rtl;
   }
 
   @keyframes slideUp {
     from { transform: translateY(100%); }
-    to   { transform: translateY(0); }
+    to { transform: translateY(0); }
   }
 
-  .sel-count {
-    font-size: 14px;
-    font-weight: 700;
-    white-space: nowrap;
-  }
-
-  .sel-actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-  }
+  .sel-count { font-size: 14px; font-weight: 700; white-space: nowrap; }
+  .sel-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
 
   .sel-btn {
-    padding: 8px 14px;
-    border-radius: 8px;
-    border: none;
+    padding: 8px 14px; border-radius: 8px; border: none;
     font-family: 'Heebo', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.15s;
-    white-space: nowrap;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: opacity 0.15s; white-space: nowrap;
   }
-  .sel-btn:hover { opacity: 0.85; }
 
-  .sel-move   { background: var(--gold); color: #fff; }
+  .sel-btn:hover { opacity: 0.85; }
+  .sel-move { background: var(--gold); color: #fff; }
   .sel-delete { background: var(--ember); color: #fff; }
   .sel-cancel { background: rgba(255,255,255,0.15); color: #fff; }
 
-  /* Selected line highlight */
   .wn-line.wn-selected {
     background: rgba(160,120,40,0.12) !important;
     border-right: 3px solid var(--gold);
   }
 
-  /* Move sheet */
   .move-overlay {
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background: rgba(0,0,0,0.45);
     backdrop-filter: blur(4px);
     z-index: 1200;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.22s;
+    display: flex; align-items: flex-end; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.22s;
   }
+
   .move-overlay.open { opacity: 1; pointer-events: all; }
 
   .move-sheet {
-    background: #fff;
-    width: 100%;
-    max-width: 480px;
+    background: #fff; width: 100%; max-width: 480px;
     border-radius: 20px 20px 0 0;
     overflow: hidden;
     transform: translateY(100%);
     transition: transform 0.28s cubic-bezier(0.32,0.72,0,1);
     direction: rtl;
   }
+
   .move-overlay.open .move-sheet { transform: translateY(0); }
 
   .move-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px; border-bottom: 1px solid var(--border);
   }
-  .move-title {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--text-prime);
-  }
-  .move-body {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-  }
+
+  .move-title { font-size: 16px; font-weight: 700; color: var(--text-prime); }
+
+  .move-body { padding: 20px; display: flex; flex-direction: column; }
+
   .move-label {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-mute);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
+    font-size: 12px; font-weight: 700;
+    color: var(--text-mute); text-transform: uppercase;
+    letter-spacing: 1px; margin-bottom: 10px;
   }
 
   @media (min-width: 600px) {
@@ -1734,206 +1205,130 @@
     .move-sheet { border-radius: 16px; max-width: 360px; }
   }
 
-  /* =============================================
-     SETTINGS PANEL
-     ============================================= */
   .settings-overlay {
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background: rgba(0,0,0,0.35);
     backdrop-filter: blur(4px);
     z-index: 1100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.22s;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.22s;
   }
+
   .settings-overlay.open { opacity: 1; pointer-events: all; }
 
   .settings-panel {
-    background: #fff;
-    border-radius: 16px;
-    width: 100%;
-    max-width: 360px;
+    background: #fff; border-radius: 16px;
+    width: 100%; max-width: 360px;
     box-shadow: var(--shadow-deep);
-    direction: rtl;
-    transform: scale(0.95);
-    transition: transform 0.22s;
-    overflow: hidden;
+    direction: rtl; transform: scale(0.95);
+    transition: transform 0.22s; overflow: hidden;
   }
+
   .settings-overlay.open .settings-panel { transform: scale(1); }
 
   .settings-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--border);
-  }
-  .settings-title {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--text-prime);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px; border-bottom: 1px solid var(--border);
   }
 
+  .settings-title { font-size: 16px; font-weight: 700; color: var(--text-prime); }
+
   .settings-section {
-    padding: 18px 20px;
-    border-bottom: 1px solid var(--border);
+    padding: 18px 20px; border-bottom: 1px solid var(--border);
   }
+
   .settings-section:last-child { border-bottom: none; }
 
   .settings-label {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-mute);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 14px;
+    font-size: 12px; font-weight: 700; color: var(--text-mute);
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;
   }
 
-  .settings-vol-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
-  }
-
+  .settings-vol-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
   .vol-icon { font-size: 16px; flex-shrink: 0; }
 
   .vol-slider {
-    flex: 1;
-    -webkit-appearance: none;
-    height: 5px;
-    border-radius: 3px;
+    flex: 1; -webkit-appearance: none;
+    height: 5px; border-radius: 3px;
     background: linear-gradient(to left, var(--gold) var(--pct, 50%), var(--border) var(--pct, 50%));
-    outline: none;
-    cursor: pointer;
+    outline: none; cursor: pointer;
   }
+
   .vol-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
+    width: 20px; height: 20px; border-radius: 50%;
     background: var(--gold);
     box-shadow: 0 2px 6px var(--gold-glow);
-    cursor: pointer;
-    border: 2px solid #fff;
+    cursor: pointer; border: 2px solid #fff;
   }
+
   .vol-slider::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--gold);
-    cursor: pointer;
-    border: 2px solid #fff;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--gold); cursor: pointer; border: 2px solid #fff;
   }
 
   .vol-value {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--gold);
-    min-width: 36px;
-    text-align: center;
+    font-size: 13px; font-weight: 700; color: var(--gold);
+    min-width: 36px; text-align: center;
   }
 
   .vol-test-btn {
-    width: 100%;
-    padding: 9px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--bg-hover);
+    width: 100%; padding: 9px; border-radius: 8px;
+    border: 1px solid var(--border); background: var(--bg-hover);
     color: var(--text-sec);
-    font-family: 'Heebo', sans-serif;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.15s;
+    font-family: 'Heebo', sans-serif; font-size: 13px;
+    cursor: pointer; transition: all 0.15s;
   }
+
   .vol-test-btn:hover { border-color: var(--gold); color: var(--gold); }
 
   .settings-notif-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 13px;
-    color: var(--text-sec);
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 13px; color: var(--text-sec);
   }
+
   .notif-btn {
-    padding: 7px 14px;
-    border-radius: 8px;
-    border: none;
+    padding: 7px 14px; border-radius: 8px; border: none;
     background: linear-gradient(135deg, var(--gold), #7a5010);
     color: #fff;
-    font-family: 'Heebo', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
+    font-family: 'Heebo', sans-serif; font-size: 12px; font-weight: 700;
     cursor: pointer;
   }
 
-  /* =============================================
-     TASK ALARM TOAST
-     ============================================= */
   .task-toast {
-    position: fixed;
-    top: 80px;
-    left: 50%;
+    position: fixed; top: 80px; left: 50%;
     transform: translateX(-50%) translateY(-20px);
     background: #fff;
     border: 1px solid var(--border);
     border-right: 4px solid var(--gold);
-    border-radius: 12px;
-    padding: 14px 16px;
+    border-radius: 12px; padding: 14px 16px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    z-index: 9999;
-    min-width: 260px;
-    max-width: 340px;
-    opacity: 0;
-    transition: opacity 0.3s, transform 0.3s;
+    display: flex; align-items: center; gap: 12px;
+    z-index: 9999; min-width: 260px; max-width: 340px;
+    opacity: 0; transition: opacity 0.3s, transform 0.3s;
     direction: rtl;
   }
 
   .task-toast.toast-show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    opacity: 1; transform: translateX(-50%) translateY(0);
   }
 
   .toast-icon { font-size: 22px; flex-shrink: 0; }
-
   .toast-body { flex: 1; min-width: 0; }
 
   .toast-title {
-    font-size: 14px;
-    font-weight: 700;
+    font-size: 14px; font-weight: 700;
     color: var(--text-prime);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
 
-  .toast-time {
-    font-size: 11px;
-    color: var(--text-mute);
-    margin-top: 2px;
-  }
+  .toast-time { font-size: 11px; color: var(--text-mute); margin-top: 2px; }
 
   .toast-close {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    border: none;
-    background: var(--bg-hover);
-    color: var(--text-mute);
-    font-size: 12px;
-    cursor: pointer;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 24px; height: 24px; border-radius: 50%; border: none;
+    background: var(--bg-hover); color: var(--text-mute);
+    font-size: 12px; cursor: pointer; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
     transition: background 0.15s;
   }
 
@@ -1941,12 +1336,9 @@
 
   @media (max-width: 600px) {
     .task-toast {
-      top: auto;
-      bottom: 90px;
-      left: 16px;
-      right: 16px;
-      transform: translateY(20px);
-      max-width: none;
+      top: auto; bottom: 90px;
+      left: 16px; right: 16px;
+      transform: translateY(20px); max-width: none;
     }
     .task-toast.toast-show { transform: translateY(0); }
   }
@@ -1958,7 +1350,6 @@
 
 <header class="app-header">
   <div class="header-inner">
-    <!-- Row 1: logo + settings + add button -->
     <div class="logo">
       <div class="logo-icon">✦</div>
       <div>
@@ -1986,7 +1377,6 @@
       <button class="add-task-btn" onclick="openModal()">+ הוסף משימה</button>
     </div>
 
-    <!-- Row 2 (mobile only): view switcher + date nav + today + add -->
     <div class="mobile-row2">
       <div class="header-nav" style="flex:1">
         <button class="nav-btn" onclick="switchView('day')">יום</button>
@@ -2007,7 +1397,6 @@
 <div class="app-body">
   <div id="holidayBanner" class="holiday-banner" style="display:none"></div>
 
-  <!-- DAY VIEW -->
   <div id="view-day" class="view">
     <div class="layout-with-sidebar">
       <div class="day-view">
@@ -2032,14 +1421,12 @@
     </div>
   </div>
 
-  <!-- WEEK VIEW -->
   <div id="view-week" class="view active">
     <div class="layout-with-sidebar">
       <div class="week-notebook" id="weekGrid"></div>
     </div>
   </div>
 
-  <!-- MONTH VIEW -->
   <div id="view-month" class="view">
     <div class="layout-with-sidebar">
       <div class="month-grid" id="monthGrid"></div>
@@ -2047,13 +1434,11 @@
     </div>
   </div>
 
-  <!-- YEAR VIEW -->
   <div id="view-year" class="view">
     <div class="year-grid" id="yearGrid"></div>
   </div>
 </div>
 
-<!-- SELECTION ACTION BAR -->
 <div class="sel-bar" id="selBar" style="display:none">
   <div class="sel-count" id="selCount">0 נבחרו</div>
   <div class="sel-actions">
@@ -2063,7 +1448,6 @@
   </div>
 </div>
 
-<!-- MOVE TO DATE SHEET -->
 <div class="move-overlay" id="moveOverlay" onclick="closeMoveOutside(event)">
   <div class="move-sheet">
     <div class="move-header">
@@ -2078,33 +1462,26 @@
   </div>
 </div>
 
-<!-- FAB — floating add button -->
 <button class="fab" id="fabBtn" onclick="openQuickAdd()" title="הוסף משימה">+</button>
 
-<!-- QUICK-ADD SHEET (full screen on mobile, modal on desktop) -->
 <div class="qa-overlay" id="qaOverlay" onclick="qaCloseOutside(event)">
   <div class="qa-sheet" id="qaSheet">
-
-    <!-- Header -->
     <div class="qa-header">
       <button class="qa-close" onclick="closeQuickAdd()">→</button>
       <span class="qa-header-title">משימה חדשה</span>
       <button class="qa-save-btn" onclick="saveQuickTask()">✓</button>
     </div>
 
-    <!-- Title -->
     <div class="qa-field-row qa-title-row">
       <input class="qa-title-input" id="qaTitleInput" type="text" placeholder="כותרת" autocomplete="off" />
     </div>
 
-    <!-- Description -->
     <div class="qa-field-row qa-desc-row">
       <textarea class="qa-desc-input" id="qaDescInput" placeholder="תיאור" rows="2"></textarea>
     </div>
 
     <div class="qa-divider"></div>
 
-    <!-- Date row -->
     <div class="qa-field-row qa-row-clickable" onclick="document.getElementById('qaDateInput').showPicker?.() || document.getElementById('qaDateInput').click()">
       <span class="qa-row-icon">📅</span>
       <span class="qa-row-label">תאריך</span>
@@ -2112,7 +1489,6 @@
       <input type="date" id="qaDateInput" class="qa-hidden-input" onchange="updateDateDisplay()" />
     </div>
 
-    <!-- Time row -->
     <div class="qa-field-row qa-row-clickable" onclick="document.getElementById('qaTimeInput').showPicker?.() || document.getElementById('qaTimeInput').click()">
       <span class="qa-row-icon">⏰</span>
       <span class="qa-row-label">זמן</span>
@@ -2120,14 +1496,12 @@
       <input type="time" id="qaTimeInput" class="qa-hidden-input" onchange="updateTimeDisplay()" />
     </div>
 
-    <!-- Repeat row -->
     <div class="qa-field-row qa-row-clickable" onclick="toggleRepeatPanel()">
       <span class="qa-row-icon">🔁</span>
       <span class="qa-row-label">חזור</span>
       <span class="qa-row-value" id="qaRepeatDisplay">ללא חזרה</span>
     </div>
 
-    <!-- Repeat options panel -->
     <div class="qa-repeat-panel" id="qaRepeatPanel" style="display:none">
       <div class="qa-repeat-grid">
         <button class="qa-repeat-opt selected" onclick="setRepeat('none', this)">ללא חזרה</button>
@@ -2139,7 +1513,6 @@
         <button class="qa-repeat-opt" onclick="setRepeat('weekdays', this)">ימים נבחרים</button>
         <button class="qa-repeat-opt" onclick="setRepeat('custom', this)">מותאם אישית</button>
       </div>
-      <!-- Weekday picker (shown when "ימים נבחרים" selected) -->
       <div class="qa-weekday-picker" id="qaWeekdayPicker" style="display:none">
         <button class="qa-wd" data-day="0">א'</button>
         <button class="qa-wd" data-day="1">ב'</button>
@@ -2151,7 +1524,6 @@
       </div>
     </div>
 
-    <!-- Priority row -->
     <div class="qa-field-row qa-row-clickable" onclick="togglePriorityPanel()">
       <span class="qa-row-icon">🎯</span>
       <span class="qa-row-label">עדיפות</span>
@@ -2162,11 +1534,9 @@
       <button class="qa-pri-opt selected" onclick="setQaPriority('medium',this)">🟡 בינונית</button>
       <button class="qa-pri-opt" onclick="setQaPriority('low',this)">🔵 נמוכה</button>
     </div>
-
   </div>
 </div>
 
-<!-- SETTINGS PANEL -->
 <div class="settings-overlay" id="settingsOverlay" onclick="closeSettingsOutside(event)">
   <div class="settings-panel">
     <div class="settings-header">
@@ -2197,7 +1567,6 @@
     </div>
   </div>
 </div>
-
 
 <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)" style="display:none">
   <div class="modal">
@@ -2234,11 +1603,7 @@
 </div>
 
 <script>
-// ============================================================
-// JEWISH HOLIDAYS DATA (תשפ"ה - תש"צ / 2025-2030)
-// ============================================================
 const HOLIDAYS = [
-  // ===== תשפ"ה / 2025 =====
   { name: 'ראש השנה', date: '2025-09-22', duration: 2, icon: '🍎' },
   { name: 'צום גדליה', date: '2025-09-25', duration: 1, icon: '✡️', fast: true },
   { name: 'יום כיפור', date: '2025-10-01', duration: 1, icon: '🕍', fast: true },
@@ -2246,8 +1611,6 @@ const HOLIDAYS = [
   { name: 'שמחת תורה', date: '2025-10-13', duration: 1, icon: '📖' },
   { name: 'חנוכה', date: '2025-12-14', duration: 8, icon: '🕎' },
   { name: 'צום עשרה בטבת', date: '2025-12-30', duration: 1, icon: '✡️', fast: true },
-
-  // ===== תשפ"ו / 2026 =====
   { name: 'ט"ו בשבט', date: '2026-02-02', duration: 1, icon: '🌳' },
   { name: 'תענית אסתר', date: '2026-03-02', duration: 1, icon: '✡️', fast: true },
   { name: 'פורים', date: '2026-03-03', duration: 1, icon: '🎭' },
@@ -2270,8 +1633,6 @@ const HOLIDAYS = [
   { name: 'שמחת תורה', date: '2026-10-02', duration: 1, icon: '📖' },
   { name: 'חנוכה', date: '2026-12-04', duration: 8, icon: '🕎' },
   { name: 'צום עשרה בטבת', date: '2026-12-20', duration: 1, icon: '✡️', fast: true },
-
-  // ===== תשפ"ז / 2027 =====
   { name: 'ט"ו בשבט', date: '2027-02-01', duration: 1, icon: '🌳' },
   { name: 'תענית אסתר', date: '2027-03-22', duration: 1, icon: '✡️', fast: true },
   { name: 'פורים', date: '2027-03-23', duration: 1, icon: '🎭' },
@@ -2293,8 +1654,6 @@ const HOLIDAYS = [
   { name: 'סוכות', date: '2027-10-16', duration: 7, icon: '🌿' },
   { name: 'שמחת תורה', date: '2027-10-23', duration: 1, icon: '📖' },
   { name: 'חנוכה', date: '2027-12-25', duration: 8, icon: '🕎' },
-
-  // ===== תשפ"ח / 2028 =====
   { name: 'צום עשרה בטבת', date: '2028-01-09', duration: 1, icon: '✡️', fast: true },
   { name: 'ט"ו בשבט', date: '2028-02-12', duration: 1, icon: '🌳' },
   { name: 'תענית אסתר', date: '2028-03-09', duration: 1, icon: '✡️', fast: true },
@@ -2317,8 +1676,6 @@ const HOLIDAYS = [
   { name: 'סוכות', date: '2028-10-05', duration: 7, icon: '🌿' },
   { name: 'שמחת תורה', date: '2028-10-12', duration: 1, icon: '📖' },
   { name: 'חנוכה', date: '2028-12-13', duration: 8, icon: '🕎' },
-
-  // ===== תשפ"ט / 2029 =====
   { name: 'ט"ו בשבט', date: '2029-02-01', duration: 1, icon: '🌳' },
   { name: 'תענית אסתר', date: '2029-03-01', duration: 1, icon: '✡️', fast: true },
   { name: 'פורים', date: '2029-03-02', duration: 1, icon: '🎭' },
@@ -2341,8 +1698,6 @@ const HOLIDAYS = [
   { name: 'שמחת תורה', date: '2029-09-29', duration: 1, icon: '📖' },
   { name: 'חנוכה', date: '2029-12-01', duration: 8, icon: '🕎' },
   { name: 'צום עשרה בטבת', date: '2029-12-16', duration: 1, icon: '✡️', fast: true },
-
-  // ===== תש"צ / 2030 =====
   { name: 'ט"ו בשבט', date: '2030-01-21', duration: 1, icon: '🌳' },
   { name: 'תענית אסתר', date: '2030-03-18', duration: 1, icon: '✡️', fast: true },
   { name: 'פורים', date: '2030-03-19', duration: 1, icon: '🎭' },
@@ -2363,100 +1718,29 @@ const HOLIDAYS = [
   { name: 'סוכות', date: '2030-10-11', duration: 7, icon: '🌿' },
   { name: 'שמחת תורה', date: '2030-10-18', duration: 1, icon: '📖' },
   { name: 'חנוכה', date: '2030-12-20', duration: 8, icon: '🕎' },
-
-  // ===== ראשי חודשים 2025–2030 =====
-  { name: 'ראש חודש', date: '2025-09-22', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2025-10-22', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2025-11-20', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2025-12-20', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2026-01-18', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2026-02-17', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2026-03-17', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2026-04-17', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2026-05-16', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2026-06-15', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2026-07-15', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2026-08-13', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2026-09-11', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2026-10-11', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2026-11-09', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2026-12-09', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2027-01-07', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2027-02-06', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2027-03-08', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2027-04-06', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2027-05-06', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2027-06-04', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2027-07-04', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2027-08-02', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2027-09-01', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2027-10-01', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2027-10-31', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2027-11-29', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2027-12-29', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2028-01-27', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2028-02-26', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2028-03-27', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2028-04-25', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2028-05-25', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2028-06-23', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2028-07-23', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2028-08-21', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2028-09-20', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2028-10-19', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2028-11-18', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2028-12-17', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2029-01-16', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2029-02-14', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2029-03-16', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2029-04-14', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2029-05-14', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2029-06-12', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2029-07-12', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2029-08-10', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2029-09-08', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2029-10-08', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2029-11-06', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2029-12-06', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2030-01-04', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2030-02-03', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2030-03-04', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2030-04-03', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2030-05-02', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2030-06-01', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2030-07-01', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2030-07-30', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2030-08-29', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2030-09-27', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2030-10-27', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2030-11-25', duration: 1, icon: '🌙', minor: true },
-  { name: 'ראש חודש', date: '2030-12-25', duration: 1, icon: '🌙', minor: true },
 ];
 
-// Hebrew months approximate mapping
 const HEBREW_MONTHS = {
-  '2025-09': 'אלול / תשרי', '2025-10': 'תשרי / חשוון', '2025-11': 'חשוון / כסלו',
-  '2025-12': 'כסלו / טבת', '2026-01': 'טבת / שבט', '2026-02': 'שבט / אדר',
-  '2026-03': 'אדר / ניסן', '2026-04': 'ניסן / אייר', '2026-05': 'אייר / סיוון',
-  '2026-06': 'סיוון / תמוז', '2026-07': 'תמוז / אב', '2026-08': 'אב / אלול',
-  '2026-09': 'אלול / תשרי', '2026-10': 'תשרי / חשוון', '2026-11': 'חשוון / כסלו',
-  '2026-12': 'כסלו / טבת', '2027-01': 'טבת / שבט', '2027-02': 'שבט / אדר',
-  '2027-03': 'אדר / ניסן', '2027-04': 'ניסן / אייר', '2027-05': 'אייר / סיוון',
-  '2027-06': 'סיוון / תמוז', '2027-07': 'תמוז / אב', '2027-08': 'אב / אלול',
-  '2027-09': 'אלול / תשרי', '2027-10': 'תשרי / חשוון', '2027-11': 'חשוון / כסלו',
-  '2027-12': 'כסלו / טבת', '2028-01': 'טבת / שבט', '2028-02': 'שבט / אדר',
-  '2028-03': 'אדר / ניסן', '2028-04': 'ניסן / אייר', '2028-05': 'אייר / סיוון',
-  '2028-06': 'סיוון / תמוז', '2028-07': 'תמוז / אב', '2028-08': 'אב / אלול',
-  '2028-09': 'אלול / תשרי', '2028-10': 'תשרי / חשוון', '2028-11': 'חשוון / כסלו',
-  '2028-12': 'כסלו / טבת', '2029-01': 'טבת / שבט', '2029-02': 'שבט / אדר',
-  '2029-03': 'אדר / ניסן', '2029-04': 'ניסן / אייר', '2029-05': 'אייר / סיוון',
-  '2029-06': 'סיוון / תמוז', '2029-07': 'תמוז / אב', '2029-08': 'אב / אלול',
-  '2029-09': 'אלול / תשרי', '2029-10': 'תשרי / חשוון', '2029-11': 'חשוון / כסלו',
-  '2029-12': 'כסלו / טבת', '2030-01': 'טבת / שבט', '2030-02': 'שבט / אדר',
-  '2030-03': 'אדר / ניסן', '2030-04': 'ניסן / אייר', '2030-05': 'אייר / סיוון',
-  '2030-06': 'סיוון / תמוז', '2030-07': 'תמוז / אב', '2030-08': 'אב / אלול',
-  '2030-09': 'אלול / תשרי', '2030-10': 'תשרי / חשוון', '2030-11': 'חשוון / כסלו',
-  '2030-12': 'כסלו / טבת',
+  '2026-01':'טבת / שבט','2026-02':'שבט / אדר','2026-03':'אדר / ניסן',
+  '2026-04':'ניסן / אייר','2026-05':'אייר / סיוון','2026-06':'סיוון / תמוז',
+  '2026-07':'תמוז / אב','2026-08':'אב / אלול','2026-09':'אלול / תשרי',
+  '2026-10':'תשרי / חשוון','2026-11':'חשוון / כסלו','2026-12':'כסלו / טבת',
+  '2027-01':'טבת / שבט','2027-02':'שבט / אדר','2027-03':'אדר / ניסן',
+  '2027-04':'ניסן / אייר','2027-05':'אייר / סיוון','2027-06':'סיוון / תמוז',
+  '2027-07':'תמוז / אב','2027-08':'אב / אלול','2027-09':'אלול / תשרי',
+  '2027-10':'תשרי / חשוון','2027-11':'חשוון / כסלו','2027-12':'כסלו / טבת',
+  '2028-01':'טבת / שבט','2028-02':'שבט / אדר','2028-03':'אדר / ניסן',
+  '2028-04':'ניסן / אייר','2028-05':'אייר / סיוון','2028-06':'סיוון / תמוז',
+  '2028-07':'תמוז / אב','2028-08':'אב / אלול','2028-09':'אלול / תשרי',
+  '2028-10':'תשרי / חשוון','2028-11':'חשוון / כסלו','2028-12':'כסלו / טבת',
+  '2029-01':'טבת / שבט','2029-02':'שבט / אדר','2029-03':'אדר / ניסן',
+  '2029-04':'ניסן / אייר','2029-05':'אייר / סיוון','2029-06':'סיוון / תמוז',
+  '2029-07':'תמוז / אב','2029-08':'אב / אלול','2029-09':'אלול / תשרי',
+  '2029-10':'תשרי / חשוון','2029-11':'חשוון / כסלו','2029-12':'כסלו / טבת',
+  '2030-01':'טבת / שבט','2030-02':'שבט / אדר','2030-03':'אדר / ניסן',
+  '2030-04':'ניסן / אייר','2030-05':'אייר / סיוון','2030-06':'סיוון / תמוז',
+  '2030-07':'תמוז / אב','2030-08':'אב / אלול','2030-09':'אלול / תשרי',
+  '2030-10':'תשרי / חשוון','2030-11':'חשוון / כסלו','2030-12':'כסלו / טבת',
 };
 
 const HEBREW_DATES = {
@@ -2473,18 +1757,12 @@ const DAY_NAMES = ['ראשון','שני','שלישי','רביעי','חמישי',
 const MONTH_NAMES = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
 const HOURS = ['07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00'];
 
-// ============================================================
-// STATE
-// ============================================================
 let currentView = 'week';
 let currentDate = new Date();
 let tasks = JSON.parse(localStorage.getItem('calTasks') || '[]');
 let selectedPriority = 'medium';
 let modalDate = null;
 
-// ============================================================
-// HOLIDAY HELPERS
-// ============================================================
 function getHolidaysForDate(ds) {
   return HOLIDAYS.filter(h => {
     if (h.minor) return false;
@@ -2506,7 +1784,6 @@ function getAllHolidaysForDate(ds) {
   });
 }
 
-// Parse YYYY-MM-DD as LOCAL date (not UTC) to avoid timezone day-shift
 function parseDate(str) {
   const [y, m, d] = str.split('-').map(Number);
   return new Date(y, m - 1, d);
@@ -2521,72 +1798,42 @@ function dateStr(d) {
 
 function getTasksForDate(ds) {
   const target = parseDate(ds);
-  const targetDay = target.getDay(); // 0=Sun..6=Sat
+  const targetDay = target.getDay();
 
   return tasks.filter(t => {
     if (!t.date) return false;
     const origin = parseDate(t.date);
-
-    // Task hasn't started yet
     if (target < origin) return false;
-
     const repeat = t.repeat || 'none';
-
-    // Non-recurring: exact date match
     if (repeat === 'none') return t.date === ds;
 
-    // Recurring: check pattern
-    const diffMs   = target - origin;
-    const diffDays = Math.round(diffMs / 86400000);
-    const diffMins = Math.round(diffMs / 60000);
+    const diffDays = Math.round((target - origin) / 86400000);
 
     switch (repeat) {
-      case 'hourly':
-        // Show on origin date and every day after (alarm logic handles per-hour)
-        return diffDays >= 0;
-
-      case 'daily':
-        return diffDays >= 0;
-
-      case 'weekly':
-        return diffDays >= 0 && diffDays % 7 === 0;
-
+      case 'hourly': return diffDays >= 0;
+      case 'daily': return diffDays >= 0;
+      case 'weekly': return diffDays >= 0 && diffDays % 7 === 0;
       case 'monthly': {
-        if (target < origin) return false;
         const sameDay = origin.getDate() === target.getDate();
-        const laterMonth =
-          target.getFullYear() > origin.getFullYear() ||
-          (target.getFullYear() === origin.getFullYear() &&
-           target.getMonth() >= origin.getMonth());
+        const laterMonth = target.getFullYear() > origin.getFullYear() ||
+          (target.getFullYear() === origin.getFullYear() && target.getMonth() >= origin.getMonth());
         return sameDay && laterMonth;
       }
-
       case 'yearly': {
-        const sameMonthDay =
-          origin.getDate()  === target.getDate() &&
-          origin.getMonth() === target.getMonth();
-        return sameMonthDay && target.getFullYear() >= origin.getFullYear();
+        return origin.getDate() === target.getDate() &&
+          origin.getMonth() === target.getMonth() &&
+          target.getFullYear() >= origin.getFullYear();
       }
-
       case 'weekdays': {
-        // repeatDays is an array of weekday numbers [0..6]
         const days = t.repeatDays || [];
         return diffDays >= 0 && days.includes(targetDay);
       }
-
-      case 'custom':
-        // Fall back to exact date for custom (user manages manually)
-        return t.date === ds;
-
-      default:
-        return t.date === ds;
+      case 'custom': return t.date === ds;
+      default: return t.date === ds;
     }
   });
 }
 
-// ============================================================
-// NAVIGATION
-// ============================================================
 function navigate(dir) {
   if (currentView === 'day') currentDate.setDate(currentDate.getDate() + dir);
   else if (currentView === 'week') currentDate.setDate(currentDate.getDate() + dir * 7);
@@ -2595,10 +1842,7 @@ function navigate(dir) {
   render();
 }
 
-function goToToday() {
-  currentDate = new Date();
-  render();
-}
+function goToToday() { currentDate = new Date(); render(); }
 
 function switchViewDirect(view) {
   currentView = view;
@@ -2611,20 +1855,8 @@ function switchViewDirect(view) {
   render();
 }
 
-function switchView(view) {
-  currentView = view;
-  document.querySelectorAll('.nav-btn').forEach(b => {
-    const map = {'day':'יום','week':'שבוע','month':'חודש','year':'שנה'};
-    b.classList.toggle('active', b.textContent === map[view]);
-  });
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.getElementById('view-' + view).classList.add('active');
-  render();
-}
+function switchView(view) { switchViewDirect(view); }
 
-// ============================================================
-// RENDER DISPATCHER
-// ============================================================
 function render() {
   updateLabel();
   updateHolidayBanner();
@@ -2669,11 +1901,7 @@ function updateHolidayBanner() {
   }
 }
 
-// ============================================================
-// DAY VIEW
-// ============================================================
 function renderDay() {
-  const today = new Date();
   const ds = dateStr(currentDate);
   document.getElementById('dayNum').textContent = currentDate.getDate();
   document.getElementById('dayName').textContent = DAY_NAMES[currentDate.getDay()];
@@ -2686,11 +1914,15 @@ function renderDay() {
   const timeline = document.getElementById('dayTimeline');
   timeline.innerHTML = '';
 
+  const noTimeSlot = document.createElement('div');
+  noTimeSlot.className = 'time-slot';
+  noTimeSlot.innerHTML = `<div class="time-label" style="color:var(--text-mute);font-size:10px">כל היום</div><div class="time-content"></div>`;
+  timeline.appendChild(noTimeSlot);
+
   HOURS.forEach(hour => {
     const [h] = hour.split(':');
     const slot = document.createElement('div');
     slot.className = 'time-slot';
-    const slotTasks = dayTasks.filter(t => t.time && t.time.startsWith(h));
     slot.innerHTML = `<div class="time-label">${hour}</div><div class="time-content" id="slot-${h}"></div>`;
     timeline.appendChild(slot);
     slot.querySelector('.time-content').onclick = (e) => {
@@ -2702,14 +1934,6 @@ function renderDay() {
     };
   });
 
-  // Tasks without time
-  const noTimeTasks = dayTasks.filter(t => !t.time);
-  const noTimeSlot = document.createElement('div');
-  noTimeSlot.className = 'time-slot';
-  noTimeSlot.innerHTML = `<div class="time-label" style="color:var(--text-mute);font-size:10px">כל היום</div><div class="time-content"></div>`;
-  timeline.insertBefore(noTimeSlot, timeline.firstChild);
-
-  // Render tasks
   dayTasks.forEach(task => {
     const h = task.time ? task.time.split(':')[0] : null;
     const container = h
@@ -2731,20 +1955,13 @@ function createTaskChip(task) {
   return chip;
 }
 
-// ============================================================
-// WEEK VIEW
-// ============================================================
-// ============================================================
-// INLINE QUICK-ADD (week view ruled lines)
-// ============================================================
 function activateInlineLine(line, ds) {
-  // Only one active input at a time
   const existing = document.querySelector('.wn-inline-input');
   if (existing) existing.blur();
 
   line.classList.add('wn-editing');
   line.classList.remove('wn-line-empty');
-  line.innerHTML = ''; // clear any ::after hint
+  line.innerHTML = '';
 
   const input = document.createElement('input');
   input.type = 'text';
@@ -2752,8 +1969,6 @@ function activateInlineLine(line, ds) {
   input.placeholder = 'משימה חדשה...';
   input.setAttribute('autocomplete', 'off');
   line.appendChild(input);
-
-  // Focus immediately — triggers keyboard on mobile
   input.focus();
 
   function commit() {
@@ -2761,35 +1976,24 @@ function activateInlineLine(line, ds) {
     if (val) {
       tasks.push({
         id: Date.now().toString(),
-        title: val,
-        date: ds,
-        time: '',
-        priority: 'medium',
-        note: '',
-        done: false,
+        title: val, date: ds, time: '',
+        priority: 'medium', note: '', done: false,
         created: new Date().toISOString()
       });
       saveTasks();
     }
-    renderWeek(); // re-render to show saved task / clean up
+    renderWeek();
   }
 
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') { e.preventDefault(); commit(); }
-    if (e.key === 'Escape') { renderWeek(); } // cancel
+    if (e.key === 'Escape') { renderWeek(); }
   });
-
-  input.addEventListener('blur', () => {
-    // Small delay so tap on another line doesn't double-fire
-    setTimeout(commit, 120);
-  });
+  input.addEventListener('blur', () => setTimeout(commit, 120));
 }
 
 function activateInlineEdit(line, task) {
-  // Already editing this line
   if (line.querySelector('.wn-inline-input')) return;
-
-  // Grab the inner wrapper, replace text element with input
   const inner = line.querySelector('.wn-task-inner');
   const textEl = inner.querySelector('.wn-task-text');
   if (!textEl) return;
@@ -2801,18 +2005,13 @@ function activateInlineEdit(line, task) {
   input.className = 'wn-inline-input';
   input.value = task.title;
   input.setAttribute('autocomplete', 'off');
-
-  // Replace text div with input in-place
   inner.replaceChild(input, textEl);
-
   input.focus();
-  // Place cursor at end
   input.setSelectionRange(input.value.length, input.value.length);
 
   function commit() {
     const val = input.value.trim();
     if (!val) {
-      // Empty → delete the task
       tasks = tasks.filter(t => t.id !== task.id);
       saveTasks();
     } else if (val !== task.title) {
@@ -2826,14 +2025,11 @@ function activateInlineEdit(line, task) {
     if (e.key === 'Enter') { e.preventDefault(); commit(); }
     if (e.key === 'Escape') { renderWeek(); }
   });
-
-  input.addEventListener('blur', () => {
-    setTimeout(commit, 120);
-  });
+  input.addEventListener('blur', () => setTimeout(commit, 120));
 }
 
 function getWeekStart(d) {
-  const day = d.getDay(); // 0=Sun
+  const day = d.getDay();
   const start = new Date(d);
   start.setDate(d.getDate() - day);
   return start;
@@ -2844,8 +2040,6 @@ function renderWeek() {
   grid.innerHTML = '';
   const today = new Date();
   const weekStart = getWeekStart(currentDate);
-
-  // How many ruled lines to show per day (tasks fill lines, rest are empty)
   const isMobile = window.innerWidth <= 640;
   const LINES_PER_DAY = isMobile ? 6 : 8;
 
@@ -2857,11 +2051,9 @@ function renderWeek() {
     const hols = getAllHolidaysForDate(ds).filter(h => !h.minor);
     const dayTasks = getTasksForDate(ds);
 
-    // Day card
     const card = document.createElement('div');
     card.className = `wn-day${isToday ? ' wn-today' : ''}`;
 
-    // Header
     const header = document.createElement('div');
     header.className = 'wn-header';
 
@@ -2879,22 +2071,16 @@ function renderWeek() {
       labelWrap.appendChild(dot);
     }
 
-    if (hols.length) {
-      // holiday shown in strip below header, not here
-    }
-
     const addBtn = document.createElement('button');
     addBtn.className = 'wn-add-btn';
     addBtn.textContent = '+';
     addBtn.title = 'הוסף משימה';
     addBtn.onclick = (e) => {
       e.stopPropagation();
-      // Find first empty line in this card and activate it
       const emptyLine = card.querySelector('.wn-line-empty');
       if (emptyLine) {
         activateInlineLine(emptyLine, ds);
       } else {
-        // All lines filled — fall back to modal
         modalDate = ds;
         document.getElementById('taskDate').value = ds;
         openModal();
@@ -2911,7 +2097,6 @@ function renderWeek() {
     };
     card.appendChild(header);
 
-    // Holiday strip — subtle row below header
     if (hols.length) {
       const strip = document.createElement('div');
       strip.className = 'wn-holiday-strip';
@@ -2921,7 +2106,6 @@ function renderWeek() {
       card.appendChild(strip);
     }
 
-    // Ruled lines
     const linesContainer = document.createElement('div');
     linesContainer.className = 'wn-lines';
 
@@ -2931,7 +2115,6 @@ function renderWeek() {
       const line = document.createElement('div');
 
       if (l < dayTasks.length) {
-        // Task line
         const task = dayTasks[l];
         line.className = 'wn-line';
 
@@ -2967,7 +2150,6 @@ function renderWeek() {
         inner.appendChild(del);
         line.appendChild(inner);
 
-        // Click on text area → inline edit (only when not in selection mode)
         text.onclick = (e) => {
           e.stopPropagation();
           if (selectedTaskIds.size > 0) {
@@ -2977,7 +2159,6 @@ function renderWeek() {
           }
         };
 
-        // Long-press to select
         let longPressTimer = null;
         const startLongPress = (e) => {
           longPressTimer = setTimeout(() => {
@@ -2992,9 +2173,7 @@ function renderWeek() {
         line.addEventListener('mouseleave', cancelLongPress);
         line.addEventListener('touchend', cancelLongPress);
         line.addEventListener('touchcancel', cancelLongPress);
-
       } else {
-        // Empty ruled line — tap to type inline
         line.className = 'wn-line wn-line-empty';
         line.onclick = () => activateInlineLine(line, ds);
       }
@@ -3007,9 +2186,6 @@ function renderWeek() {
   }
 }
 
-// ============================================================
-// MONTH VIEW
-// ============================================================
 function renderMonth() {
   const grid = document.getElementById('monthGrid');
   grid.innerHTML = '';
@@ -3017,18 +2193,16 @@ function renderMonth() {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
-  // Header row
   const headerRow = document.createElement('div');
   headerRow.className = 'month-header-row';
   DAY_NAMES.forEach((name, i) => {
     const cell = document.createElement('div');
     cell.className = `month-day-name${i===6?' shabbat':''}`;
-    cell.textContent = name.slice(0,1) + name.slice(1,2);
+    cell.textContent = name.slice(0,2);
     headerRow.appendChild(cell);
   });
   grid.appendChild(headerRow);
 
-  // Body
   const body = document.createElement('div');
   body.className = 'month-body';
 
@@ -3054,16 +2228,16 @@ function renderMonth() {
       const isToday = ds === dateStr(today);
       const dayTasks = getTasksForDate(ds);
       const div = document.createElement('div');
-      div.className = `month-cell${cell.otherMonth ? ' other-month' : ''}${isToday ? ' today' : ''}${hols.length ? ' has-holiday' : ''}`;
+      div.className = `month-cell${cell.otherMonth?' other-month':''}${isToday?' today':''}${hols.length?' has-holiday':''}`;
 
-      let numHtml = isToday
+      const numHtml = isToday
         ? `<span class="today-num">${cell.day}</span>`
         : `<span>${cell.day}</span>`;
 
       div.innerHTML = `
-        <div class="cell-num">${numHtml}<span class="cell-hebrew">${HEBREW_DATES[ds] || ''}</span></div>
-        ${hols.filter(h => !h.minor).map(h => `<span class="cell-holiday-tag">${h.icon} ${h.name}</span>`).join('')}
-        <div class="cell-tasks">${dayTasks.slice(0,3).map(t =>
+        <div class="cell-num">${numHtml}<span class="cell-hebrew">${HEBREW_DATES[ds]||''}</span></div>
+        ${hols.filter(h=>!h.minor).map(h=>`<span class="cell-holiday-tag">${h.icon} ${h.name}</span>`).join('')}
+        <div class="cell-tasks">${dayTasks.slice(0,3).map(t=>
           `<div class="cell-task priority-${t.priority}${t.done?' done':''}">${t.title}</div>`
         ).join('')}${dayTasks.length>3?`<div class="more-tasks">+${dayTasks.length-3} עוד</div>`:''}</div>
       `;
@@ -3071,7 +2245,6 @@ function renderMonth() {
       div.onclick = () => {
         currentDate = new Date(cell.date);
         switchView('day');
-        document.querySelectorAll('.nav-btn').forEach((b,i) => b.classList.toggle('active', i===0));
       };
 
       row.appendChild(div);
@@ -3081,9 +2254,6 @@ function renderMonth() {
   grid.appendChild(body);
 }
 
-// ============================================================
-// YEAR VIEW
-// ============================================================
 function renderYear() {
   const grid = document.getElementById('yearGrid');
   grid.innerHTML = '';
@@ -3096,7 +2266,7 @@ function renderYear() {
     const isCurrent = today.getFullYear() === year && today.getMonth() === m;
 
     const header = document.createElement('div');
-    header.className = `year-month-header${isCurrent ? ' current-month' : ''}`;
+    header.className = `year-month-header${isCurrent?' current-month':''}`;
     const hKey = `${year}-${String(m+1).padStart(2,'0')}`;
     header.innerHTML = `<span>${MONTH_NAMES[m]}</span><span style="font-size:10px;color:var(--text-mute)">${HEBREW_MONTHS[hKey]||''}</span>`;
     card.appendChild(header);
@@ -3126,7 +2296,6 @@ function renderYear() {
       el.onclick = () => {
         currentDate = new Date(year, m, d);
         switchView('day');
-        document.querySelectorAll('.nav-btn').forEach((b,i) => b.classList.toggle('active', i===0));
       };
       mini.appendChild(el);
     }
@@ -3145,20 +2314,13 @@ function renderYear() {
     card.onclick = (e) => {
       if (e.target === card || e.target === header) {
         currentDate = new Date(year, m, 1);
-        currentView = 'month';
-        document.querySelectorAll('.nav-btn').forEach((b,i) => b.classList.toggle('active', i===2));
-        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        document.getElementById('view-month').classList.add('active');
-        render();
+        switchView('month');
       }
     };
     grid.appendChild(card);
   }
 }
 
-// ============================================================
-// UPCOMING HOLIDAYS SIDEBAR
-// ============================================================
 function renderUpcomingHolidays() {
   const ids = ['upcomingSidebar', 'upcomingSidebarMonth'];
   const today = new Date();
@@ -3182,36 +2344,18 @@ function renderUpcomingHolidays() {
       `;
       div.onclick = () => {
         currentDate = new Date(h.date);
-        if (currentView === 'year' || currentView === 'month') currentView = 'month';
-        else currentView = 'day';
-        render();
+        switchView('day');
       };
       el.appendChild(div);
     });
   });
 }
 
-// ============================================================
-// MODAL
-// ============================================================
 function openModal(ds) {
-  if (ds) modalDate = ds;
-  if (!modalDate) modalDate = dateStr(currentDate);
-  document.getElementById('taskDate').value = modalDate;
-  document.getElementById('taskTitle').value = '';
-  document.getElementById('taskNote').value = '';
-  document.getElementById('modalOverlay').classList.add('open');
-  setTimeout(() => document.getElementById('taskTitle').focus(), 300);
-}
-
-function closeModal() {
-  document.getElementById('modalOverlay').classList.remove('open');
+  openQuickAdd(ds || (modalDate || dateStr(currentDate)));
   modalDate = null;
 }
-
-function closeModalOutside(e) {
-  if (e.target === document.getElementById('modalOverlay')) closeModal();
-}
+function closeModal() { closeQuickAdd(); }
 
 function setPriority(p, btn) {
   selectedPriority = p;
@@ -3223,19 +2367,15 @@ function saveTask() {
   const title = document.getElementById('taskTitle').value.trim();
   if (!title) { document.getElementById('taskTitle').style.borderColor = 'var(--ember)'; return; }
   const task = {
-    id: Date.now().toString(),
-    title,
+    id: Date.now().toString(), title,
     date: document.getElementById('taskDate').value || dateStr(currentDate),
     time: document.getElementById('taskTime').value,
     priority: selectedPriority,
     note: document.getElementById('taskNote').value.trim(),
-    done: false,
-    created: new Date().toISOString()
+    done: false, created: new Date().toISOString()
   };
   tasks.push(task);
-  saveTasks();
-  closeModal();
-  render();
+  saveTasks(); closeModal(); render();
 }
 
 function toggleTask(id, e) {
@@ -3247,33 +2387,25 @@ function toggleTask(id, e) {
 function deleteTask(id, e) {
   if (e) e.stopPropagation();
   tasks = tasks.filter(t => t.id !== id);
-  saveTasks();
-  render();
+  saveTasks(); render();
 }
 
 function saveTasks() {
   localStorage.setItem('calTasks', JSON.stringify(tasks));
 }
 
-// ============================================================
-// QUICK-ADD SHEET
-// ============================================================
 let qaRepeat = 'none';
 let qaSelectedDays = [];
 let qaPriority = 'medium';
 
 const REPEAT_LABELS = {
-  none: 'ללא חזרה', hourly: 'כל שעה', daily: 'כל יום',
-  weekly: 'כל שבוע', monthly: 'כל חודש', yearly: 'כל שנה',
-  weekdays: 'ימים נבחרים', custom: 'מותאם אישית'
+  none:'ללא חזרה', hourly:'כל שעה', daily:'כל יום',
+  weekly:'כל שבוע', monthly:'כל חודש', yearly:'כל שנה',
+  weekdays:'ימים נבחרים', custom:'מותאם אישית'
 };
 
 function openQuickAdd(ds) {
-  qaRepeat = 'none';
-  qaSelectedDays = [];
-  qaPriority = 'medium';
-
-  const overlay = document.getElementById('qaOverlay');
+  qaRepeat = 'none'; qaSelectedDays = []; qaPriority = 'medium';
   document.getElementById('qaTitleInput').value = '';
   document.getElementById('qaDescInput').value = '';
   document.getElementById('qaDateInput').value = ds || dateStr(new Date());
@@ -3282,27 +2414,21 @@ function openQuickAdd(ds) {
   document.getElementById('qaPriorityPanel').style.display = 'none';
   document.getElementById('qaWeekdayPicker').style.display = 'none';
 
-  updateDateDisplay();
-  updateTimeDisplay();
+  updateDateDisplay(); updateTimeDisplay();
   document.getElementById('qaRepeatDisplay').textContent = 'ללא חזרה';
   document.getElementById('qaPriorityDisplay').textContent = 'בינונית';
 
-  // Reset selections
   document.querySelectorAll('.qa-repeat-opt').forEach(b => b.classList.toggle('selected', b.textContent === 'ללא חזרה'));
   document.querySelectorAll('.qa-pri-opt').forEach(b => b.classList.toggle('selected', b.textContent.includes('בינונית')));
   document.querySelectorAll('.qa-wd').forEach(b => b.classList.remove('on'));
 
-  overlay.classList.add('open');
+  document.getElementById('qaOverlay').classList.add('open');
   setTimeout(() => document.getElementById('qaTitleInput').focus(), 350);
 }
 
-function closeQuickAdd() {
-  document.getElementById('qaOverlay').classList.remove('open');
-}
+function closeQuickAdd() { document.getElementById('qaOverlay').classList.remove('open'); }
 
-function qaCloseOutside(e) {
-  if (e.target === document.getElementById('qaOverlay')) closeQuickAdd();
-}
+function qaCloseOutside(e) { if (e.target === document.getElementById('qaOverlay')) closeQuickAdd(); }
 
 function updateDateDisplay() {
   const val = document.getElementById('qaDateInput').value;
@@ -3312,8 +2438,7 @@ function updateDateDisplay() {
     el.textContent = `${DAY_NAMES[d.getDay()]}, ${d.getDate()} ב${MONTH_NAMES[d.getMonth()]}'`;
     el.classList.remove('empty');
   } else {
-    el.textContent = 'הוסף תאריך';
-    el.classList.add('empty');
+    el.textContent = 'הוסף תאריך'; el.classList.add('empty');
   }
 }
 
@@ -3321,12 +2446,9 @@ function updateTimeDisplay() {
   const val = document.getElementById('qaTimeInput').value;
   const el = document.getElementById('qaTimeDisplay');
   if (val) {
-    el.textContent = val;
-    el.classList.remove('empty');
-    el.style.color = ''; // reset error color
+    el.textContent = val; el.classList.remove('empty'); el.style.color = '';
   } else {
-    el.textContent = 'הוסף שעה';
-    el.classList.add('empty');
+    el.textContent = 'הוסף שעה'; el.classList.add('empty');
   }
 }
 
@@ -3353,12 +2475,11 @@ function setQaPriority(val, btn) {
   qaPriority = val;
   document.querySelectorAll('.qa-pri-opt').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
-  const labels = { high: 'גבוהה', medium: 'בינונית', low: 'נמוכה' };
+  const labels = { high:'גבוהה', medium:'בינונית', low:'נמוכה' };
   document.getElementById('qaPriorityDisplay').textContent = labels[val];
   document.getElementById('qaPriorityPanel').style.display = 'none';
 }
 
-// Weekday toggle
 document.querySelectorAll('.qa-wd').forEach(btn => {
   btn.addEventListener('click', () => {
     const day = parseInt(btn.dataset.day);
@@ -3377,66 +2498,41 @@ function saveQuickTask() {
   }
   const time = document.getElementById('qaTimeInput').value;
   if (!time) {
-    // Highlight time row and open picker
-    const timeRow = document.getElementById('qaTimeInput').closest
-      ? document.getElementById('qaTimeInput').parentElement
-      : null;
     document.getElementById('qaTimeDisplay').style.color = 'var(--ember)';
     document.getElementById('qaTimeInput').showPicker?.();
     document.getElementById('qaTimeInput').click();
     return;
   }
   const task = {
-    id: Date.now().toString(),
-    title,
+    id: Date.now().toString(), title,
     note: document.getElementById('qaDescInput').value.trim(),
     date: document.getElementById('qaDateInput').value || dateStr(currentDate),
     time: document.getElementById('qaTimeInput').value,
-    priority: qaPriority,
-    repeat: qaRepeat,
-    repeatDays: qaSelectedDays,
-    done: false,
+    priority: qaPriority, repeat: qaRepeat,
+    repeatDays: qaSelectedDays, done: false,
     created: new Date().toISOString()
   };
   tasks.push(task);
-  saveTasks();
-  closeQuickAdd();
-  render();
+  saveTasks(); closeQuickAdd(); render();
 }
 
-// Override openModal to use new sheet
-function openModal(ds) {
-  openQuickAdd(ds || (modalDate || dateStr(currentDate)));
-  modalDate = null;
-}
-function closeModal() { closeQuickAdd(); }
-
-// Keyboard — also handle qa sheet
 document.addEventListener('keydown', e => {
   const qaOpen = document.getElementById('qaOverlay').classList.contains('open');
   if (e.key === 'Escape') { if (qaOpen) closeQuickAdd(); }
-  if (e.key === 'Enter' && qaOpen && e.target.id === 'qaTitleInput') {
-    e.preventDefault(); saveQuickTask();
-  }
+  if (e.key === 'Enter' && qaOpen && e.target.id === 'qaTitleInput') { e.preventDefault(); saveQuickTask(); }
   if (!qaOpen) {
     if (e.key === 'ArrowLeft') navigate(1);
     if (e.key === 'ArrowRight') navigate(-1);
   }
 });
 
-// ============================================================
-// TASK SELECTION (long-press multi-select)
-// ============================================================
 let selectedTaskIds = new Set();
 
 function toggleTaskSelection(id, lineEl) {
   if (selectedTaskIds.has(id)) {
-    selectedTaskIds.delete(id);
-    lineEl?.classList.remove('wn-selected');
+    selectedTaskIds.delete(id); lineEl?.classList.remove('wn-selected');
   } else {
-    selectedTaskIds.add(id);
-    lineEl?.classList.add('wn-selected');
-    // Light haptic on mobile
+    selectedTaskIds.add(id); lineEl?.classList.add('wn-selected');
     navigator.vibrate?.(40);
   }
   updateSelBar();
@@ -3447,11 +2543,9 @@ function updateSelBar() {
   const count = selectedTaskIds.size;
   if (count === 0) {
     bar.style.display = 'none';
-    // Show FAB again
     document.getElementById('fabBtn').style.display = 'flex';
   } else {
     bar.style.display = 'flex';
-    // Hide FAB while selecting
     document.getElementById('fabBtn').style.display = 'none';
     document.getElementById('selCount').textContent =
       count === 1 ? 'משימה אחת נבחרה' : `${count} משימות נבחרו`;
@@ -3460,52 +2554,33 @@ function updateSelBar() {
 
 function clearSelection() {
   selectedTaskIds.clear();
-  // Remove highlight from all lines
   document.querySelectorAll('.wn-line.wn-selected').forEach(l => l.classList.remove('wn-selected'));
   updateSelBar();
 }
 
 function deleteSelected() {
   if (!selectedTaskIds.size) return;
-  const count = selectedTaskIds.size;
   tasks = tasks.filter(t => !selectedTaskIds.has(t.id));
-  saveTasks();
-  clearSelection();
-  render();
+  saveTasks(); clearSelection(); render();
 }
 
 function openMoveSheet() {
-  const overlay = document.getElementById('moveOverlay');
   document.getElementById('moveTargetDate').value = dateStr(new Date());
-  overlay.classList.add('open');
+  document.getElementById('moveOverlay').classList.add('open');
 }
 
-function closeMoveSheet() {
-  document.getElementById('moveOverlay').classList.remove('open');
-}
-
-function closeMoveOutside(e) {
-  if (e.target === document.getElementById('moveOverlay')) closeMoveSheet();
-}
+function closeMoveSheet() { document.getElementById('moveOverlay').classList.remove('open'); }
+function closeMoveOutside(e) { if (e.target === document.getElementById('moveOverlay')) closeMoveSheet(); }
 
 function confirmMove() {
   const newDate = document.getElementById('moveTargetDate').value;
   if (!newDate) return;
-  tasks.forEach(t => {
-    if (selectedTaskIds.has(t.id)) t.date = newDate;
-  });
-  saveTasks();
-  closeMoveSheet();
-  clearSelection();
-  render();
+  tasks.forEach(t => { if (selectedTaskIds.has(t.id)) t.date = newDate; });
+  saveTasks(); closeMoveSheet(); clearSelection(); render();
 }
 
-// ============================================================
-// SWIPE GESTURES
-// ============================================================
 (function() {
   let startX = 0, startY = 0, startT = 0;
-
   document.addEventListener('touchstart', e => {
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
@@ -3513,38 +2588,23 @@ function confirmMove() {
   }, { passive: true });
 
   document.addEventListener('touchend', e => {
-    // Ignore if quick-add sheet is open
     if (document.getElementById('qaOverlay').classList.contains('open')) return;
-    // Only handle day / week / month views
     if (!['day','week','month'].includes(currentView)) return;
-
     const dx = e.changedTouches[0].clientX - startX;
     const dy = e.changedTouches[0].clientY - startY;
     const dt = Date.now() - startT;
-
-    // Must be fast enough, mostly horizontal, and long enough
-    if (dt > 400) return;
-    if (Math.abs(dx) < 50) return;
-    if (Math.abs(dy) > Math.abs(dx) * 0.8) return; // too vertical
-
-    // RTL layout: swipe RIGHT = next/forward, swipe LEFT = back/prev
-    if (dx > 0) navigate(1);   // swipe right → next
-    else navigate(-1);          // swipe left → prev
+    if (dt > 400 || Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx) * 0.8) return;
+    if (dx > 0) navigate(1); else navigate(-1);
   }, { passive: true });
 })();
 
-// ============================================================
-// TASK ALARM SYSTEM
-// ============================================================
 const notifiedTasks = new Set(JSON.parse(sessionStorage.getItem('notifiedTasks') || '[]'));
-
 let alarmVolume = parseFloat(localStorage.getItem('alarmVolume') || '0.5');
 
 function playAlarmSound(vol) {
   const v = vol !== undefined ? vol : alarmVolume;
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
-
     const playTone = (freq, startTime, duration, volume) => {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
@@ -3555,18 +2615,14 @@ function playAlarmSound(vol) {
       gain.gain.setValueAtTime(0, startTime);
       gain.gain.linearRampToValueAtTime(volume, startTime + 0.02);
       gain.gain.linearRampToValueAtTime(0, startTime + duration);
-      osc.start(startTime);
-      osc.stop(startTime + duration + 0.05);
+      osc.start(startTime); osc.stop(startTime + duration + 0.05);
     };
-
     const t = ctx.currentTime;
-    playTone(523, t,        0.18, v);
-    playTone(659, t + 0.2,  0.18, v);
-    playTone(784, t + 0.4,  0.28, v);
+    playTone(523, t, 0.18, v);
+    playTone(659, t + 0.2, 0.18, v);
+    playTone(784, t + 0.4, 0.28, v);
     playTone(784, t + 0.72, 0.28, v);
-  } catch(e) {
-    console.warn('Audio not available:', e);
-  }
+  } catch(e) { console.warn('Audio not available:', e); }
 }
 
 function showTaskAlert(task) {
@@ -3582,10 +2638,7 @@ function showTaskAlert(task) {
   `;
   document.body.appendChild(toast);
   setTimeout(() => toast.classList.add('toast-show'), 50);
-  setTimeout(() => {
-    toast.classList.remove('toast-show');
-    setTimeout(() => toast.remove(), 400);
-  }, 8000);
+  setTimeout(() => { toast.classList.remove('toast-show'); setTimeout(() => toast.remove(), 400); }, 8000);
 }
 
 function checkTaskAlarms() {
@@ -3595,27 +2648,16 @@ function checkTaskAlarms() {
   const currentTime = `${h}:${m}`;
   const todayStr = dateStr(now);
 
-  // Use getTasksForDate so recurring tasks are included
   getTasksForDate(todayStr).forEach(task => {
-    if (task.done) return;
-    if (!task.time) return;
-    if (task.time !== currentTime) return;
-
-    // Use today's date in the key so recurring tasks fire every occurrence
+    if (task.done || !task.time || task.time !== currentTime) return;
     const alarmKey = `${task.id}-${todayStr}-${task.time}`;
     if (notifiedTasks.has(alarmKey)) return;
-
     notifiedTasks.add(alarmKey);
     sessionStorage.setItem('notifiedTasks', JSON.stringify([...notifiedTasks]));
-
     playAlarmSound();
     showTaskAlert(task);
-
     if (Notification.permission === 'granted') {
-      new Notification('⏰ ' + task.title, {
-        body: `${task.time} — הגיע הזמן!`,
-        tag: alarmKey
-      });
+      new Notification('⏰ ' + task.title, { body: `${task.time} — הגיע הזמן!`, tag: alarmKey });
     }
   });
 }
@@ -3633,20 +2675,14 @@ function updateNotifStatus() {
   const btn = document.getElementById('notifBtn');
   if (!text || !('Notification' in window)) return;
   if (Notification.permission === 'granted') {
-    text.textContent = '✅ התראות מופעלות';
-    btn.style.display = 'none';
+    text.textContent = '✅ התראות מופעלות'; btn.style.display = 'none';
   } else if (Notification.permission === 'denied') {
-    text.textContent = '❌ חסומות בדפדפן';
-    btn.style.display = 'none';
+    text.textContent = '❌ חסומות בדפדפן'; btn.style.display = 'none';
   } else {
-    text.textContent = 'לא הופעלו עדיין';
-    btn.style.display = 'block';
+    text.textContent = 'לא הופעלו עדיין'; btn.style.display = 'block';
   }
 }
 
-// ============================================================
-// SETTINGS
-// ============================================================
 function openSettings() {
   document.getElementById('settingsOverlay').classList.add('open');
   const saved = parseFloat(localStorage.getItem('alarmVolume') || '0.5');
@@ -3657,18 +2693,12 @@ function openSettings() {
   updateNotifStatus();
 }
 
-function closeSettings() {
-  document.getElementById('settingsOverlay').classList.remove('open');
-}
-
-function closeSettingsOutside(e) {
-  if (e.target === document.getElementById('settingsOverlay')) closeSettings();
-}
+function closeSettings() { document.getElementById('settingsOverlay').classList.remove('open'); }
+function closeSettingsOutside(e) { if (e.target === document.getElementById('settingsOverlay')) closeSettings(); }
 
 function updateVolumeDisplay(val) {
   document.getElementById('volDisplay').textContent = val + '%';
-  const slider = document.getElementById('alarmVolume');
-  slider.style.setProperty('--pct', val + '%');
+  document.getElementById('alarmVolume').style.setProperty('--pct', val + '%');
 }
 
 function saveVolume(val) {
@@ -3681,50 +2711,16 @@ function testAlarmSound() {
   playAlarmSound(val / 100);
 }
 
-setInterval(checkTaskAlarms, 30000);
-checkTaskAlarms();
-requestNotificationPermission();
+function closeModalOutside(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
 
-// ============================================================
-// PWA — SERVICE WORKER & INSTALL
-// ============================================================
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').then(reg => {
-    console.log('SW registered:', reg.scope);
-
-    // Ask for push permission and schedule alarms via SW
-    if ('Notification' in window && Notification.permission === 'granted') {
-      schedulePushAlarms(reg);
-    }
-  }).catch(err => console.warn('SW registration failed:', err));
-}
-
-function schedulePushAlarms(reg) {
-  // Send today's tasks with times to SW so it can schedule alarms
-  const todayStr = dateStr(new Date());
-  const todayTasks = getTasksForDate(todayStr).filter(t => !t.done && t.time);
-  if (reg.active) {
-    reg.active.postMessage({ type: 'SCHEDULE_ALARMS', tasks: todayTasks, date: todayStr });
-  }
-}
-
-// Re-schedule when tasks change
-const _origSaveTasks = saveTasks;
-function saveTasks() {
-  _origSaveTasks();
-  navigator.serviceWorker?.ready.then(reg => schedulePushAlarms(reg));
-}
-
-// PWA install banner
 let deferredInstallPrompt = null;
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   deferredInstallPrompt = e;
-  showInstallBanner();
+  if (!localStorage.getItem('pwaInstalled')) showInstallBanner();
 });
 
 function showInstallBanner() {
-  if (localStorage.getItem('pwaInstalled')) return;
   const banner = document.createElement('div');
   banner.id = 'installBanner';
   banner.className = 'install-banner';
@@ -3756,6 +2752,10 @@ function dismissInstall() {
   document.getElementById('installBanner')?.remove();
   localStorage.setItem('pwaInstalled', '1');
 }
+
+setInterval(checkTaskAlarms, 30000);
+checkTaskAlarms();
+requestNotificationPermission();
 render();
 </script>
 </body>
