@@ -2,8 +2,15 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>יומן משימות</title>
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="יומן">
+<meta name="theme-color" content="#f0ede8">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23a07828'/><text y='72' x='50' text-anchor='middle' font-size='60'>✦</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Frank+Ruhl+Libre:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
@@ -1299,6 +1306,53 @@
     padding: 40px 20px;
     color: var(--text-mute);
     font-size: 13px;
+  }
+
+  /* PWA Install Banner */
+  .install-banner {
+    position: fixed;
+    bottom: 80px;
+    left: 12px; right: 12px;
+    background: var(--text-prime);
+    color: #fff;
+    border-radius: 14px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 800;
+    box-shadow: var(--shadow-deep);
+    direction: rtl;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .install-banner.show { opacity: 1; transform: translateY(0); }
+  .install-icon { font-size: 24px; flex-shrink: 0; }
+  .install-text { flex: 1; }
+  .install-text strong { display: block; font-size: 14px; }
+  .install-text span { font-size: 11px; opacity: 0.7; }
+  .install-yes {
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: none;
+    background: var(--gold);
+    color: #fff;
+    font-family: 'Heebo', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .install-no {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    flex-shrink: 0;
   }
 
   /* =============================================
@@ -3632,8 +3686,76 @@ checkTaskAlarms();
 requestNotificationPermission();
 
 // ============================================================
-// INIT
+// PWA — SERVICE WORKER & INSTALL
 // ============================================================
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').then(reg => {
+    console.log('SW registered:', reg.scope);
+
+    // Ask for push permission and schedule alarms via SW
+    if ('Notification' in window && Notification.permission === 'granted') {
+      schedulePushAlarms(reg);
+    }
+  }).catch(err => console.warn('SW registration failed:', err));
+}
+
+function schedulePushAlarms(reg) {
+  // Send today's tasks with times to SW so it can schedule alarms
+  const todayStr = dateStr(new Date());
+  const todayTasks = getTasksForDate(todayStr).filter(t => !t.done && t.time);
+  if (reg.active) {
+    reg.active.postMessage({ type: 'SCHEDULE_ALARMS', tasks: todayTasks, date: todayStr });
+  }
+}
+
+// Re-schedule when tasks change
+const _origSaveTasks = saveTasks;
+function saveTasks() {
+  _origSaveTasks();
+  navigator.serviceWorker?.ready.then(reg => schedulePushAlarms(reg));
+}
+
+// PWA install banner
+let deferredInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  showInstallBanner();
+});
+
+function showInstallBanner() {
+  if (localStorage.getItem('pwaInstalled')) return;
+  const banner = document.createElement('div');
+  banner.id = 'installBanner';
+  banner.className = 'install-banner';
+  banner.innerHTML = `
+    <span class="install-icon">📲</span>
+    <div class="install-text">
+      <strong>התקן את היומן</strong>
+      <span>עבוד גם ללא אינטרנט</span>
+    </div>
+    <button class="install-yes" onclick="triggerInstall()">התקן</button>
+    <button class="install-no" onclick="dismissInstall()">✕</button>
+  `;
+  document.body.appendChild(banner);
+  setTimeout(() => banner.classList.add('show'), 100);
+}
+
+function triggerInstall() {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  deferredInstallPrompt.userChoice.then(result => {
+    if (result.outcome === 'accepted') {
+      localStorage.setItem('pwaInstalled', '1');
+      document.getElementById('installBanner')?.remove();
+    }
+  });
+}
+
+function dismissInstall() {
+  document.getElementById('installBanner')?.remove();
+  localStorage.setItem('pwaInstalled', '1');
+}
 render();
 </script>
 </body>
