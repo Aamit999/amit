@@ -2,7 +2,7 @@
   "name": "יומן משימות",
   "short_name": "יומן",
   "description": "יומן משימות אישי עם חגי ישראל",
-  "start_url": "./יומן-משימות.html",
+  "start_url": "./calendar.html",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#f0ede8",

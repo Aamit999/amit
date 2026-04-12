@@ -8,7 +8,7 @@ const CACHE_NAME = 'yoman-v1';
 // Assets to cache for offline use
 const CACHE_ASSETS = [
   './',
-  './יומן-משימות.html',
+  './calendar.html',
   'https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Frank+Ruhl+Libre:wght@300;400;500;700;900&display=swap'
 ];
 
@@ -20,7 +20,7 @@ self.addEventListener('install', event => {
     caches.open(CACHE_NAME).then(cache => {
       return cache.addAll(CACHE_ASSETS).catch(() => {
         // Silently ignore failed cache entries (e.g. fonts need network)
-        return cache.add('./יומן-משימות.html');
+        return cache.add('./calendar.html');
       });
     })
   );
@@ -60,7 +60,7 @@ self.addEventListener('fetch', event => {
       }).catch(() => {
         // If offline and not cached, return the main HTML
         if (event.request.destination === 'document') {
-          return caches.match('./יומן-משימות.html');
+          return caches.match('./calendar.html');
         }
       });
     })
@@ -143,7 +143,7 @@ self.addEventListener('notificationclick', event => {
       for (const client of clients) {
         if ('focus' in client) return client.focus();
       }
-      return self.clients.openWindow('./יומן-משימות.html');
+      return self.clients.openWindow('./calendar.html');
     })
   );
 });
