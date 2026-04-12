@@ -4,11 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>יומן משימות</title>
+
+<!-- PWA Meta Tags -->
+<link rel="manifest" href="./manifest.json">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="יומן">
 <meta name="theme-color" content="#f0ede8">
+<meta name="msapplication-TileColor" content="#a07828">
+<meta name="msapplication-TileImage" content="./icons/icon-144.png">
+
+<!-- Apple Touch Icons -->
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="152x152" href="./icons/icon-152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./icons/icon-192.png">
+<link rel="apple-touch-startup-image" href="./icons/icon-512.png">
+
+<!-- Standard favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="./icons/icon-96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="./icons/icon-72.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Frank+Ruhl+Libre:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
@@ -38,6 +54,8 @@
     --shadow-card: 0 4px 20px rgba(0,0,0,0.08);
     --radius: 12px;
     --radius-sm: 8px;
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-top: env(safe-area-inset-top, 0px);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -48,7 +66,11 @@
     background: var(--bg-void);
     color: var(--text-prime);
     min-height: 100vh;
+    min-height: 100dvh;
     overflow-x: hidden;
+    /* Safe areas for notched phones */
+    padding-top: var(--safe-top);
+    padding-bottom: calc(var(--safe-bottom) + 60px);
   }
 
   body::before {
@@ -60,12 +82,58 @@
     z-index: 0;
   }
 
+  /* ── PWA offline indicator ── */
+  .offline-bar {
+    position: fixed;
+    top: calc(var(--safe-top) + 64px);
+    left: 0; right: 0;
+    background: var(--ember);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    padding: 6px;
+    z-index: 999;
+    display: none;
+    animation: slideDown 0.3s ease;
+  }
+  .offline-bar.show { display: block; }
+  @keyframes slideDown { from { transform:translateY(-100%); } to { transform:translateY(0); } }
+
+  /* ── PWA update banner ── */
+  .update-bar {
+    position: fixed;
+    top: calc(var(--safe-top) + 64px);
+    left: 12px; right: 12px;
+    background: var(--text-prime);
+    color: #fff;
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    z-index: 998;
+    font-size: 13px;
+    box-shadow: var(--shadow-deep);
+    direction: rtl;
+  }
+  .update-bar.show { display: flex; }
+  .update-btn {
+    padding: 6px 14px;
+    border-radius: 7px; border: none;
+    background: var(--gold); color: #fff;
+    font-family: 'Heebo', sans-serif;
+    font-size: 12px; font-weight: 700;
+    cursor: pointer; white-space: nowrap;
+  }
+
   .app-header {
     position: sticky;
     top: 0;
     z-index: 100;
     background: rgba(240,237,232,0.92);
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
     padding: 0 20px;
   }
@@ -103,6 +171,18 @@
     letter-spacing: 2px; text-transform: uppercase;
     display: block; margin-top: -4px;
   }
+
+  /* ── Offline dot on logo ── */
+  .logo-icon.offline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: -2px;
+    width: 10px; height: 10px;
+    background: var(--ember);
+    border-radius: 50%;
+    border: 2px solid var(--bg-void);
+  }
+  .logo { position: relative; }
 
   .header-nav {
     display: flex; align-items: center; gap: 4px;
@@ -628,6 +708,7 @@
     display: flex; gap: 10px;
   }
 
+  /* ── Modals ── */
   .modal-overlay {
     position: fixed; inset: 0;
     background: rgba(240,237,232,0.85);
@@ -761,195 +842,7 @@
   .uh-date { font-size: 11px; color: var(--text-sec); margin-top: 2px; }
   .uh-countdown { font-size: 10px; color: var(--text-mute); margin-top: 3px; }
 
-  @media (max-width: 900px) {
-    .layout-with-sidebar { grid-template-columns: 1fr; }
-    .sidebar-panel { position: relative; top: 0; }
-    .year-grid { grid-template-columns: repeat(2, 1fr); }
-    .day-view { grid-template-columns: 1fr; }
-    .day-sidebar { flex-direction: row; flex-wrap: wrap; }
-    .day-date-card { flex: 1; min-width: 140px; }
-    .day-tasks-count { flex: 1; min-width: 100px; }
-    .day-timeline { grid-column: 1 / -1; }
-    .header-inner { flex-wrap: wrap; height: auto; padding: 12px 0; gap: 10px; }
-    .header-nav .nav-btn { padding: 6px 10px; font-size: 12px; }
-  }
-
-  @media (max-width: 640px) {
-    .wn-holiday-strip { font-size: 10px; padding: 3px 8px 4px; }
-    .wn-holiday-strip .hol-icon { font-size: 10px; }
-  }
-
-  @media (max-width: 600px) {
-    .app-body { padding: 8px; }
-    .year-grid { grid-template-columns: repeat(2, 1fr); }
-    .month-cell { min-height: 70px; padding: 6px 4px; }
-    .cell-tasks { display: none; }
-    .cell-num { font-size: 12px; }
-
-    #view-week .layout-with-sidebar { display: block; }
-    .week-notebook { border-radius: 0; border-left: none; border-right: none; }
-
-    #view-day .layout-with-sidebar { display: block; }
-    #view-day .sidebar-panel { display: none; }
-
-    .day-view { display: flex; flex-direction: column; gap: 8px; }
-
-    .day-sidebar { flex-direction: row; align-items: center; gap: 8px; flex-wrap: nowrap; }
-
-    .day-date-card {
-      display: flex; flex-direction: row;
-      align-items: center; gap: 10px;
-      padding: 10px 14px; flex: 1; text-align: right;
-    }
-
-    .day-number { font-size: 36px; line-height: 1; flex-shrink: 0; }
-    .day-name { font-size: 14px; margin-top: 0; }
-    .day-month { font-size: 11px; }
-    .day-hebrew { font-size: 10px; margin-top: 2px; }
-
-    .day-tasks-count {
-      padding: 10px 14px;
-      display: flex; flex-direction: row;
-      align-items: center; gap: 6px;
-      white-space: nowrap; flex-shrink: 0;
-    }
-
-    .count-num { font-size: 22px; }
-    .count-label { font-size: 11px; }
-    .day-timeline { border-radius: var(--radius); }
-    .timeline-header { padding: 10px 14px; font-size: 11px; }
-    .time-slot { min-height: 42px; }
-    .time-label { width: 48px; padding: 6px 8px; font-size: 10px; }
-    .time-content { padding: 4px 8px; }
-    .task-chip { font-size: 12px; padding: 4px 8px; }
-
-    .app-header { padding: 0 12px; }
-    .header-inner { flex-wrap: wrap; height: auto; padding: 8px 0 0; gap: 0; }
-    .logo { flex: 1; }
-    .logo-text { font-size: 17px; }
-    .logo-sub { display: none; }
-    .logo-icon { width: 28px; height: 28px; font-size: 14px; }
-    .add-task-btn { padding: 6px 13px; font-size: 12px; border-radius: 7px; }
-
-    .mobile-row2 {
-      width: 100%; display: flex; align-items: center; gap: 6px;
-      padding: 6px 0 8px;
-      border-top: 1px solid var(--border);
-      margin-top: 8px;
-    }
-
-    .mobile-row2 .header-nav { flex: 1; min-width: 0; padding: 3px; gap: 1px; }
-    .nav-btn { padding: 5px 6px; font-size: 11px; border-radius: 5px; }
-    .header-controls { display: none; }
-
-    .mobile-nav-controls {
-      display: flex; align-items: center; gap: 4px;
-      flex-shrink: 0; margin-left: -12px;
-    }
-
-    .mobile-nav-controls .arrow-btn { width: 28px; height: 28px; font-size: 14px; border-radius: 7px; }
-    .mobile-nav-controls .today-btn { padding: 4px 9px; font-size: 11px; border-radius: 7px; white-space: nowrap; }
-
-    .mobile-current-label {
-      font-size: 11px; font-weight: 600;
-      color: var(--text-prime);
-      white-space: nowrap; text-align: center;
-      min-width: 0; max-width: 72px;
-      overflow: hidden; text-overflow: ellipsis;
-    }
-
-    .week-notebook { grid-template-columns: 1fr 1fr; }
-    .wn-header { padding: 7px 8px 6px; }
-    .wn-day-label { font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-    .wn-add-btn { width: 18px; height: 18px; font-size: 13px; flex-shrink: 0; }
-    .wn-hol-badge { display: none; }
-    .wn-line { min-height: 28px; height: auto; padding: 5px 7px; }
-    .wn-task-text { font-size: 11px; }
-    .wn-check { width: 13px; height: 13px; font-size: 8px; }
-    .wn-dot { width: 4px; height: 4px; }
-    .wn-task-time { display: flex; }
-    .wn-del { display: none; }
-    .wn-day:nth-child(odd) { border-left: none; }
-    .wn-day:nth-child(even) { border-left: 1px solid var(--border); }
-    .wn-day:nth-last-child(1), .wn-day:nth-last-child(2) { border-bottom: none; }
-
-    .wn-inline-input { font-size: 11px; }
-  }
-
-  .mobile-settings-btn {
-    display: none; width: 32px; height: 32px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--bg-card);
-    font-size: 16px; cursor: pointer;
-    align-items: center; justify-content: center;
-    flex-shrink: 0; margin-right: auto; transition: border-color 0.15s;
-  }
-  .mobile-settings-btn:focus { outline: none; }
-
-  @media (max-width: 600px) {
-    .mobile-settings-btn { display: flex; }
-  }
-
-  .mobile-row2 { display: none; }
-
-  @media (max-width: 600px) {
-    .mobile-row2 { display: flex; }
-    .header-inner > .header-nav { display: none; }
-  }
-
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--bg-void); }
-  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
-
-  .empty-state { text-align: center; padding: 40px 20px; color: var(--text-mute); font-size: 13px; }
-
-  .install-banner {
-    position: fixed;
-    bottom: 80px; left: 12px; right: 12px;
-    background: var(--text-prime); color: #fff;
-    border-radius: 14px; padding: 14px 16px;
-    display: flex; align-items: center; gap: 10px;
-    z-index: 800; box-shadow: var(--shadow-deep);
-    direction: rtl; opacity: 0;
-    transform: translateY(20px); transition: opacity 0.3s, transform 0.3s;
-  }
-
-  .install-banner.show { opacity: 1; transform: translateY(0); }
-  .install-icon { font-size: 24px; flex-shrink: 0; }
-  .install-text { flex: 1; }
-  .install-text strong { display: block; font-size: 14px; }
-  .install-text span { font-size: 11px; opacity: 0.7; }
-
-  .install-yes {
-    padding: 7px 14px; border-radius: 8px; border: none;
-    background: var(--gold); color: #fff;
-    font-family: 'Heebo', sans-serif; font-size: 13px; font-weight: 700;
-    cursor: pointer; white-space: nowrap;
-  }
-
-  .install-no {
-    width: 28px; height: 28px; border-radius: 50%; border: none;
-    background: rgba(255,255,255,0.15); color: #fff;
-    font-size: 14px; cursor: pointer; flex-shrink: 0;
-  }
-
-  .fab {
-    position: fixed; bottom: 28px; left: 28px;
-    width: 56px; height: 56px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--gold), #7a5010);
-    color: #fff; font-size: 28px; line-height: 1;
-    border: none; cursor: pointer;
-    box-shadow: 0 6px 24px rgba(160,120,40,0.35);
-    z-index: 200;
-    display: flex; align-items: center; justify-content: center;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-
-  .fab:hover { transform: scale(1.08); box-shadow: 0 10px 30px rgba(160,120,40,0.45); }
-  .fab:active { transform: scale(0.95); }
-  .fab:focus { outline: none; }
-
+  /* ── Quick Add Sheet ── */
   .qa-overlay {
     position: fixed; inset: 0;
     background: rgba(0,0,0,0.45);
@@ -969,6 +862,7 @@
     transition: transform 0.32s cubic-bezier(0.32,0.72,0,1);
     max-height: 92vh; overflow-y: auto;
     direction: rtl;
+    padding-bottom: var(--safe-bottom);
   }
 
   .qa-overlay.open .qa-sheet { transform: translateY(0); }
@@ -1127,10 +1021,12 @@
     .qa-sheet { border-radius: 16px; max-height: 85vh; margin-bottom: 0; }
   }
 
+  /* ── Selection bar ── */
   .sel-bar {
     position: fixed; bottom: 0; left: 0; right: 0;
     background: var(--text-prime); color: #fff;
     padding: 14px 20px;
+    padding-bottom: calc(14px + var(--safe-bottom));
     display: flex; align-items: center;
     justify-content: space-between; gap: 12px;
     z-index: 500;
@@ -1163,6 +1059,7 @@
     border-right: 3px solid var(--gold);
   }
 
+  /* ── Move sheet ── */
   .move-overlay {
     position: fixed; inset: 0;
     background: rgba(0,0,0,0.45);
@@ -1181,6 +1078,7 @@
     transform: translateY(100%);
     transition: transform 0.28s cubic-bezier(0.32,0.72,0,1);
     direction: rtl;
+    padding-bottom: var(--safe-bottom);
   }
 
   .move-overlay.open .move-sheet { transform: translateY(0); }
@@ -1205,6 +1103,7 @@
     .move-sheet { border-radius: 16px; max-width: 360px; }
   }
 
+  /* ── Settings ── */
   .settings-overlay {
     position: fixed; inset: 0;
     background: rgba(0,0,0,0.35);
@@ -1295,6 +1194,7 @@
     cursor: pointer;
   }
 
+  /* ── Toast notification ── */
   .task-toast {
     position: fixed; top: 80px; left: 50%;
     transform: translateX(-50%) translateY(-20px);
@@ -1334,7 +1234,166 @@
 
   .toast-close:hover { background: var(--border); }
 
+  /* ── FAB ── */
+  .fab {
+    position: fixed;
+    bottom: calc(28px + var(--safe-bottom));
+    left: 28px;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), #7a5010);
+    color: #fff; font-size: 28px; line-height: 1;
+    border: none; cursor: pointer;
+    box-shadow: 0 6px 24px rgba(160,120,40,0.35);
+    z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .fab:hover { transform: scale(1.08); box-shadow: 0 10px 30px rgba(160,120,40,0.45); }
+  .fab:active { transform: scale(0.95); }
+  .fab:focus { outline: none; }
+
+  /* ── Install banner ── */
+  .install-banner {
+    position: fixed;
+    bottom: calc(80px + var(--safe-bottom));
+    left: 12px; right: 12px;
+    background: var(--text-prime); color: #fff;
+    border-radius: 14px; padding: 14px 16px;
+    display: flex; align-items: center; gap: 10px;
+    z-index: 800; box-shadow: var(--shadow-deep);
+    direction: rtl; opacity: 0;
+    transform: translateY(20px); transition: opacity 0.3s, transform 0.3s;
+  }
+
+  .install-banner.show { opacity: 1; transform: translateY(0); }
+  .install-icon { font-size: 24px; flex-shrink: 0; }
+  .install-text { flex: 1; }
+  .install-text strong { display: block; font-size: 14px; }
+  .install-text span { font-size: 11px; opacity: 0.7; }
+
+  .install-yes {
+    padding: 7px 14px; border-radius: 8px; border: none;
+    background: var(--gold); color: #fff;
+    font-family: 'Heebo', sans-serif; font-size: 13px; font-weight: 700;
+    cursor: pointer; white-space: nowrap;
+  }
+
+  .install-no {
+    width: 28px; height: 28px; border-radius: 50%; border: none;
+    background: rgba(255,255,255,0.15); color: #fff;
+    font-size: 14px; cursor: pointer; flex-shrink: 0;
+  }
+
+  /* ── Responsive ── */
+  .mobile-settings-btn {
+    display: none; width: 32px; height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    font-size: 16px; cursor: pointer;
+    align-items: center; justify-content: center;
+    flex-shrink: 0; margin-right: auto; transition: border-color 0.15s;
+  }
+  .mobile-settings-btn:focus { outline: none; }
+
+  .mobile-row2 { display: none; }
+
+  @media (max-width: 900px) {
+    .layout-with-sidebar { grid-template-columns: 1fr; }
+    .sidebar-panel { position: relative; top: 0; }
+    .year-grid { grid-template-columns: repeat(2, 1fr); }
+    .day-view { grid-template-columns: 1fr; }
+    .day-sidebar { flex-direction: row; flex-wrap: wrap; }
+    .day-date-card { flex: 1; min-width: 140px; }
+    .day-tasks-count { flex: 1; min-width: 100px; }
+    .day-timeline { grid-column: 1 / -1; }
+    .header-inner { flex-wrap: wrap; height: auto; padding: 12px 0; gap: 10px; }
+    .header-nav .nav-btn { padding: 6px 10px; font-size: 12px; }
+  }
+
   @media (max-width: 600px) {
+    .app-body { padding: 8px; }
+    .year-grid { grid-template-columns: repeat(2, 1fr); }
+    .month-cell { min-height: 70px; padding: 6px 4px; }
+    .cell-tasks { display: none; }
+    .cell-num { font-size: 12px; }
+    #view-week .layout-with-sidebar { display: block; }
+    .week-notebook { border-radius: 0; border-left: none; border-right: none; }
+    #view-day .layout-with-sidebar { display: block; }
+    #view-day .sidebar-panel { display: none; }
+    .day-view { display: flex; flex-direction: column; gap: 8px; }
+    .day-sidebar { flex-direction: row; align-items: center; gap: 8px; flex-wrap: nowrap; }
+    .day-date-card {
+      display: flex; flex-direction: row;
+      align-items: center; gap: 10px;
+      padding: 10px 14px; flex: 1; text-align: right;
+    }
+    .day-number { font-size: 36px; line-height: 1; flex-shrink: 0; }
+    .day-name { font-size: 14px; margin-top: 0; }
+    .day-month { font-size: 11px; }
+    .day-hebrew { font-size: 10px; margin-top: 2px; }
+    .day-tasks-count {
+      padding: 10px 14px;
+      display: flex; flex-direction: row;
+      align-items: center; gap: 6px;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .count-num { font-size: 22px; }
+    .count-label { font-size: 11px; }
+    .day-timeline { border-radius: var(--radius); }
+    .timeline-header { padding: 10px 14px; font-size: 11px; }
+    .time-slot { min-height: 42px; }
+    .time-label { width: 48px; padding: 6px 8px; font-size: 10px; }
+    .time-content { padding: 4px 8px; }
+    .task-chip { font-size: 12px; padding: 4px 8px; }
+    .app-header { padding: 0 12px; }
+    .header-inner { flex-wrap: wrap; height: auto; padding: 8px 0 0; gap: 0; }
+    .logo { flex: 1; }
+    .logo-text { font-size: 17px; }
+    .logo-sub { display: none; }
+    .logo-icon { width: 28px; height: 28px; font-size: 14px; }
+    .add-task-btn { padding: 6px 13px; font-size: 12px; border-radius: 7px; }
+    .mobile-settings-btn { display: flex; }
+    .mobile-row2 {
+      display: flex;
+      width: 100%; align-items: center; gap: 6px;
+      padding: 6px 0 8px;
+      border-top: 1px solid var(--border);
+      margin-top: 8px;
+    }
+    .mobile-row2 .header-nav { flex: 1; min-width: 0; padding: 3px; gap: 1px; }
+    .nav-btn { padding: 5px 6px; font-size: 11px; border-radius: 5px; }
+    .header-controls { display: none; }
+    .mobile-nav-controls {
+      display: flex; align-items: center; gap: 4px;
+      flex-shrink: 0; margin-left: -12px;
+    }
+    .mobile-nav-controls .arrow-btn { width: 28px; height: 28px; font-size: 14px; border-radius: 7px; }
+    .mobile-nav-controls .today-btn { padding: 4px 9px; font-size: 11px; border-radius: 7px; white-space: nowrap; }
+    .mobile-current-label {
+      font-size: 11px; font-weight: 600;
+      color: var(--text-prime);
+      white-space: nowrap; text-align: center;
+      min-width: 0; max-width: 72px;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .week-notebook { grid-template-columns: 1fr 1fr; }
+    .wn-header { padding: 7px 8px 6px; }
+    .wn-day-label { font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+    .wn-add-btn { width: 18px; height: 18px; font-size: 13px; flex-shrink: 0; }
+    .wn-line { min-height: 28px; height: auto; padding: 5px 7px; }
+    .wn-task-text { font-size: 11px; }
+    .wn-check { width: 13px; height: 13px; font-size: 8px; }
+    .wn-dot { width: 4px; height: 4px; }
+    .wn-task-time { display: flex; }
+    .wn-del { display: none; }
+    .wn-day:nth-child(odd) { border-left: none; }
+    .wn-day:nth-child(even) { border-left: 1px solid var(--border); }
+    .wn-day:nth-last-child(1), .wn-day:nth-last-child(2) { border-bottom: none; }
+    .wn-inline-input { font-size: 11px; }
+    .wn-holiday-strip { font-size: 10px; padding: 3px 8px 4px; }
+    .wn-holiday-strip .hol-icon { font-size: 10px; }
     .task-toast {
       top: auto; bottom: 90px;
       left: 16px; right: 16px;
@@ -1343,15 +1402,32 @@
     .task-toast.toast-show { transform: translateY(0); }
   }
 
+  @media (max-width: 600px) {
+    .header-inner > .header-nav { display: none; }
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg-void); }
+  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--text-mute); font-size: 13px; }
   .empty-state .icon { font-size: 32px; margin-bottom: 10px; opacity: 0.4; }
 </style>
 </head>
 <body>
 
+<!-- Offline indicator -->
+<div class="offline-bar" id="offlineBar">📵 אין חיבור לאינטרנט — האפליקציה עובדת במצב אופליין</div>
+<div class="update-bar" id="updateBar">
+  <span style="flex:1">🎉 גרסה חדשה זמינה!</span>
+  <button class="update-btn" onclick="applyUpdate()">עדכן עכשיו</button>
+  <button class="qa-close" onclick="document.getElementById('updateBar').classList.remove('show')">✕</button>
+</div>
+
 <header class="app-header">
   <div class="header-inner">
     <div class="logo">
-      <div class="logo-icon">✦</div>
+      <div class="logo-icon" id="logoIcon">✦</div>
       <div>
         <span class="logo-text">יומן</span>
         <span class="logo-sub">Task Calendar</span>
@@ -1373,7 +1449,7 @@
         <button class="arrow-btn" onclick="navigate(1)">‹</button>
       </div>
       <button class="today-btn" onclick="goToToday()">היום</button>
-      <button class="today-btn settings-btn" onclick="openSettings()" title="הגדרות">⚙️</button>
+      <button class="today-btn" onclick="openSettings()">⚙️</button>
       <button class="add-task-btn" onclick="openModal()">+ הוסף משימה</button>
     </div>
 
@@ -1439,6 +1515,7 @@
   </div>
 </div>
 
+<!-- Selection bar -->
 <div class="sel-bar" id="selBar" style="display:none">
   <div class="sel-count" id="selCount">0 נבחרו</div>
   <div class="sel-actions">
@@ -1448,6 +1525,7 @@
   </div>
 </div>
 
+<!-- Move sheet -->
 <div class="move-overlay" id="moveOverlay" onclick="closeMoveOutside(event)">
   <div class="move-sheet">
     <div class="move-header">
@@ -1462,8 +1540,10 @@
   </div>
 </div>
 
+<!-- FAB -->
 <button class="fab" id="fabBtn" onclick="openQuickAdd()" title="הוסף משימה">+</button>
 
+<!-- Quick add sheet -->
 <div class="qa-overlay" id="qaOverlay" onclick="qaCloseOutside(event)">
   <div class="qa-sheet" id="qaSheet">
     <div class="qa-header">
@@ -1471,37 +1551,30 @@
       <span class="qa-header-title">משימה חדשה</span>
       <button class="qa-save-btn" onclick="saveQuickTask()">✓</button>
     </div>
-
     <div class="qa-field-row qa-title-row">
       <input class="qa-title-input" id="qaTitleInput" type="text" placeholder="כותרת" autocomplete="off" />
     </div>
-
     <div class="qa-field-row qa-desc-row">
       <textarea class="qa-desc-input" id="qaDescInput" placeholder="תיאור" rows="2"></textarea>
     </div>
-
     <div class="qa-divider"></div>
-
     <div class="qa-field-row qa-row-clickable" onclick="document.getElementById('qaDateInput').showPicker?.() || document.getElementById('qaDateInput').click()">
       <span class="qa-row-icon">📅</span>
       <span class="qa-row-label">תאריך</span>
       <span class="qa-row-value" id="qaDateDisplay">הוסף תאריך</span>
       <input type="date" id="qaDateInput" class="qa-hidden-input" onchange="updateDateDisplay()" />
     </div>
-
     <div class="qa-field-row qa-row-clickable" onclick="document.getElementById('qaTimeInput').showPicker?.() || document.getElementById('qaTimeInput').click()">
       <span class="qa-row-icon">⏰</span>
       <span class="qa-row-label">זמן</span>
       <span class="qa-row-value" id="qaTimeDisplay">הוסף שעה</span>
       <input type="time" id="qaTimeInput" class="qa-hidden-input" onchange="updateTimeDisplay()" />
     </div>
-
     <div class="qa-field-row qa-row-clickable" onclick="toggleRepeatPanel()">
       <span class="qa-row-icon">🔁</span>
       <span class="qa-row-label">חזור</span>
       <span class="qa-row-value" id="qaRepeatDisplay">ללא חזרה</span>
     </div>
-
     <div class="qa-repeat-panel" id="qaRepeatPanel" style="display:none">
       <div class="qa-repeat-grid">
         <button class="qa-repeat-opt selected" onclick="setRepeat('none', this)">ללא חזרה</button>
@@ -1523,7 +1596,6 @@
         <button class="qa-wd" data-day="6">ש'</button>
       </div>
     </div>
-
     <div class="qa-field-row qa-row-clickable" onclick="togglePriorityPanel()">
       <span class="qa-row-icon">🎯</span>
       <span class="qa-row-label">עדיפות</span>
@@ -1537,13 +1609,13 @@
   </div>
 </div>
 
+<!-- Settings -->
 <div class="settings-overlay" id="settingsOverlay" onclick="closeSettingsOutside(event)">
   <div class="settings-panel">
     <div class="settings-header">
       <span class="settings-title">⚙️ הגדרות</span>
       <button class="qa-close" onclick="closeSettings()">✕</button>
     </div>
-
     <div class="settings-section">
       <div class="settings-label">עוצמת קול התראה</div>
       <div class="settings-vol-row">
@@ -1557,7 +1629,6 @@
       </div>
       <button class="vol-test-btn" onclick="testAlarmSound()">▶ בדוק צליל</button>
     </div>
-
     <div class="settings-section">
       <div class="settings-label">התראות דפדפן</div>
       <div class="settings-notif-row" id="notifStatus">
@@ -1565,9 +1636,23 @@
         <button class="notif-btn" id="notifBtn" onclick="requestNotificationPermission(true)" style="display:none">אפשר התראות</button>
       </div>
     </div>
+    <div class="settings-section">
+      <div class="settings-label">אחסון נתונים</div>
+      <div style="display:flex;gap:8px">
+        <button class="vol-test-btn" onclick="exportTasks()" style="flex:1">📤 ייצוא</button>
+        <button class="vol-test-btn" onclick="document.getElementById('importInput').click()" style="flex:1">📥 ייבוא</button>
+        <input type="file" id="importInput" accept=".json" style="display:none" onchange="importTasks(this)" />
+      </div>
+    </div>
+    <div class="settings-section" style="padding-bottom:8px">
+      <div id="pwaStatus" style="font-size:12px;color:var(--text-mute);text-align:center">
+        בדיקת סטטוס PWA...
+      </div>
+    </div>
   </div>
 </div>
 
+<!-- Old modal (fallback) -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)" style="display:none">
   <div class="modal">
     <div class="modal-title">משימה חדשה</div>
@@ -1603,6 +1688,216 @@
 </div>
 
 <script>
+// ═══════════════════════════════════════════════════════════════
+// PWA BOOTSTRAP — Service Worker + IndexedDB + Push Notifications
+// ═══════════════════════════════════════════════════════════════
+
+let swRegistration = null;
+let newWorkerWaiting = null;
+let db = null;
+
+// ── Register Service Worker ────────────────────────────────────
+async function registerSW() {
+  if (!('serviceWorker' in navigator)) return;
+  try {
+    swRegistration = await navigator.serviceWorker.register('./sw.js', { scope: './' });
+    console.log('[PWA] SW registered');
+
+    // Listen for new SW waiting
+    swRegistration.addEventListener('updatefound', () => {
+      const newWorker = swRegistration.installing;
+      newWorker.addEventListener('statechange', () => {
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          newWorkerWaiting = newWorker;
+          document.getElementById('updateBar').classList.add('show');
+        }
+      });
+    });
+
+    // Handle messages from SW
+    navigator.serviceWorker.addEventListener('message', e => {
+      if (e.data.type === 'MARK_DONE') {
+        toggleTask(e.data.taskId);
+      }
+      if (e.data.type === 'SNOOZE') {
+        snoozeTask(e.data.task);
+      }
+    });
+
+    // Register Periodic Background Sync for alarms
+    if ('periodicSync' in swRegistration) {
+      try {
+        const status = await navigator.permissions.query({ name: 'periodic-background-sync' });
+        if (status.state === 'granted') {
+          await swRegistration.periodicSync.register('check-alarms', { minInterval: 60 * 1000 });
+          console.log('[PWA] Periodic sync registered');
+        }
+      } catch(e) { console.log('[PWA] Periodic sync not available'); }
+    }
+
+    updatePWAStatus();
+  } catch(err) {
+    console.warn('[PWA] SW registration failed:', err);
+  }
+}
+
+function applyUpdate() {
+  if (newWorkerWaiting) {
+    newWorkerWaiting.postMessage({ type: 'SKIP_WAITING' });
+    window.location.reload();
+  }
+}
+
+// ── IndexedDB setup ────────────────────────────────────────────
+function openDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open('YomanDB', 1);
+    req.onupgradeneeded = e => {
+      const d = e.target.result;
+      if (!d.objectStoreNames.contains('tasks')) {
+        const store = d.createObjectStore('tasks', { keyPath: 'id' });
+        store.createIndex('date', 'date', { unique: false });
+      }
+      if (!d.objectStoreNames.contains('settings')) {
+        d.createObjectStore('settings', { keyPath: 'key' });
+      }
+    };
+    req.onsuccess = e => resolve(e.target.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function idbGetAllTasks() {
+  if (!db) return [];
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction('tasks', 'readonly');
+    const req = tx.objectStore('tasks').getAll();
+    req.onsuccess = () => resolve(req.result || []);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function idbSaveTasks(tasksArr) {
+  if (!db) return;
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction('tasks', 'readwrite');
+    const store = tx.objectStore('tasks');
+    // Clear and repopulate
+    const clearReq = store.clear();
+    clearReq.onsuccess = () => {
+      let pending = tasksArr.length;
+      if (pending === 0) { resolve(); return; }
+      tasksArr.forEach(task => {
+        const putReq = store.put(task);
+        putReq.onsuccess = () => { if (--pending === 0) resolve(); };
+        putReq.onerror = () => reject(putReq.error);
+      });
+    };
+    clearReq.onerror = () => reject(clearReq.error);
+  });
+}
+
+// ── Network status ─────────────────────────────────────────────
+function updateNetworkStatus() {
+  const bar = document.getElementById('offlineBar');
+  const logoIcon = document.getElementById('logoIcon');
+  if (navigator.onLine) {
+    bar.classList.remove('show');
+    logoIcon.classList.remove('offline');
+  } else {
+    bar.classList.add('show');
+    logoIcon.classList.add('offline');
+  }
+}
+
+window.addEventListener('online', updateNetworkStatus);
+window.addEventListener('offline', updateNetworkStatus);
+
+// ── PWA Status ─────────────────────────────────────────────────
+function updatePWAStatus() {
+  const el = document.getElementById('pwaStatus');
+  if (!el) return;
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
+                       window.navigator.standalone === true;
+  const hasSW = 'serviceWorker' in navigator;
+  const parts = [];
+  if (isStandalone) parts.push('✅ מותקן כאפליקציה');
+  else parts.push('🌐 פועל בדפדפן');
+  if (hasSW) parts.push('✅ Service Worker פעיל');
+  if (Notification.permission === 'granted') parts.push('✅ התראות מופעלות');
+  else if (Notification.permission === 'denied') parts.push('❌ התראות חסומות');
+  el.innerHTML = parts.join('<br>');
+}
+
+// ── Export / Import ────────────────────────────────────────────
+function exportTasks() {
+  const data = JSON.stringify({ tasks, exportDate: new Date().toISOString() }, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `yoman-backup-${dateStr(new Date())}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importTasks(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (data.tasks && Array.isArray(data.tasks)) {
+        tasks = data.tasks;
+        saveTasks();
+        render();
+        alert(`✅ ייבאת ${tasks.length} משימות בהצלחה`);
+      }
+    } catch(err) {
+      alert('❌ שגיאה בקריאת הקובץ');
+    }
+  };
+  reader.readAsText(file);
+  input.value = '';
+}
+
+// ── Snooze task ────────────────────────────────────────────────
+function snoozeTask(task) {
+  const d = new Date();
+  d.setMinutes(d.getMinutes() + 10);
+  const h = String(d.getHours()).padStart(2,'0');
+  const m = String(d.getMinutes()).padStart(2,'0');
+  const snooze = { ...task, id: Date.now().toString(), time: `${h}:${m}`, date: dateStr(d) };
+  tasks.push(snooze);
+  saveTasks();
+}
+
+// ── VAPID Push (optional, for future server integration) ───────
+async function subscribeToPush() {
+  if (!swRegistration || !('pushManager' in swRegistration)) return null;
+  try {
+    const sub = await swRegistration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(
+        'BEl62iUYgUivxIkv69yViEuiBIa-Ib9-SkvMeAtA3LFgDzkrxZJjSgSnfckjBJuBkr3qBUYIHBQFLXYp5Nksh8U'
+      )
+    });
+    return sub;
+  } catch(e) { return null; }
+}
+
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const rawData = window.atob(base64);
+  return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)));
+}
+
+// ════════════════════════════════════════════════════════════════
+// APP DATA
+// ════════════════════════════════════════════════════════════════
+
 const HOLIDAYS = [
   { name: 'ראש השנה', date: '2025-09-22', duration: 2, icon: '🍎' },
   { name: 'צום גדליה', date: '2025-09-25', duration: 1, icon: '✡️', fast: true },
@@ -1627,97 +1922,36 @@ const HOLIDAYS = [
   { name: 'צום י"ז בתמוז', date: '2026-07-02', duration: 1, icon: '✡️', fast: true },
   { name: 'תשעה באב', date: '2026-07-23', duration: 1, icon: '✡️', fast: true },
   { name: 'ראש השנה', date: '2026-09-11', duration: 2, icon: '🍎' },
-  { name: 'צום גדליה', date: '2026-09-14', duration: 1, icon: '✡️', fast: true },
   { name: 'יום כיפור', date: '2026-09-20', duration: 1, icon: '🕍', fast: true },
   { name: 'סוכות', date: '2026-09-25', duration: 7, icon: '🌿' },
   { name: 'שמחת תורה', date: '2026-10-02', duration: 1, icon: '📖' },
   { name: 'חנוכה', date: '2026-12-04', duration: 8, icon: '🕎' },
-  { name: 'צום עשרה בטבת', date: '2026-12-20', duration: 1, icon: '✡️', fast: true },
-  { name: 'ט"ו בשבט', date: '2027-02-01', duration: 1, icon: '🌳' },
-  { name: 'תענית אסתר', date: '2027-03-22', duration: 1, icon: '✡️', fast: true },
-  { name: 'פורים', date: '2027-03-23', duration: 1, icon: '🎭' },
-  { name: 'שושן פורים', date: '2027-03-24', duration: 1, icon: '🎭' },
-  { name: 'ערב פסח', date: '2027-04-21', duration: 1, icon: '🍷' },
-  { name: 'פסח', date: '2027-04-22', duration: 7, icon: '🍷' },
-  { name: 'שביעי של פסח', date: '2027-04-28', duration: 1, icon: '🌊' },
-  { name: 'יום הזכרון לשואה', date: '2027-05-05', duration: 1, icon: '🕯️' },
-  { name: 'יום הזכרון', date: '2027-05-11', duration: 1, icon: '🕯️' },
-  { name: 'יום העצמאות', date: '2027-05-12', duration: 1, icon: '🇮🇱' },
-  { name: 'ל"ג בעומר', date: '2027-05-25', duration: 1, icon: '🔥' },
-  { name: 'יום ירושלים', date: '2027-06-02', duration: 1, icon: '🏛️' },
-  { name: 'שבועות', date: '2027-06-11', duration: 1, icon: '📜' },
-  { name: 'צום י"ז בתמוז', date: '2027-07-04', duration: 1, icon: '✡️', fast: true },
-  { name: 'תשעה באב', date: '2027-07-25', duration: 1, icon: '✡️', fast: true },
   { name: 'ראש השנה', date: '2027-10-02', duration: 2, icon: '🍎' },
-  { name: 'צום גדליה', date: '2027-10-05', duration: 1, icon: '✡️', fast: true },
   { name: 'יום כיפור', date: '2027-10-11', duration: 1, icon: '🕍', fast: true },
   { name: 'סוכות', date: '2027-10-16', duration: 7, icon: '🌿' },
   { name: 'שמחת תורה', date: '2027-10-23', duration: 1, icon: '📖' },
+  { name: 'פורים', date: '2027-03-23', duration: 1, icon: '🎭' },
+  { name: 'פסח', date: '2027-04-22', duration: 7, icon: '🍷' },
+  { name: 'יום העצמאות', date: '2027-05-12', duration: 1, icon: '🇮🇱' },
+  { name: 'שבועות', date: '2027-06-11', duration: 1, icon: '📜' },
   { name: 'חנוכה', date: '2027-12-25', duration: 8, icon: '🕎' },
-  { name: 'צום עשרה בטבת', date: '2028-01-09', duration: 1, icon: '✡️', fast: true },
-  { name: 'ט"ו בשבט', date: '2028-02-12', duration: 1, icon: '🌳' },
-  { name: 'תענית אסתר', date: '2028-03-09', duration: 1, icon: '✡️', fast: true },
-  { name: 'פורים', date: '2028-03-12', duration: 1, icon: '🎭' },
-  { name: 'שושן פורים', date: '2028-03-13', duration: 1, icon: '🎭' },
-  { name: 'ערב פסח', date: '2028-04-10', duration: 1, icon: '🍷' },
-  { name: 'פסח', date: '2028-04-11', duration: 7, icon: '🍷' },
-  { name: 'שביעי של פסח', date: '2028-04-17', duration: 1, icon: '🌊' },
-  { name: 'יום הזכרון לשואה', date: '2028-04-23', duration: 1, icon: '🕯️' },
-  { name: 'יום הזכרון', date: '2028-04-30', duration: 1, icon: '🕯️' },
-  { name: 'יום העצמאות', date: '2028-05-01', duration: 1, icon: '🇮🇱' },
-  { name: 'ל"ג בעומר', date: '2028-05-14', duration: 1, icon: '🔥' },
-  { name: 'יום ירושלים', date: '2028-05-23', duration: 1, icon: '🏛️' },
-  { name: 'שבועות', date: '2028-05-31', duration: 1, icon: '📜' },
-  { name: 'צום י"ז בתמוז', date: '2028-07-11', duration: 1, icon: '✡️', fast: true },
-  { name: 'תשעה באב', date: '2028-08-01', duration: 1, icon: '✡️', fast: true },
   { name: 'ראש השנה', date: '2028-09-21', duration: 2, icon: '🍎' },
-  { name: 'צום גדליה', date: '2028-09-25', duration: 1, icon: '✡️', fast: true },
   { name: 'יום כיפור', date: '2028-09-30', duration: 1, icon: '🕍', fast: true },
-  { name: 'סוכות', date: '2028-10-05', duration: 7, icon: '🌿' },
-  { name: 'שמחת תורה', date: '2028-10-12', duration: 1, icon: '📖' },
+  { name: 'פורים', date: '2028-03-12', duration: 1, icon: '🎭' },
+  { name: 'פסח', date: '2028-04-11', duration: 7, icon: '🍷' },
+  { name: 'יום העצמאות', date: '2028-05-01', duration: 1, icon: '🇮🇱' },
+  { name: 'שבועות', date: '2028-05-31', duration: 1, icon: '📜' },
   { name: 'חנוכה', date: '2028-12-13', duration: 8, icon: '🕎' },
-  { name: 'ט"ו בשבט', date: '2029-02-01', duration: 1, icon: '🌳' },
-  { name: 'תענית אסתר', date: '2029-03-01', duration: 1, icon: '✡️', fast: true },
-  { name: 'פורים', date: '2029-03-02', duration: 1, icon: '🎭' },
-  { name: 'שושן פורים', date: '2029-03-03', duration: 1, icon: '🎭' },
-  { name: 'ערב פסח', date: '2029-03-31', duration: 1, icon: '🍷' },
-  { name: 'פסח', date: '2029-04-01', duration: 7, icon: '🍷' },
-  { name: 'שביעי של פסח', date: '2029-04-07', duration: 1, icon: '🌊' },
-  { name: 'יום הזכרון לשואה', date: '2029-04-16', duration: 1, icon: '🕯️' },
-  { name: 'יום הזכרון', date: '2029-04-22', duration: 1, icon: '🕯️' },
-  { name: 'יום העצמאות', date: '2029-04-23', duration: 1, icon: '🇮🇱' },
-  { name: 'ל"ג בעומר', date: '2029-05-06', duration: 1, icon: '🔥' },
-  { name: 'יום ירושלים', date: '2029-05-13', duration: 1, icon: '🏛️' },
-  { name: 'שבועות', date: '2029-05-20', duration: 1, icon: '📜' },
-  { name: 'צום י"ז בתמוז', date: '2029-07-01', duration: 1, icon: '✡️', fast: true },
-  { name: 'תשעה באב', date: '2029-07-22', duration: 1, icon: '✡️', fast: true },
   { name: 'ראש השנה', date: '2029-09-08', duration: 2, icon: '🍎' },
-  { name: 'צום גדליה', date: '2029-09-12', duration: 1, icon: '✡️', fast: true },
-  { name: 'יום כיפור', date: '2029-09-17', duration: 1, icon: '🕍', fast: true },
-  { name: 'סוכות', date: '2029-09-22', duration: 7, icon: '🌿' },
-  { name: 'שמחת תורה', date: '2029-09-29', duration: 1, icon: '📖' },
-  { name: 'חנוכה', date: '2029-12-01', duration: 8, icon: '🕎' },
-  { name: 'צום עשרה בטבת', date: '2029-12-16', duration: 1, icon: '✡️', fast: true },
-  { name: 'ט"ו בשבט', date: '2030-01-21', duration: 1, icon: '🌳' },
-  { name: 'תענית אסתר', date: '2030-03-18', duration: 1, icon: '✡️', fast: true },
-  { name: 'פורים', date: '2030-03-19', duration: 1, icon: '🎭' },
-  { name: 'שושן פורים', date: '2030-03-20', duration: 1, icon: '🎭' },
-  { name: 'ערב פסח', date: '2030-04-17', duration: 1, icon: '🍷' },
-  { name: 'פסח', date: '2030-04-18', duration: 7, icon: '🍷' },
-  { name: 'שביעי של פסח', date: '2030-04-24', duration: 1, icon: '🌊' },
-  { name: 'יום הזכרון לשואה', date: '2030-05-05', duration: 1, icon: '🕯️' },
-  { name: 'יום הזכרון', date: '2030-05-08', duration: 1, icon: '🕯️' },
-  { name: 'יום העצמאות', date: '2030-05-09', duration: 1, icon: '🇮🇱' },
-  { name: 'ל"ג בעומר', date: '2030-05-23', duration: 1, icon: '🔥' },
-  { name: 'יום ירושלים', date: '2030-05-30', duration: 1, icon: '🏛️' },
-  { name: 'שבועות', date: '2030-06-07', duration: 1, icon: '📜' },
-  { name: 'צום י"ז בתמוז', date: '2030-07-18', duration: 1, icon: '✡️', fast: true },
-  { name: 'תשעה באב', date: '2030-08-07', duration: 1, icon: '✡️', fast: true },
+  { name: 'פורים', date: '2029-03-02', duration: 1, icon: '🎭' },
+  { name: 'פסח', date: '2029-04-01', duration: 7, icon: '🍷' },
+  { name: 'יום העצמאות', date: '2029-04-23', duration: 1, icon: '🇮🇱' },
+  { name: 'שבועות', date: '2029-05-20', duration: 1, icon: '📜' },
   { name: 'ראש השנה', date: '2030-09-27', duration: 2, icon: '🍎' },
-  { name: 'יום כיפור', date: '2030-10-07', duration: 1, icon: '🕍', fast: true },
-  { name: 'סוכות', date: '2030-10-11', duration: 7, icon: '🌿' },
-  { name: 'שמחת תורה', date: '2030-10-18', duration: 1, icon: '📖' },
-  { name: 'חנוכה', date: '2030-12-20', duration: 8, icon: '🕎' },
+  { name: 'פורים', date: '2030-03-19', duration: 1, icon: '🎭' },
+  { name: 'פסח', date: '2030-04-18', duration: 7, icon: '🍷' },
+  { name: 'יום העצמאות', date: '2030-05-09', duration: 1, icon: '🇮🇱' },
+  { name: 'שבועות', date: '2030-06-07', duration: 1, icon: '📜' },
 ];
 
 const HEBREW_MONTHS = {
@@ -1725,22 +1959,8 @@ const HEBREW_MONTHS = {
   '2026-04':'ניסן / אייר','2026-05':'אייר / סיוון','2026-06':'סיוון / תמוז',
   '2026-07':'תמוז / אב','2026-08':'אב / אלול','2026-09':'אלול / תשרי',
   '2026-10':'תשרי / חשוון','2026-11':'חשוון / כסלו','2026-12':'כסלו / טבת',
-  '2027-01':'טבת / שבט','2027-02':'שבט / אדר','2027-03':'אדר / ניסן',
-  '2027-04':'ניסן / אייר','2027-05':'אייר / סיוון','2027-06':'סיוון / תמוז',
-  '2027-07':'תמוז / אב','2027-08':'אב / אלול','2027-09':'אלול / תשרי',
-  '2027-10':'תשרי / חשוון','2027-11':'חשוון / כסלו','2027-12':'כסלו / טבת',
-  '2028-01':'טבת / שבט','2028-02':'שבט / אדר','2028-03':'אדר / ניסן',
-  '2028-04':'ניסן / אייר','2028-05':'אייר / סיוון','2028-06':'סיוון / תמוז',
-  '2028-07':'תמוז / אב','2028-08':'אב / אלול','2028-09':'אלול / תשרי',
-  '2028-10':'תשרי / חשוון','2028-11':'חשוון / כסלו','2028-12':'כסלו / טבת',
-  '2029-01':'טבת / שבט','2029-02':'שבט / אדר','2029-03':'אדר / ניסן',
-  '2029-04':'ניסן / אייר','2029-05':'אייר / סיוון','2029-06':'סיוון / תמוז',
-  '2029-07':'תמוז / אב','2029-08':'אב / אלול','2029-09':'אלול / תשרי',
-  '2029-10':'תשרי / חשוון','2029-11':'חשוון / כסלו','2029-12':'כסלו / טבת',
-  '2030-01':'טבת / שבט','2030-02':'שבט / אדר','2030-03':'אדר / ניסן',
-  '2030-04':'ניסן / אייר','2030-05':'אייר / סיוון','2030-06':'סיוון / תמוז',
-  '2030-07':'תמוז / אב','2030-08':'אב / אלול','2030-09':'אלול / תשרי',
-  '2030-10':'תשרי / חשוון','2030-11':'חשוון / כסלו','2030-12':'כסלו / טבת',
+  '2027-01':'טבת / שבט','2027-04':'ניסן / אייר','2027-10':'תשרי / חשוון',
+  '2028-04':'ניסן / אייר','2028-09':'אלול / תשרי',
 };
 
 const HEBREW_DATES = {
@@ -1759,10 +1979,34 @@ const HOURS = ['07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','
 
 let currentView = 'week';
 let currentDate = new Date();
-let tasks = JSON.parse(localStorage.getItem('calTasks') || '[]');
+let tasks = [];
 let selectedPriority = 'medium';
 let modalDate = null;
 
+// ── Load tasks from IndexedDB, fallback to localStorage ────────
+async function loadTasks() {
+  try {
+    db = await openDB();
+    const idbTasks = await idbGetAllTasks();
+    if (idbTasks.length > 0) {
+      tasks = idbTasks;
+    } else {
+      // Migrate from localStorage if needed
+      const lsTasks = JSON.parse(localStorage.getItem('calTasks') || '[]');
+      tasks = lsTasks;
+      if (lsTasks.length > 0) {
+        await idbSaveTasks(lsTasks);
+        console.log('[DB] Migrated', lsTasks.length, 'tasks from localStorage to IndexedDB');
+      }
+    }
+  } catch(err) {
+    console.warn('[DB] IndexedDB failed, falling back to localStorage:', err);
+    tasks = JSON.parse(localStorage.getItem('calTasks') || '[]');
+  }
+  render();
+}
+
+// ── Holiday helpers ────────────────────────────────────────────
 function getHolidaysForDate(ds) {
   return HOLIDAYS.filter(h => {
     if (h.minor) return false;
@@ -1799,19 +2043,15 @@ function dateStr(d) {
 function getTasksForDate(ds) {
   const target = parseDate(ds);
   const targetDay = target.getDay();
-
   return tasks.filter(t => {
     if (!t.date) return false;
     const origin = parseDate(t.date);
     if (target < origin) return false;
     const repeat = t.repeat || 'none';
     if (repeat === 'none') return t.date === ds;
-
     const diffDays = Math.round((target - origin) / 86400000);
-
     switch (repeat) {
-      case 'hourly': return diffDays >= 0;
-      case 'daily': return diffDays >= 0;
+      case 'hourly': case 'daily': return diffDays >= 0;
       case 'weekly': return diffDays >= 0 && diffDays % 7 === 0;
       case 'monthly': {
         const sameDay = origin.getDate() === target.getDate();
@@ -1819,21 +2059,16 @@ function getTasksForDate(ds) {
           (target.getFullYear() === origin.getFullYear() && target.getMonth() >= origin.getMonth());
         return sameDay && laterMonth;
       }
-      case 'yearly': {
-        return origin.getDate() === target.getDate() &&
-          origin.getMonth() === target.getMonth() &&
-          target.getFullYear() >= origin.getFullYear();
-      }
-      case 'weekdays': {
-        const days = t.repeatDays || [];
-        return diffDays >= 0 && days.includes(targetDay);
-      }
-      case 'custom': return t.date === ds;
+      case 'yearly':
+        return origin.getDate() === target.getDate() && origin.getMonth() === target.getMonth() && target.getFullYear() >= origin.getFullYear();
+      case 'weekdays':
+        return diffDays >= 0 && (t.repeatDays || []).includes(targetDay);
       default: return t.date === ds;
     }
   });
 }
 
+// ── Navigation ─────────────────────────────────────────────────
 function navigate(dir) {
   if (currentView === 'day') currentDate.setDate(currentDate.getDate() + dir);
   else if (currentView === 'week') currentDate.setDate(currentDate.getDate() + dir * 7);
@@ -1936,9 +2171,7 @@ function renderDay() {
 
   dayTasks.forEach(task => {
     const h = task.time ? task.time.split(':')[0] : null;
-    const container = h
-      ? document.getElementById('slot-' + h)
-      : noTimeSlot.querySelector('.time-content');
+    const container = h ? document.getElementById('slot-' + h) : noTimeSlot.querySelector('.time-content');
     if (container) container.appendChild(createTaskChip(task));
   });
 }
@@ -1958,11 +2191,9 @@ function createTaskChip(task) {
 function activateInlineLine(line, ds) {
   const existing = document.querySelector('.wn-inline-input');
   if (existing) existing.blur();
-
   line.classList.add('wn-editing');
   line.classList.remove('wn-line-empty');
   line.innerHTML = '';
-
   const input = document.createElement('input');
   input.type = 'text';
   input.className = 'wn-inline-input';
@@ -1970,25 +2201,15 @@ function activateInlineLine(line, ds) {
   input.setAttribute('autocomplete', 'off');
   line.appendChild(input);
   input.focus();
-
   function commit() {
     const val = input.value.trim();
     if (val) {
-      tasks.push({
-        id: Date.now().toString(),
-        title: val, date: ds, time: '',
-        priority: 'medium', note: '', done: false,
-        created: new Date().toISOString()
-      });
+      tasks.push({ id: Date.now().toString(), title: val, date: ds, time: '', priority: 'medium', note: '', done: false, created: new Date().toISOString() });
       saveTasks();
     }
     renderWeek();
   }
-
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') { e.preventDefault(); commit(); }
-    if (e.key === 'Escape') { renderWeek(); }
-  });
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); commit(); } if (e.key === 'Escape') renderWeek(); });
   input.addEventListener('blur', () => setTimeout(commit, 120));
 }
 
@@ -1997,9 +2218,7 @@ function activateInlineEdit(line, task) {
   const inner = line.querySelector('.wn-task-inner');
   const textEl = inner.querySelector('.wn-task-text');
   if (!textEl) return;
-
   line.classList.add('wn-editing');
-
   const input = document.createElement('input');
   input.type = 'text';
   input.className = 'wn-inline-input';
@@ -2008,23 +2227,13 @@ function activateInlineEdit(line, task) {
   inner.replaceChild(input, textEl);
   input.focus();
   input.setSelectionRange(input.value.length, input.value.length);
-
   function commit() {
     const val = input.value.trim();
-    if (!val) {
-      tasks = tasks.filter(t => t.id !== task.id);
-      saveTasks();
-    } else if (val !== task.title) {
-      task.title = val;
-      saveTasks();
-    }
+    if (!val) { tasks = tasks.filter(t => t.id !== task.id); saveTasks(); }
+    else if (val !== task.title) { task.title = val; saveTasks(); }
     renderWeek();
   }
-
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') { e.preventDefault(); commit(); }
-    if (e.key === 'Escape') { renderWeek(); }
-  });
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); commit(); } if (e.key === 'Escape') renderWeek(); });
   input.addEventListener('blur', () => setTimeout(commit, 120));
 }
 
@@ -2056,131 +2265,76 @@ function renderWeek() {
 
     const header = document.createElement('div');
     header.className = 'wn-header';
-
     const labelWrap = document.createElement('div');
     labelWrap.style.cssText = 'display:flex;align-items:center;gap:4px;min-width:0;flex:1';
-
     const label = document.createElement('span');
     label.className = 'wn-day-label';
     label.textContent = `יום ${DAY_NAMES[d.getDay()]} ${d.getDate()} ב${MONTH_NAMES[d.getMonth()]}'`;
     labelWrap.appendChild(label);
-
-    if (isToday) {
-      const dot = document.createElement('span');
-      dot.className = 'wn-today-dot';
-      labelWrap.appendChild(dot);
-    }
-
+    if (isToday) { const dot = document.createElement('span'); dot.className = 'wn-today-dot'; labelWrap.appendChild(dot); }
     const addBtn = document.createElement('button');
-    addBtn.className = 'wn-add-btn';
-    addBtn.textContent = '+';
-    addBtn.title = 'הוסף משימה';
-    addBtn.onclick = (e) => {
+    addBtn.className = 'wn-add-btn'; addBtn.textContent = '+'; addBtn.title = 'הוסף משימה';
+    addBtn.onclick = e => {
       e.stopPropagation();
       const emptyLine = card.querySelector('.wn-line-empty');
-      if (emptyLine) {
-        activateInlineLine(emptyLine, ds);
-      } else {
-        modalDate = ds;
-        document.getElementById('taskDate').value = ds;
-        openModal();
-      }
+      if (emptyLine) activateInlineLine(emptyLine, ds);
+      else { modalDate = ds; document.getElementById('taskDate').value = ds; openModal(); }
     };
-
-    header.appendChild(labelWrap);
-    header.appendChild(addBtn);
-    header.onclick = (e) => {
-      if (e.target === header || e.target === label) {
-        currentDate = new Date(d);
-        switchViewDirect('day');
-      }
-    };
+    header.appendChild(labelWrap); header.appendChild(addBtn);
+    header.onclick = e => { if (e.target === header || e.target === label) { currentDate = new Date(d); switchViewDirect('day'); } };
     card.appendChild(header);
 
     if (hols.length) {
       const strip = document.createElement('div');
       strip.className = 'wn-holiday-strip';
-      strip.innerHTML = hols.map(h =>
-        `<span class="hol-icon">${h.icon}</span><span class="hol-name">${h.name}</span>`
-      ).join('<span style="opacity:0.3;margin:0 2px">·</span>');
+      strip.innerHTML = hols.map(h => `<span class="hol-icon">${h.icon}</span><span class="hol-name">${h.name}</span>`).join('<span style="opacity:0.3;margin:0 2px">·</span>');
       card.appendChild(strip);
     }
 
     const linesContainer = document.createElement('div');
     linesContainer.className = 'wn-lines';
-
     const totalLines = Math.max(LINES_PER_DAY, dayTasks.length);
 
     for (let l = 0; l < totalLines; l++) {
       const line = document.createElement('div');
-
       if (l < dayTasks.length) {
         const task = dayTasks[l];
         line.className = 'wn-line';
-
         const inner = document.createElement('div');
         inner.className = 'wn-task-inner';
-
         const check = document.createElement('div');
         check.className = `wn-check${task.done ? ' checked' : ''}`;
         check.innerHTML = task.done ? '✓' : '';
-        check.onclick = (e) => { e.stopPropagation(); toggleTask(task.id); };
-
+        check.onclick = e => { e.stopPropagation(); toggleTask(task.id); };
         const dot = document.createElement('div');
         dot.className = `wn-dot ${task.priority}`;
-
         const text = document.createElement('div');
         text.className = `wn-task-text${task.done ? ' done-text' : ''}`;
         text.textContent = task.title + (task.repeat && task.repeat !== 'none' ? ' 🔁' : '');
-
         const del = document.createElement('div');
-        del.className = 'wn-del';
-        del.innerHTML = '✕';
-        del.onclick = (e) => { e.stopPropagation(); deleteTask(task.id); };
-
-        inner.appendChild(check);
-        inner.appendChild(dot);
-        inner.appendChild(text);
+        del.className = 'wn-del'; del.innerHTML = '✕';
+        del.onclick = e => { e.stopPropagation(); deleteTask(task.id); };
+        inner.appendChild(check); inner.appendChild(dot); inner.appendChild(text);
         if (task.time) {
           const time = document.createElement('div');
-          time.className = 'wn-task-time';
-          time.textContent = task.time;
+          time.className = 'wn-task-time'; time.textContent = task.time;
           inner.appendChild(time);
         }
         inner.appendChild(del);
         line.appendChild(inner);
-
-        text.onclick = (e) => {
-          e.stopPropagation();
-          if (selectedTaskIds.size > 0) {
-            toggleTaskSelection(task.id, line);
-          } else {
-            activateInlineEdit(line, task);
-          }
-        };
-
+        text.onclick = e => { e.stopPropagation(); if (selectedTaskIds.size > 0) toggleTaskSelection(task.id, line); else activateInlineEdit(line, task); };
         let longPressTimer = null;
-        const startLongPress = (e) => {
-          longPressTimer = setTimeout(() => {
-            e.preventDefault?.();
-            toggleTaskSelection(task.id, line);
-          }, 500);
-        };
-        const cancelLongPress = () => clearTimeout(longPressTimer);
-        line.addEventListener('mousedown', startLongPress);
-        line.addEventListener('touchstart', startLongPress, { passive: true });
-        line.addEventListener('mouseup', cancelLongPress);
-        line.addEventListener('mouseleave', cancelLongPress);
-        line.addEventListener('touchend', cancelLongPress);
-        line.addEventListener('touchcancel', cancelLongPress);
+        const startLP = e => { longPressTimer = setTimeout(() => { e.preventDefault?.(); toggleTaskSelection(task.id, line); }, 500); };
+        const cancelLP = () => clearTimeout(longPressTimer);
+        line.addEventListener('mousedown', startLP); line.addEventListener('touchstart', startLP, { passive: true });
+        line.addEventListener('mouseup', cancelLP); line.addEventListener('mouseleave', cancelLP);
+        line.addEventListener('touchend', cancelLP); line.addEventListener('touchcancel', cancelLP);
       } else {
         line.className = 'wn-line wn-line-empty';
         line.onclick = () => activateInlineLine(line, ds);
       }
-
       linesContainer.appendChild(line);
     }
-
     card.appendChild(linesContainer);
     grid.appendChild(card);
   }
@@ -2205,7 +2359,6 @@ function renderMonth() {
 
   const body = document.createElement('div');
   body.className = 'month-body';
-
   const firstDay = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const prevMonthDays = new Date(year, month, 0).getDate();
@@ -2213,10 +2366,7 @@ function renderMonth() {
   let cells = [];
   for (let i = firstDay - 1; i >= 0; i--) cells.push({ day: prevMonthDays - i, otherMonth: true, date: new Date(year, month - 1, prevMonthDays - i) });
   for (let i = 1; i <= daysInMonth; i++) cells.push({ day: i, otherMonth: false, date: new Date(year, month, i) });
-  while (cells.length % 7 !== 0) {
-    const n = cells.length - daysInMonth - firstDay + 1;
-    cells.push({ day: n, otherMonth: true, date: new Date(year, month + 1, n) });
-  }
+  while (cells.length % 7 !== 0) { const n = cells.length - daysInMonth - firstDay + 1; cells.push({ day: n, otherMonth: true, date: new Date(year, month + 1, n) }); }
 
   for (let r = 0; r < cells.length / 7; r++) {
     const row = document.createElement('div');
@@ -2229,24 +2379,13 @@ function renderMonth() {
       const dayTasks = getTasksForDate(ds);
       const div = document.createElement('div');
       div.className = `month-cell${cell.otherMonth?' other-month':''}${isToday?' today':''}${hols.length?' has-holiday':''}`;
-
-      const numHtml = isToday
-        ? `<span class="today-num">${cell.day}</span>`
-        : `<span>${cell.day}</span>`;
-
+      const numHtml = isToday ? `<span class="today-num">${cell.day}</span>` : `<span>${cell.day}</span>`;
       div.innerHTML = `
         <div class="cell-num">${numHtml}<span class="cell-hebrew">${HEBREW_DATES[ds]||''}</span></div>
         ${hols.filter(h=>!h.minor).map(h=>`<span class="cell-holiday-tag">${h.icon} ${h.name}</span>`).join('')}
-        <div class="cell-tasks">${dayTasks.slice(0,3).map(t=>
-          `<div class="cell-task priority-${t.priority}${t.done?' done':''}">${t.title}</div>`
-        ).join('')}${dayTasks.length>3?`<div class="more-tasks">+${dayTasks.length-3} עוד</div>`:''}</div>
+        <div class="cell-tasks">${dayTasks.slice(0,3).map(t=>`<div class="cell-task priority-${t.priority}${t.done?' done':''}">${t.title}</div>`).join('')}${dayTasks.length>3?`<div class="more-tasks">+${dayTasks.length-3} עוד</div>`:''}</div>
       `;
-
-      div.onclick = () => {
-        currentDate = new Date(cell.date);
-        switchView('day');
-      };
-
+      div.onclick = () => { currentDate = new Date(cell.date); switchView('day'); };
       row.appendChild(div);
     }
     body.appendChild(row);
@@ -2259,32 +2398,21 @@ function renderYear() {
   grid.innerHTML = '';
   const today = new Date();
   const year = currentDate.getFullYear();
-
   for (let m = 0; m < 12; m++) {
     const card = document.createElement('div');
     card.className = 'year-month-card';
     const isCurrent = today.getFullYear() === year && today.getMonth() === m;
-
     const header = document.createElement('div');
     header.className = `year-month-header${isCurrent?' current-month':''}`;
     const hKey = `${year}-${String(m+1).padStart(2,'0')}`;
     header.innerHTML = `<span>${MONTH_NAMES[m]}</span><span style="font-size:10px;color:var(--text-mute)">${HEBREW_MONTHS[hKey]||''}</span>`;
     card.appendChild(header);
-
     const mini = document.createElement('div');
     mini.className = 'year-mini-days';
-    DAY_NAMES.forEach(n => {
-      const dn = document.createElement('div');
-      dn.className = 'mini-day-name';
-      dn.textContent = n[0];
-      mini.appendChild(dn);
-    });
-
+    DAY_NAMES.forEach(n => { const dn = document.createElement('div'); dn.className = 'mini-day-name'; dn.textContent = n[0]; mini.appendChild(dn); });
     const firstDay = new Date(year, m, 1).getDay();
     const daysInMonth = new Date(year, m + 1, 0).getDate();
-    for (let i = 0; i < firstDay; i++) {
-      const e = document.createElement('div'); e.className = 'mini-day other'; e.textContent = ' '; mini.appendChild(e);
-    }
+    for (let i = 0; i < firstDay; i++) { const e = document.createElement('div'); e.className = 'mini-day other'; e.textContent = ' '; mini.appendChild(e); }
     for (let d = 1; d <= daysInMonth; d++) {
       const ds = `${year}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
       const isToday = ds === dateStr(today);
@@ -2293,30 +2421,17 @@ function renderYear() {
       const el = document.createElement('div');
       el.className = `mini-day${isToday?' today':''}${hasHol?' has-holiday':''}${hasTask&&!hasHol?' has-task':''}`;
       el.textContent = d;
-      el.onclick = () => {
-        currentDate = new Date(year, m, d);
-        switchView('day');
-      };
+      el.onclick = () => { currentDate = new Date(year, m, d); switchView('day'); };
       mini.appendChild(el);
     }
     card.appendChild(mini);
-
     const monthTasks = tasks.filter(t => t.date && t.date.startsWith(hKey));
     const monthHols = HOLIDAYS.filter(h => h.date.startsWith(hKey));
     const summary = document.createElement('div');
     summary.className = 'year-month-summary';
-    summary.innerHTML = `
-      ${monthTasks.length ? `<span>📌 ${monthTasks.length} משימות</span>` : ''}
-      ${monthHols.length ? `<span>✦ ${monthHols.length} חגים</span>` : ''}
-    `;
+    summary.innerHTML = `${monthTasks.length?`<span>📌 ${monthTasks.length} משימות</span>`:''}${monthHols.length?`<span>✦ ${monthHols.length} חגים</span>`:''}`;
     card.appendChild(summary);
-
-    card.onclick = (e) => {
-      if (e.target === card || e.target === header) {
-        currentDate = new Date(year, m, 1);
-        switchView('month');
-      }
-    };
+    card.onclick = e => { if (e.target === card || e.target === header) { currentDate = new Date(year, m, 1); switchView('month'); } };
     grid.appendChild(card);
   }
 }
@@ -2325,9 +2440,7 @@ function renderUpcomingHolidays() {
   const ids = ['upcomingSidebar', 'upcomingSidebarMonth'];
   const today = new Date();
   const upcoming = HOLIDAYS.filter(h => !h.minor && new Date(h.date) >= today)
-    .sort((a, b) => new Date(a.date) - new Date(b.date))
-    .slice(0, 8);
-
+    .sort((a, b) => new Date(a.date) - new Date(b.date)).slice(0, 8);
   ids.forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
@@ -2337,24 +2450,15 @@ function renderUpcomingHolidays() {
       const diff = Math.ceil((hDate - today) / (1000 * 60 * 60 * 24));
       const div = document.createElement('div');
       div.className = 'upcoming-holiday';
-      div.innerHTML = `
-        <div class="uh-name">${h.icon} ${h.name}</div>
-        <div class="uh-date">${h.date.split('-').reverse().join('/')}</div>
-        <div class="uh-countdown">${diff === 0 ? 'היום!' : diff === 1 ? 'מחר' : `בעוד ${diff} ימים`}</div>
-      `;
-      div.onclick = () => {
-        currentDate = new Date(h.date);
-        switchView('day');
-      };
+      div.innerHTML = `<div class="uh-name">${h.icon} ${h.name}</div><div class="uh-date">${h.date.split('-').reverse().join('/')}</div><div class="uh-countdown">${diff === 0 ? 'היום!' : diff === 1 ? 'מחר' : `בעוד ${diff} ימים`}</div>`;
+      div.onclick = () => { currentDate = new Date(h.date); switchView('day'); };
       el.appendChild(div);
     });
   });
 }
 
-function openModal(ds) {
-  openQuickAdd(ds || (modalDate || dateStr(currentDate)));
-  modalDate = null;
-}
+// ── Task operations ────────────────────────────────────────────
+function openModal(ds) { openQuickAdd(ds || (modalDate || dateStr(currentDate))); modalDate = null; }
 function closeModal() { closeQuickAdd(); }
 
 function setPriority(p, btn) {
@@ -2390,19 +2494,19 @@ function deleteTask(id, e) {
   saveTasks(); render();
 }
 
-function saveTasks() {
+async function saveTasks() {
+  // Save to both IndexedDB (primary) and localStorage (backup)
   localStorage.setItem('calTasks', JSON.stringify(tasks));
+  try {
+    await idbSaveTasks(tasks);
+  } catch(err) {
+    console.warn('[DB] IndexedDB save failed:', err);
+  }
 }
 
-let qaRepeat = 'none';
-let qaSelectedDays = [];
-let qaPriority = 'medium';
-
-const REPEAT_LABELS = {
-  none:'ללא חזרה', hourly:'כל שעה', daily:'כל יום',
-  weekly:'כל שבוע', monthly:'כל חודש', yearly:'כל שנה',
-  weekdays:'ימים נבחרים', custom:'מותאם אישית'
-};
+// ── Quick add sheet ────────────────────────────────────────────
+let qaRepeat = 'none'; let qaSelectedDays = []; let qaPriority = 'medium';
+const REPEAT_LABELS = { none:'ללא חזרה', hourly:'כל שעה', daily:'כל יום', weekly:'כל שבוע', monthly:'כל חודש', yearly:'כל שנה', weekdays:'ימים נבחרים', custom:'מותאם אישית' };
 
 function openQuickAdd(ds) {
   qaRepeat = 'none'; qaSelectedDays = []; qaPriority = 'medium';
@@ -2413,54 +2517,35 @@ function openQuickAdd(ds) {
   document.getElementById('qaRepeatPanel').style.display = 'none';
   document.getElementById('qaPriorityPanel').style.display = 'none';
   document.getElementById('qaWeekdayPicker').style.display = 'none';
-
   updateDateDisplay(); updateTimeDisplay();
   document.getElementById('qaRepeatDisplay').textContent = 'ללא חזרה';
   document.getElementById('qaPriorityDisplay').textContent = 'בינונית';
-
   document.querySelectorAll('.qa-repeat-opt').forEach(b => b.classList.toggle('selected', b.textContent === 'ללא חזרה'));
   document.querySelectorAll('.qa-pri-opt').forEach(b => b.classList.toggle('selected', b.textContent.includes('בינונית')));
   document.querySelectorAll('.qa-wd').forEach(b => b.classList.remove('on'));
-
   document.getElementById('qaOverlay').classList.add('open');
   setTimeout(() => document.getElementById('qaTitleInput').focus(), 350);
 }
 
 function closeQuickAdd() { document.getElementById('qaOverlay').classList.remove('open'); }
-
 function qaCloseOutside(e) { if (e.target === document.getElementById('qaOverlay')) closeQuickAdd(); }
 
 function updateDateDisplay() {
   const val = document.getElementById('qaDateInput').value;
   const el = document.getElementById('qaDateDisplay');
-  if (val) {
-    const d = parseDate(val);
-    el.textContent = `${DAY_NAMES[d.getDay()]}, ${d.getDate()} ב${MONTH_NAMES[d.getMonth()]}'`;
-    el.classList.remove('empty');
-  } else {
-    el.textContent = 'הוסף תאריך'; el.classList.add('empty');
-  }
+  if (val) { const d = parseDate(val); el.textContent = `${DAY_NAMES[d.getDay()]}, ${d.getDate()} ב${MONTH_NAMES[d.getMonth()]}'`; el.classList.remove('empty'); }
+  else { el.textContent = 'הוסף תאריך'; el.classList.add('empty'); }
 }
 
 function updateTimeDisplay() {
   const val = document.getElementById('qaTimeInput').value;
   const el = document.getElementById('qaTimeDisplay');
-  if (val) {
-    el.textContent = val; el.classList.remove('empty'); el.style.color = '';
-  } else {
-    el.textContent = 'הוסף שעה'; el.classList.add('empty');
-  }
+  if (val) { el.textContent = val; el.classList.remove('empty'); el.style.color = ''; }
+  else { el.textContent = 'הוסף שעה'; el.classList.add('empty'); }
 }
 
-function toggleRepeatPanel() {
-  const p = document.getElementById('qaRepeatPanel');
-  p.style.display = p.style.display === 'none' ? 'block' : 'none';
-}
-
-function togglePriorityPanel() {
-  const p = document.getElementById('qaPriorityPanel');
-  p.style.display = p.style.display === 'none' ? 'flex' : 'none';
-}
+function toggleRepeatPanel() { const p = document.getElementById('qaRepeatPanel'); p.style.display = p.style.display === 'none' ? 'block' : 'none'; }
+function togglePriorityPanel() { const p = document.getElementById('qaPriorityPanel'); p.style.display = p.style.display === 'none' ? 'flex' : 'none'; }
 
 function setRepeat(val, btn) {
   qaRepeat = val;
@@ -2491,26 +2576,16 @@ document.querySelectorAll('.qa-wd').forEach(btn => {
 
 function saveQuickTask() {
   const title = document.getElementById('qaTitleInput').value.trim();
-  if (!title) {
-    document.getElementById('qaTitleInput').style.borderBottom = '2px solid var(--ember)';
-    document.getElementById('qaTitleInput').focus();
-    return;
-  }
+  if (!title) { document.getElementById('qaTitleInput').style.borderBottom = '2px solid var(--ember)'; document.getElementById('qaTitleInput').focus(); return; }
   const time = document.getElementById('qaTimeInput').value;
-  if (!time) {
-    document.getElementById('qaTimeDisplay').style.color = 'var(--ember)';
-    document.getElementById('qaTimeInput').showPicker?.();
-    document.getElementById('qaTimeInput').click();
-    return;
-  }
+  if (!time) { document.getElementById('qaTimeDisplay').style.color = 'var(--ember)'; document.getElementById('qaTimeInput').showPicker?.(); document.getElementById('qaTimeInput').click(); return; }
   const task = {
     id: Date.now().toString(), title,
     note: document.getElementById('qaDescInput').value.trim(),
     date: document.getElementById('qaDateInput').value || dateStr(currentDate),
     time: document.getElementById('qaTimeInput').value,
-    priority: qaPriority, repeat: qaRepeat,
-    repeatDays: qaSelectedDays, done: false,
-    created: new Date().toISOString()
+    priority: qaPriority, repeat: qaRepeat, repeatDays: qaSelectedDays,
+    done: false, created: new Date().toISOString()
   };
   tasks.push(task);
   saveTasks(); closeQuickAdd(); render();
@@ -2520,55 +2595,29 @@ document.addEventListener('keydown', e => {
   const qaOpen = document.getElementById('qaOverlay').classList.contains('open');
   if (e.key === 'Escape') { if (qaOpen) closeQuickAdd(); }
   if (e.key === 'Enter' && qaOpen && e.target.id === 'qaTitleInput') { e.preventDefault(); saveQuickTask(); }
-  if (!qaOpen) {
-    if (e.key === 'ArrowLeft') navigate(1);
-    if (e.key === 'ArrowRight') navigate(-1);
-  }
+  if (!qaOpen) { if (e.key === 'ArrowLeft') navigate(1); if (e.key === 'ArrowRight') navigate(-1); }
 });
 
+// ── Task selection ─────────────────────────────────────────────
 let selectedTaskIds = new Set();
 
 function toggleTaskSelection(id, lineEl) {
-  if (selectedTaskIds.has(id)) {
-    selectedTaskIds.delete(id); lineEl?.classList.remove('wn-selected');
-  } else {
-    selectedTaskIds.add(id); lineEl?.classList.add('wn-selected');
-    navigator.vibrate?.(40);
-  }
+  if (selectedTaskIds.has(id)) { selectedTaskIds.delete(id); lineEl?.classList.remove('wn-selected'); }
+  else { selectedTaskIds.add(id); lineEl?.classList.add('wn-selected'); navigator.vibrate?.(40); }
   updateSelBar();
 }
 
 function updateSelBar() {
   const bar = document.getElementById('selBar');
   const count = selectedTaskIds.size;
-  if (count === 0) {
-    bar.style.display = 'none';
-    document.getElementById('fabBtn').style.display = 'flex';
-  } else {
-    bar.style.display = 'flex';
-    document.getElementById('fabBtn').style.display = 'none';
-    document.getElementById('selCount').textContent =
-      count === 1 ? 'משימה אחת נבחרה' : `${count} משימות נבחרו`;
-  }
+  if (count === 0) { bar.style.display = 'none'; document.getElementById('fabBtn').style.display = 'flex'; }
+  else { bar.style.display = 'flex'; document.getElementById('fabBtn').style.display = 'none'; document.getElementById('selCount').textContent = count === 1 ? 'משימה אחת נבחרה' : `${count} משימות נבחרו`; }
 }
 
-function clearSelection() {
-  selectedTaskIds.clear();
-  document.querySelectorAll('.wn-line.wn-selected').forEach(l => l.classList.remove('wn-selected'));
-  updateSelBar();
-}
+function clearSelection() { selectedTaskIds.clear(); document.querySelectorAll('.wn-line.wn-selected').forEach(l => l.classList.remove('wn-selected')); updateSelBar(); }
+function deleteSelected() { if (!selectedTaskIds.size) return; tasks = tasks.filter(t => !selectedTaskIds.has(t.id)); saveTasks(); clearSelection(); render(); }
 
-function deleteSelected() {
-  if (!selectedTaskIds.size) return;
-  tasks = tasks.filter(t => !selectedTaskIds.has(t.id));
-  saveTasks(); clearSelection(); render();
-}
-
-function openMoveSheet() {
-  document.getElementById('moveTargetDate').value = dateStr(new Date());
-  document.getElementById('moveOverlay').classList.add('open');
-}
-
+function openMoveSheet() { document.getElementById('moveTargetDate').value = dateStr(new Date()); document.getElementById('moveOverlay').classList.add('open'); }
 function closeMoveSheet() { document.getElementById('moveOverlay').classList.remove('open'); }
 function closeMoveOutside(e) { if (e.target === document.getElementById('moveOverlay')) closeMoveSheet(); }
 
@@ -2579,14 +2628,10 @@ function confirmMove() {
   saveTasks(); closeMoveSheet(); clearSelection(); render();
 }
 
+// ── Touch swipe ────────────────────────────────────────────────
 (function() {
   let startX = 0, startY = 0, startT = 0;
-  document.addEventListener('touchstart', e => {
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-    startT = Date.now();
-  }, { passive: true });
-
+  document.addEventListener('touchstart', e => { startX = e.touches[0].clientX; startY = e.touches[0].clientY; startT = Date.now(); }, { passive: true });
   document.addEventListener('touchend', e => {
     if (document.getElementById('qaOverlay').classList.contains('open')) return;
     if (!['day','week','month'].includes(currentView)) return;
@@ -2598,6 +2643,7 @@ function confirmMove() {
   }, { passive: true });
 })();
 
+// ── Alarm system ───────────────────────────────────────────────
 const notifiedTasks = new Set(JSON.parse(sessionStorage.getItem('notifiedTasks') || '[]'));
 let alarmVolume = parseFloat(localStorage.getItem('alarmVolume') || '0.5');
 
@@ -2608,34 +2654,23 @@ function playAlarmSound(vol) {
     const playTone = (freq, startTime, duration, volume) => {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, startTime);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.type = 'sine'; osc.frequency.setValueAtTime(freq, startTime);
       gain.gain.setValueAtTime(0, startTime);
       gain.gain.linearRampToValueAtTime(volume, startTime + 0.02);
       gain.gain.linearRampToValueAtTime(0, startTime + duration);
       osc.start(startTime); osc.stop(startTime + duration + 0.05);
     };
     const t = ctx.currentTime;
-    playTone(523, t, 0.18, v);
-    playTone(659, t + 0.2, 0.18, v);
-    playTone(784, t + 0.4, 0.28, v);
-    playTone(784, t + 0.72, 0.28, v);
+    playTone(523, t, 0.18, v); playTone(659, t + 0.2, 0.18, v);
+    playTone(784, t + 0.4, 0.28, v); playTone(784, t + 0.72, 0.28, v);
   } catch(e) { console.warn('Audio not available:', e); }
 }
 
 function showTaskAlert(task) {
   const toast = document.createElement('div');
   toast.className = 'task-toast';
-  toast.innerHTML = `
-    <div class="toast-icon">⏰</div>
-    <div class="toast-body">
-      <div class="toast-title">${task.title}</div>
-      <div class="toast-time">${task.time} · עכשיו</div>
-    </div>
-    <button class="toast-close" onclick="this.parentElement.remove()">✕</button>
-  `;
+  toast.innerHTML = `<div class="toast-icon">⏰</div><div class="toast-body"><div class="toast-title">${task.title}</div><div class="toast-time">${task.time} · עכשיו</div></div><button class="toast-close" onclick="this.parentElement.remove()">✕</button>`;
   document.body.appendChild(toast);
   setTimeout(() => toast.classList.add('toast-show'), 50);
   setTimeout(() => { toast.classList.remove('toast-show'); setTimeout(() => toast.remove(), 400); }, 8000);
@@ -2647,7 +2682,6 @@ function checkTaskAlarms() {
   const m = String(now.getMinutes()).padStart(2, '0');
   const currentTime = `${h}:${m}`;
   const todayStr = dateStr(now);
-
   getTasksForDate(todayStr).forEach(task => {
     if (task.done || !task.time || task.time !== currentTime) return;
     const alarmKey = `${task.id}-${todayStr}-${task.time}`;
@@ -2657,7 +2691,16 @@ function checkTaskAlarms() {
     playAlarmSound();
     showTaskAlert(task);
     if (Notification.permission === 'granted') {
-      new Notification('⏰ ' + task.title, { body: `${task.time} — הגיע הזמן!`, tag: alarmKey });
+      new Notification('⏰ ' + task.title, {
+        body: `${task.time} — הגיע הזמן!`,
+        tag: alarmKey, icon: './icons/icon-192.png',
+        badge: './icons/icon-72.png',
+        requireInteraction: true,
+        actions: [
+          { action: 'done', title: '✓ בוצע' },
+          { action: 'snooze', title: '⏰ +10 דק' }
+        ]
+      });
     }
   });
 }
@@ -2674,13 +2717,9 @@ function updateNotifStatus() {
   const text = document.getElementById('notifStatusText');
   const btn = document.getElementById('notifBtn');
   if (!text || !('Notification' in window)) return;
-  if (Notification.permission === 'granted') {
-    text.textContent = '✅ התראות מופעלות'; btn.style.display = 'none';
-  } else if (Notification.permission === 'denied') {
-    text.textContent = '❌ חסומות בדפדפן'; btn.style.display = 'none';
-  } else {
-    text.textContent = 'לא הופעלו עדיין'; btn.style.display = 'block';
-  }
+  if (Notification.permission === 'granted') { text.textContent = '✅ התראות מופעלות'; btn.style.display = 'none'; }
+  else if (Notification.permission === 'denied') { text.textContent = '❌ חסומות בדפדפן'; btn.style.display = 'none'; }
+  else { text.textContent = 'לא הופעלו עדיין'; btn.style.display = 'block'; }
 }
 
 function openSettings() {
@@ -2691,48 +2730,32 @@ function openSettings() {
   slider.value = pct;
   updateVolumeDisplay(pct);
   updateNotifStatus();
+  updatePWAStatus();
 }
 
 function closeSettings() { document.getElementById('settingsOverlay').classList.remove('open'); }
 function closeSettingsOutside(e) { if (e.target === document.getElementById('settingsOverlay')) closeSettings(); }
-
-function updateVolumeDisplay(val) {
-  document.getElementById('volDisplay').textContent = val + '%';
-  document.getElementById('alarmVolume').style.setProperty('--pct', val + '%');
-}
-
-function saveVolume(val) {
-  alarmVolume = val / 100;
-  localStorage.setItem('alarmVolume', alarmVolume);
-}
-
-function testAlarmSound() {
-  const val = parseInt(document.getElementById('alarmVolume').value);
-  playAlarmSound(val / 100);
-}
-
+function updateVolumeDisplay(val) { document.getElementById('volDisplay').textContent = val + '%'; document.getElementById('alarmVolume').style.setProperty('--pct', val + '%'); }
+function saveVolume(val) { alarmVolume = val / 100; localStorage.setItem('alarmVolume', alarmVolume); }
+function testAlarmSound() { playAlarmSound(parseInt(document.getElementById('alarmVolume').value) / 100); }
 function closeModalOutside(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
 
+// ── PWA Install ────────────────────────────────────────────────
 let deferredInstallPrompt = null;
 window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredInstallPrompt = e;
+  e.preventDefault(); deferredInstallPrompt = e;
   if (!localStorage.getItem('pwaInstalled')) showInstallBanner();
+});
+
+window.addEventListener('appinstalled', () => {
+  localStorage.setItem('pwaInstalled', '1');
+  document.getElementById('installBanner')?.remove();
 });
 
 function showInstallBanner() {
   const banner = document.createElement('div');
-  banner.id = 'installBanner';
-  banner.className = 'install-banner';
-  banner.innerHTML = `
-    <span class="install-icon">📲</span>
-    <div class="install-text">
-      <strong>התקן את היומן</strong>
-      <span>עבוד גם ללא אינטרנט</span>
-    </div>
-    <button class="install-yes" onclick="triggerInstall()">התקן</button>
-    <button class="install-no" onclick="dismissInstall()">✕</button>
-  `;
+  banner.id = 'installBanner'; banner.className = 'install-banner';
+  banner.innerHTML = `<span class="install-icon">📲</span><div class="install-text"><strong>התקן את היומן</strong><span>עובד אופליין עם התראות ברקע</span></div><button class="install-yes" onclick="triggerInstall()">התקן</button><button class="install-no" onclick="dismissInstall()">✕</button>`;
   document.body.appendChild(banner);
   setTimeout(() => banner.classList.add('show'), 100);
 }
@@ -2741,22 +2764,24 @@ function triggerInstall() {
   if (!deferredInstallPrompt) return;
   deferredInstallPrompt.prompt();
   deferredInstallPrompt.userChoice.then(result => {
-    if (result.outcome === 'accepted') {
-      localStorage.setItem('pwaInstalled', '1');
-      document.getElementById('installBanner')?.remove();
-    }
+    if (result.outcome === 'accepted') { localStorage.setItem('pwaInstalled', '1'); document.getElementById('installBanner')?.remove(); }
   });
 }
 
-function dismissInstall() {
-  document.getElementById('installBanner')?.remove();
-  localStorage.setItem('pwaInstalled', '1');
+function dismissInstall() { document.getElementById('installBanner')?.remove(); localStorage.setItem('pwaInstalled', '1'); }
+
+// Handle URL shortcut ?action=add
+if (new URLSearchParams(window.location.search).get('action') === 'add') {
+  window.addEventListener('load', () => setTimeout(() => openQuickAdd(), 500));
 }
 
+// ── Boot ───────────────────────────────────────────────────────
 setInterval(checkTaskAlarms, 30000);
 checkTaskAlarms();
 requestNotificationPermission();
-render();
+updateNetworkStatus();
+registerSW();
+loadTasks(); // async: loads from IndexedDB then renders
 </script>
 </body>
 </html>
