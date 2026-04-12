@@ -3253,6 +3253,8 @@ function deleteTask(id, e) {
 
 function saveTasks() {
   localStorage.setItem('calTasks', JSON.stringify(tasks));
+  // Re-schedule SW alarms after any task change
+  navigator.serviceWorker?.ready.then(reg => schedulePushAlarms(reg)).catch(() => {});
 }
 
 // ============================================================
@@ -3706,13 +3708,6 @@ function schedulePushAlarms(reg) {
   if (reg.active) {
     reg.active.postMessage({ type: 'SCHEDULE_ALARMS', tasks: todayTasks, date: todayStr });
   }
-}
-
-// Re-schedule when tasks change
-const _origSaveTasks = saveTasks;
-function saveTasks() {
-  _origSaveTasks();
-  navigator.serviceWorker?.ready.then(reg => schedulePushAlarms(reg));
 }
 
 // PWA install banner
